@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Landing Pages Profissionais e Responsivas | HTML Sites</title>
+  <meta name="description" content="Criação de Landing Pages profissionais, modernas e 100% responsivas em HTML. Sites rápidos, otimizados e prontos para converter.">
+
+  <!-- Meta Pixel Code -->
+  <script>
+  !function(f,b,e,v,n,t,s)
+  {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+  n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+  if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+  n.queue=[];t=b.createElement(e);t.async=!0;
+  t.src=v;s=b.getElementsByTagName(e)[0];
+  s.parentNode.insertBefore(t,s)}(window, document,'script',
+  'https://connect.facebook.net/en_US/fbevents.js');
+
+  fbq('init', '2242677146483666');
+  fbq('track', 'PageView');
+  </script>
+  <noscript>
+    <img height="1" width="1" style="display:none"
+      src="https://www.facebook.com/tr?id=2242677146483666&ev=PageView&noscript=1"/>
+  </noscript>
+  <!-- End Meta Pixel Code -->
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    body { font-family: 'Inter', sans-serif; }
+    .gradient-bg {
+      background: linear-gradient(135deg, #0f172a 0%, #1e3a5f 50%, #0f172a 100%);
+    }
+    .gradient-text {
+      background: linear-gradient(90deg, #38bdf8, #818cf8);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .card-hover { transition: transform 0.3s ease, box-shadow 0.3s ease; }
+    .card-hover:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 20px 40px -12px rgba(56, 189, 248, 0.25);
+    }
+    .whatsapp-btn {
+      background: #25D366;
+      transition: all 0.3s ease;
+    }
+    .whatsapp-btn:hover {
+      background: #20ba5a;
+      transform: scale(1.05);
+    }
+  </style>
+</head>
+
+<body class="bg-slate-950 text-slate-100 antialiased">
+
+  <!-- Header -->
+  <header class="fixed top-0 left-0 right-0 z-50 bg-slate-950/90 backdrop-blur-md border-b border-slate-800">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 py-4 flex items-center justify-between">
+      <a href="#" class="flex items-center gap-2">
+        <div class="w-9 h-9 rounded-lg bg-gradient-to-br from-sky-400 to-indigo-500 flex items-center justify-center font-bold text-white text-lg">L</div>
+        <span class="font-semibold text-lg tracking-tight">Landing<span class="text-sky-400">Pro</span></span>
+      </a>
+
+      <nav class="hidden md:flex items-center gap-8 text-sm font-medium text-slate-300">
+        <a href="#servicos" class="hover:text-sky-400 transition">Serviços</a>
+        <a href="#beneficios" class="hover:text-sky-400 transition">Benefícios</a>
+        <a href="#processo" class="hover:text-sky-400 transition">Processo</a>
+        <a href="#contato" class="hover:text-sky-400 transition">Contato</a>
+      </nav>
+
+      <a href="https://wa.me/5586994070772?text=Olá!%20Gostaria%20de%20solicitar%20um%20orçamento%20para%20Landing%20Page"
+         target="_blank" rel="noopener"
+         data-lead
+         class="whatsapp-btn text-white text-sm font-semibold px-4 py-2.5 rounded-full flex items-center gap-2 shadow-lg shadow-green-500/20">
+        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.198.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.435 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+        WhatsApp
+      </a>
+    </div>
+  </header>
+
+  <!-- Hero -->
+  <section class="gradient-bg pt-32 pb-20 md:pt-40 md:pb-28 relative overflow-hidden">
+    <div class="absolute inset-0 opacity-20">
+      <div class="absolute top-20 left-10 w-72 h-72 bg-sky-500 rounded-full blur-3xl"></div>
+      <div class="absolute bottom-10 right-10 w-96 h-96 bg-indigo-600 rounded-full blur-3xl"></div>
+    </div>
+
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 relative z-10 text-center">
+      <span class="inline-block px-4 py-1.5 rounded-full bg-sky-500/10 border border-sky-500/30 text-sky-400 text-sm font-medium mb-6">
+        Sites HTML profissionais e responsivos
+      </span>
+
+      <h1 class="text-4xl sm:text-5xl md:text-6xl font-extrabold leading-tight tracking-tight mb-6">
+        Landing Pages que<br>
+        <span class="gradient-text">convertem visitantes</span><br>
+        em clientes
+      </h1>
+
+      <p class="text-lg sm:text-xl text-slate-300 max-w-2xl mx-auto mb-10 leading-relaxed">
+        Crio páginas de captura modernas, rápidas e 100% responsivas em HTML puro. Design profissional, carregamento rápido e foco total em resultados.
+      </p>
+
+      <div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
+        <a href="https://wa.me/5586994070772?text=Olá!%20Quero%20uma%20Landing%20Page%20profissional"
+           target="_blank" rel="noopener" data-lead
+           class="whatsapp-btn text-white font-semibold px-8 py-4 rounded-full text-lg flex items-center gap-3 shadow-xl shadow-green-500/25">
+          <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.435 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+          Solicitar orçamento grátis
+        </a>
+
+        <a href="#servicos" class="text-slate-300 hover:text-white font-medium px-6 py-4 rounded-full border border-slate-700 hover:border-slate-500 transition">
+          Ver serviços →
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Serviços -->
+  <section id="servicos" class="py-20 md:py-28 bg-slate-900">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6">
+      <div class="text-center mb-14">
+        <h2 class="text-3xl sm:text-4xl font-bold mb-4">O que eu ofereço</h2>
+        <p class="text-slate-400 max-w-xl mx-auto">
+          Landing pages completas, desenvolvidas do zero em HTML, CSS e JavaScript, prontas para rodar em qualquer servidor.
+        </p>
+      </div>
+
+      <div class="grid md:grid-cols-3 gap-6 lg:gap-8">
+        <div class="card-hover bg-slate-800/50 border border-slate-700/50 rounded-2xl p-7">
+          <div class="w-12 h-12 rounded-xl bg-sky-500/20 flex items-center justify-center mb-5">
+            <svg class="w-6 h-6 text-sky-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+          </div>
+          <h3 class="text-xl font-semibold mb-3">Landing Pages</h3>
+          <p class="text-slate-400 text-sm leading-relaxed">Páginas de alta conversão com design moderno, seções bem estruturadas e CTAs estratégicos para gerar leads e vendas.</p>
+        </div>
+
+        <div class="card-hover bg-slate-800/50 border border-slate-700/50 rounded-2xl p-7">
+          <div class="w-12 h-12 rounded-xl bg-indigo-500/20 flex items-center justify-center mb-5">
+            <svg class="w-6 h-6 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z"/></svg>
+          </div>
+          <h3 class="text-xl font-semibold mb-3">100% Responsivas</h3>
+          <p class="text-slate-400 text-sm leading-relaxed">Perfeitas em celular, tablet e desktop. Layout adaptável que garante ótima experiência em qualquer tela.</p>
+        </div>
+
+        <div class="card-hover bg-slate-800/50 border border-slate-700/50 rounded-2xl p-7">
+          <div class="w-12 h-12 rounded-xl bg-emerald-500/20 flex items-center justify-center mb-5">
+            <svg class="w-6 h-6 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+          </div>
+          <h3 class="text-xl font-semibold mb-3">Rápidas e Leves</h3>
+          <p class="text-slate-400 text-sm leading-relaxed">Código limpo em HTML. Carregamento rápido e estrutura preparada para SEO.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Benefícios -->
+  <section id="beneficios" class="py-20 md:py-28 bg-slate-950">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6">
+      <div class="grid lg:grid-cols-2 gap-12 items-center">
+        <div>
+          <h2 class="text-3xl sm:text-4xl font-bold mb-6">Por que escolher uma Landing Page profissional?</h2>
+          <p class="text-slate-400 mb-8 leading-relaxed">
+            Uma página bem feita não é só bonita — ela é construída para vender. Eu foco em design limpo, velocidade e clareza para transformar visitantes em clientes.
+          </p>
+
+          <ul class="space-y-4">
+            <li class="flex items-start gap-3">
+              <span class="mt-1 w-6 h-6 rounded-full bg-sky-500/20 flex items-center justify-center flex-shrink-0">✓</span>
+              <div><strong class="text-white">Design moderno e profissional</strong><p class="text-slate-400 text-sm mt-0.5">Visual limpo que transmite confiança e autoridade.</p></div>
+            </li>
+            <li class="flex items-start gap-3">
+              <span class="mt-1 w-6 h-6 rounded-full bg-sky-500/20 flex items-center justify-center flex-shrink-0">✓</span>
+              <div><strong class="text-white">Otimizada para conversão</strong><p class="text-slate-400 text-sm mt-0.5">CTAs estratégicos, hierarquia visual e copy persuasiva.</p></div>
+            </li>
+            <li class="flex items-start gap-3">
+              <span class="mt-1 w-6 h-6 rounded-full bg-sky-500/20 flex items-center justify-center flex-shrink-0">✓</span>
+              <div><strong class="text-white">Código limpo e entregue</strong><p class="text-slate-400 text-sm mt-0.5">Você recebe os arquivos HTML prontos para hospedar onde quiser.</p></div>
+            </li>
+            <li class="flex items-start gap-3">
+              <span class="mt-1 w-6 h-6 rounded-full bg-sky-500/20 flex items-center justify-center flex-shrink-0">✓</span>
+              <div><strong class="text-white">Suporte e ajustes</strong><p class="text-slate-400 text-sm mt-0.5">Revisões inclusas para deixar a página exatamente como você precisa.</p></div>
+            </li>
+          </ul>
+        </div>
+
+        <div class="relative">
+          <div class="bg-gradient-to-br from-slate-800 to-slate-900 border border-slate-700 rounded-2xl p-8 shadow-2xl">
+            <div class="space-y-5">
+              <div class="flex items-center gap-4"><div class="w-10 h-10 rounded-lg bg-sky-500/20 flex items-center justify-center text-sky-400 font-bold">1</div><div><p class="font-medium">Briefing rápido</p><p class="text-sm text-slate-400">Entendo seu negócio e objetivo</p></div></div>
+              <div class="flex items-center gap-4"><div class="w-10 h-10 rounded-lg bg-indigo-500/20 flex items-center justify-center text-indigo-400 font-bold">2</div><div><p class="font-medium">Design e desenvolvimento</p><p class="text-sm text-slate-400">Crio a página completa em HTML</p></div></div>
+              <div class="flex items-center gap-4"><div class="w-10 h-10 rounded-lg bg-emerald-500/20 flex items-center justify-center text-emerald-400 font-bold">3</div><div><p class="font-medium">Entrega e ajustes</p><p class="text-sm text-slate-400">Arquivos prontos + revisões</p></div></div>
+            </div>
+
+            <div class="mt-8 pt-6 border-t border-slate-700">
+              <p class="text-sm text-slate-400 mb-3">Pronto para começar?</p>
+              <a href="https://wa.me/5586994070772?text=Olá!%20Quero%20fazer%20uma%20Landing%20Page"
+                 target="_blank" rel="noopener" data-lead
+                 class="whatsapp-btn inline-flex items-center gap-2 text-white font-semibold px-5 py-3 rounded-full text-sm">
+                Falar no WhatsApp
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Processo -->
+  <section id="processo" class="py-20 md:py-28 bg-slate-900">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6">
+      <div class="text-center mb-14">
+        <h2 class="text-3xl sm:text-4xl font-bold mb-4">Como funciona</h2>
+        <p class="text-slate-400 max-w-xl mx-auto">Processo simples e transparente, do primeiro contato até a entrega final.</p>
+      </div>
+
+      <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div class="text-center p-6"><div class="w-14 h-14 mx-auto rounded-2xl bg-sky-500/10 border border-sky-500/30 flex items-center justify-center text-2xl font-bold text-sky-400 mb-4">01</div><h3 class="font-semibold mb-2">Contato</h3><p class="text-sm text-slate-400">Você me chama no WhatsApp e conta o que precisa.</p></div>
+        <div class="text-center p-6"><div class="w-14 h-14 mx-auto rounded-2xl bg-indigo-500/10 border border-indigo-500/30 flex items-center justify-center text-2xl font-bold text-indigo-400 mb-4">02</div><h3 class="font-semibold mb-2">Orçamento</h3><p class="text-sm text-slate-400">Envio proposta clara com prazo e valor.</p></div>
+        <div class="text-center p-6"><div class="w-14 h-14 mx-auto rounded-2xl bg-violet-500/10 border border-violet-500/30 flex items-center justify-center text-2xl font-bold text-violet-400 mb-4">03</div><h3 class="font-semibold mb-2">Desenvolvimento</h3><p class="text-sm text-slate-400">Crio a landing page completa e responsiva.</p></div>
+        <div class="text-center p-6"><div class="w-14 h-14 mx-auto rounded-2xl bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-2xl font-bold text-emerald-400 mb-4">04</div><h3 class="font-semibold mb-2">Entrega</h3><p class="text-sm text-slate-400">Você recebe os arquivos HTML prontos para publicar.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA Final -->
+  <section id="contato" class="py-20 md:py-28 relative overflow-hidden">
+    <div class="absolute inset-0 gradient-bg opacity-90"></div>
+    <div class="absolute inset-0 opacity-30">
+      <div class="absolute top-0 left-1/4 w-64 h-64 bg-sky-500 rounded-full blur-3xl"></div>
+      <div class="absolute bottom-0 right-1/4 w-80 h-80 bg-indigo-600 rounded-full blur-3xl"></div>
+    </div>
+
+    <div class="max-w-3xl mx-auto px-4 sm:px-6 relative z-10 text-center">
+      <h2 class="text-3xl sm:text-4xl md:text-5xl font-bold mb-6">Vamos criar sua Landing Page?</h2>
+      <p class="text-lg text-slate-300 mb-10 leading-relaxed">
+        Envie uma mensagem no WhatsApp e receba um orçamento personalizado sem compromisso. Resposta rápida e atendimento direto.
+      </p>
+
+      <a href="https://wa.me/5586994070772?text=Olá!%20Gostaria%20de%20solicitar%20um%20orçamento%20para%20minha%20Landing%20Page"
+         target="_blank" rel="noopener" data-lead
+         class="whatsapp-btn inline-flex items-center gap-3 text-white font-bold px-10 py-5 rounded-full text-lg shadow-2xl shadow-green-500/30">
+        Chamar no WhatsApp
+      </a>
+
+      <p class="mt-6 text-slate-400 text-sm">
+        WhatsApp: <span class="text-slate-200 font-medium">(86) 99407-0772</span>
+      </p>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="bg-slate-950 border-t border-slate-800 py-8">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 flex flex-col sm:flex-row items-center justify-between gap-4">
+      <div class="flex items-center gap-2">
+        <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-sky-400 to-indigo-500 flex items-center justify-center font-bold text-white text-sm">L</div>
+        <span class="font-medium">Landing<span class="text-sky-400">Pro</span></span>
+      </div>
+
+      <p class="text-sm text-slate-500">© 2026 · Landing Pages profissionais e responsivas em HTML</p>
+
+      <a href="https://wa.me/5586994070772"
+         target="_blank" rel="noopener" data-lead
+         class="text-sm text-slate-400 hover:text-sky-400 transition">
+        Fale comigo
+      </a>
+    </div>
+  </footer>
+
+  <!-- Eventos de conversão -->
+  <script>
+    document.querySelectorAll('[data-lead]').forEach(function(link) {
+      link.addEventListener('click', function() {
+        if (typeof fbq === 'function') {
+          fbq('track', 'Lead');
+        }
+      });
+    });
+  </script>
+
+</body>
+</html>
