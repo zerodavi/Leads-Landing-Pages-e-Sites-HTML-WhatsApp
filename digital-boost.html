@@ -1,0 +1,908 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Digital Boost — Agência de Marketing & SEO</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,400;0,600;0,700;0,900;1,700;1,900&family=Barlow:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0e0e0e;
+      --orange: #ff5a1f;
+      --yellow: #ffd60a;
+      --surface: #161616;
+      --border: rgba(255,255,255,0.08);
+      --text: #f5f5f5;
+      --text-muted: #666;
+      --text-mid: #999;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Barlow', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+
+    /* NAV */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 20px 60px;
+      background: rgba(14,14,14,0.96);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav-logo {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 1.4rem;
+      font-weight: 900;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--text);
+      text-decoration: none;
+    }
+
+    .nav-logo span { color: var(--orange); }
+
+    .nav-links {
+      display: flex;
+      gap: 32px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-size: 0.82rem;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover { color: var(--text); }
+
+    .nav-cta {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.9rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: #0e0e0e;
+      background: var(--orange);
+      padding: 11px 24px;
+      text-decoration: none;
+      transition: background 0.2s, transform 0.15s;
+    }
+
+    .nav-cta:hover { background: #ff7040; transform: translateY(-1px); }
+
+    /* HERO */
+    .hero {
+      min-height: 100vh;
+      padding: 120px 60px 80px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-bg-text {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 32vw;
+      font-weight: 900;
+      color: rgba(255,255,255,0.02);
+      white-space: nowrap;
+      pointer-events: none;
+      letter-spacing: -0.04em;
+      user-select: none;
+    }
+
+    .hero-eyebrow {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 24px;
+      animation: fadeUp 0.7s ease both;
+    }
+
+    .hero-eyebrow-pill {
+      background: var(--orange);
+      color: #0e0e0e;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      padding: 5px 14px;
+    }
+
+    .hero-eyebrow-text {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    .hero h1 {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: clamp(4rem, 10vw, 11rem);
+      font-weight: 900;
+      line-height: 0.88;
+      letter-spacing: -0.02em;
+      text-transform: uppercase;
+      color: var(--text);
+      margin-bottom: 0;
+      animation: fadeUp 0.7s ease 0.1s both;
+    }
+
+    .hero h1 .line-orange { color: var(--orange); }
+    .hero h1 .line-outline {
+      color: transparent;
+      -webkit-text-stroke: 2px rgba(255,255,255,0.15);
+    }
+
+    .hero-bottom {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      margin-top: 56px;
+      gap: 40px;
+      flex-wrap: wrap;
+      animation: fadeUp 0.7s ease 0.2s both;
+    }
+
+    .hero-desc {
+      font-size: 1rem;
+      color: var(--text-mid);
+      line-height: 1.8;
+      max-width: 400px;
+      font-weight: 300;
+    }
+
+    .hero-cta-group {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 12px;
+    }
+
+    .btn-big {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 1.1rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: #0e0e0e;
+      background: var(--yellow);
+      padding: 18px 48px;
+      text-decoration: none;
+      display: inline-block;
+      transition: transform 0.15s, box-shadow 0.2s;
+    }
+
+    .btn-big:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 32px rgba(255,214,10,0.3);
+    }
+
+    .btn-ghost {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      text-decoration: none;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 2px;
+      transition: color 0.2s, border-color 0.2s;
+    }
+
+    .btn-ghost:hover { color: var(--text); border-color: var(--text); }
+
+    /* TICKER */
+    .ticker {
+      background: var(--orange);
+      overflow: hidden;
+      padding: 14px 0;
+    }
+
+    .ticker-track {
+      display: flex;
+      gap: 0;
+      animation: ticker 18s linear infinite;
+      white-space: nowrap;
+    }
+
+    .ticker-item {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.9rem;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: #0e0e0e;
+      padding: 0 40px;
+      flex-shrink: 0;
+    }
+
+    .ticker-item::after {
+      content: '★';
+      margin-left: 40px;
+    }
+
+    @keyframes ticker {
+      from { transform: translateX(0); }
+      to   { transform: translateX(-50%); }
+    }
+
+    /* SERVICES */
+    .services {
+      padding: 100px 60px;
+      background: var(--surface);
+    }
+
+    .services-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      margin-bottom: 64px;
+      flex-wrap: wrap;
+      gap: 24px;
+    }
+
+    .section-eyebrow {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--orange);
+      margin-bottom: 12px;
+    }
+
+    .section-h2 {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: clamp(2.5rem, 5vw, 4.5rem);
+      font-weight: 900;
+      letter-spacing: -0.01em;
+      text-transform: uppercase;
+      line-height: 0.95;
+      color: var(--text);
+    }
+
+    .services-list {
+      display: flex;
+      flex-direction: column;
+      gap: 1px;
+      background: var(--border);
+    }
+
+    .service-row {
+      display: grid;
+      grid-template-columns: 80px 1fr auto;
+      align-items: center;
+      gap: 32px;
+      padding: 36px 40px;
+      background: var(--surface);
+      cursor: default;
+      transition: background 0.25s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .service-row::before {
+      content: '';
+      position: absolute;
+      left: 0; top: 0; bottom: 0;
+      width: 0;
+      background: var(--orange);
+      transition: width 0.3s ease;
+    }
+
+    .service-row:hover { background: #1a1a1a; }
+    .service-row:hover::before { width: 4px; }
+    .service-row:hover .service-num { color: var(--orange); }
+
+    .service-num {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: var(--text-muted);
+      transition: color 0.25s;
+    }
+
+    .service-info h3 {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 1.6rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.02em;
+      color: var(--text);
+      margin-bottom: 6px;
+    }
+
+    .service-info p {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      line-height: 1.6;
+    }
+
+    .service-icon {
+      font-size: 2.2rem;
+      flex-shrink: 0;
+    }
+
+    /* NUMBERS */
+    .numbers {
+      padding: 100px 60px;
+      background: var(--orange);
+    }
+
+    .numbers-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0;
+      border: 1px solid rgba(0,0,0,0.1);
+    }
+
+    .number-item {
+      padding: 48px 40px;
+      border-right: 1px solid rgba(0,0,0,0.1);
+      text-align: center;
+    }
+
+    .number-item:last-child { border-right: none; }
+
+    .number-val {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 4.5rem;
+      font-weight: 900;
+      color: #0e0e0e;
+      line-height: 1;
+      letter-spacing: -0.02em;
+    }
+
+    .number-label {
+      font-size: 0.78rem;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: rgba(14,14,14,0.6);
+      margin-top: 8px;
+    }
+
+    /* CASES */
+    .cases {
+      padding: 100px 60px;
+      background: var(--bg);
+    }
+
+    .cases-header {
+      margin-bottom: 56px;
+    }
+
+    .cases-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+
+    .case-card {
+      background: var(--surface);
+      padding: 40px 36px;
+      border: 1px solid var(--border);
+      position: relative;
+      overflow: hidden;
+      transition: border-color 0.25s, transform 0.25s;
+    }
+
+    .case-card:hover {
+      border-color: var(--orange);
+      transform: translateY(-4px);
+    }
+
+    .case-industry {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--orange);
+      margin-bottom: 16px;
+    }
+
+    .case-card h3 {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 1.5rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      color: var(--text);
+      margin-bottom: 12px;
+    }
+
+    .case-card p {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      line-height: 1.7;
+      margin-bottom: 24px;
+    }
+
+    .case-result {
+      display: flex;
+      gap: 24px;
+      padding-top: 20px;
+      border-top: 1px solid var(--border);
+    }
+
+    .result-num {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 1.8rem;
+      font-weight: 900;
+      color: var(--yellow);
+      line-height: 1;
+    }
+
+    .result-label {
+      font-size: 0.7rem;
+      color: var(--text-muted);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      margin-top: 4px;
+    }
+
+    /* CTA STRIP */
+    .cta-strip {
+      padding: 100px 60px;
+      background: var(--surface);
+      display: grid;
+      grid-template-columns: 1fr auto;
+      align-items: center;
+      gap: 48px;
+    }
+
+    .cta-strip h2 {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: clamp(2.8rem, 6vw, 5.5rem);
+      font-weight: 900;
+      text-transform: uppercase;
+      line-height: 0.92;
+      letter-spacing: -0.02em;
+      color: var(--text);
+    }
+
+    .cta-strip h2 span { color: var(--orange); }
+
+    .cta-strip-actions {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      align-items: flex-start;
+    }
+
+    /* FOOTER */
+    footer {
+      background: #080808;
+      padding: 64px 60px 36px;
+      border-top: 1px solid var(--border);
+    }
+
+    .footer-top {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr;
+      gap: 64px;
+      margin-bottom: 48px;
+      padding-bottom: 48px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .footer-brand {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 2rem;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--text);
+      margin-bottom: 16px;
+    }
+
+    .footer-brand span { color: var(--orange); }
+
+    .footer-tagline {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      line-height: 1.7;
+      max-width: 300px;
+    }
+
+    .footer-col h4 {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--orange);
+      margin-bottom: 20px;
+    }
+
+    .footer-col ul { list-style: none; }
+    .footer-col ul li { margin-bottom: 10px; }
+    .footer-col ul li a {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .footer-col ul li a:hover { color: var(--text); }
+
+    .footer-bottom {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    .footer-copy {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      letter-spacing: 0.04em;
+    }
+
+    .back-link {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--orange);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .back-link:hover { color: var(--yellow); }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (max-width: 768px) {
+      nav { padding: 18px 24px; }
+      .nav-links { display: none; }
+      .hero { padding: 100px 24px 60px; }
+      .services, .cases, .numbers, .cta-strip { padding: 60px 24px; }
+      .service-row { grid-template-columns: 50px 1fr; }
+      .service-icon { display: none; }
+      .numbers-grid { grid-template-columns: repeat(2, 1fr); }
+      .cases-grid { grid-template-columns: 1fr; }
+      .cta-strip { grid-template-columns: 1fr; }
+      .footer-top { grid-template-columns: 1fr 1fr; }
+      footer { padding: 48px 24px 32px; }
+    }
+  
+/* ===== PERFORMANCE ===== */
+/* seções abaixo da dobra só são renderizadas quando se aproximam da tela */
+.services, .numbers, .cases, .cta-strip, footer{ content-visibility:auto; contain-intrinsic-size:auto 700px; }
+
+/* touch: sem transições de filtro/zoom em imagens (hover não existe) */
+@media (hover:none){ img{ transition:none !important; } }
+
+/* preview (iframe) e "reduzir movimento": animações rodam uma vez e param */
+.in-frame *, .in-frame *::before, .in-frame *::after{
+  animation-duration:.01ms !important; animation-delay:0s !important; animation-iteration-count:1 !important; scroll-behavior:auto !important;
+}
+@media (prefers-reduced-motion:reduce){
+  *, *::before, *::after{ animation-duration:.01ms !important; animation-delay:0s !important; animation-iteration-count:1 !important; }
+}
+</style>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preconnect" href="https://images.unsplash.com" crossorigin>
+<script>if(self!==top)document.documentElement.classList.add('in-frame')</script>
+</head>
+<body>
+
+  <nav>
+    <a href="#" class="nav-logo">Digital<span>Boost</span></a>
+    <ul class="nav-links">
+      <li><a href="#">Serviços</a></li>
+      <li><a href="#">Cases</a></li>
+      <li><a href="#">Resultados</a></li>
+      <li><a href="#">Blog</a></li>
+    </ul>
+    <a href="#" class="nav-cta">Diagnóstico Grátis</a>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero" style="position:relative;">
+    <div style="position:absolute;inset:0;z-index:0;overflow:hidden;">
+      <img decoding="async" loading="lazy" src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=900&auto=format&fit=crop&q=40" alt="" style="width:100%;height:100%;object-fit:cover;opacity:0.06;filter:saturate(0);">
+    </div>
+    <div class="hero-bg-text">BOOST</div>
+    <div style="position:relative;z-index:1;">
+    <div class="hero-eyebrow">
+      <span class="hero-eyebrow-pill">Novo</span>
+      <span class="hero-eyebrow-text">Metodologia Boost 2025 disponível</span>
+    </div>
+    <h1>
+      <span class="line-orange">Mais</span><br>
+      Tráfego.<br>
+      <span class="line-outline">Mais Vendas.</span>
+    </h1>
+    <div class="hero-bottom">
+      <p class="hero-desc">Somos a agência que une SEO, conteúdo e mídia paga para entregar crescimento real e mensurável para o seu negócio.</p>
+      <div class="hero-cta-group">
+        <a href="#" class="btn-big">Quero Crescer →</a>
+        <a href="#" class="btn-ghost">Ver nossos cases</a>
+      </div>
+    </div>
+    </div>
+  </section>
+
+  <!-- TICKER -->
+  <div class="ticker">
+    <div class="ticker-track">
+      <span class="ticker-item">SEO Orgânico</span>
+      <span class="ticker-item">Google Ads</span>
+      <span class="ticker-item">Meta Ads</span>
+      <span class="ticker-item">Marketing de Conteúdo</span>
+      <span class="ticker-item">Copywriting</span>
+      <span class="ticker-item">Analytics</span>
+      <span class="ticker-item">Email Marketing</span>
+      <span class="ticker-item">SEO Orgânico</span>
+      <span class="ticker-item">Google Ads</span>
+      <span class="ticker-item">Meta Ads</span>
+      <span class="ticker-item">Marketing de Conteúdo</span>
+      <span class="ticker-item">Copywriting</span>
+      <span class="ticker-item">Analytics</span>
+      <span class="ticker-item">Email Marketing</span>
+    </div>
+  </div>
+
+  <!-- SERVICES -->
+  <section class="services">
+    <div class="services-header">
+      <div>
+        <p class="section-eyebrow">O que oferecemos</p>
+        <h2 class="section-h2">Nossos<br>Serviços</h2>
+      </div>
+      <a href="#" class="btn-ghost" style="color:var(--text-muted);text-decoration:none;font-size:0.78rem;letter-spacing:0.1em;text-transform:uppercase;border-bottom:1px solid var(--border);padding-bottom:2px;">Ver todos →</a>
+    </div>
+    <div class="services-list">
+      <div class="service-row">
+        <div class="service-num">01</div>
+        <div class="service-info">
+          <h3>SEO Técnico & On-Page</h3>
+          <p>Auditoria completa, otimização de conteúdo, velocidade e autoridade de domínio para ranquear no topo.</p>
+        </div>
+        <div class="service-icon">🔍</div>
+      </div>
+      <div class="service-row">
+        <div class="service-num">02</div>
+        <div class="service-info">
+          <h3>Google & Meta Ads</h3>
+          <p>Campanhas de tráfego pago com foco em ROAS, gestão diária de budget e otimização por dados reais.</p>
+        </div>
+        <div class="service-icon">📢</div>
+      </div>
+      <div class="service-row">
+        <div class="service-num">03</div>
+        <div class="service-info">
+          <h3>Marketing de Conteúdo</h3>
+          <p>Estratégia editorial, produção de artigos, vídeos e materiais ricos que atraem e convertem leads.</p>
+        </div>
+        <div class="service-icon">✍️</div>
+      </div>
+      <div class="service-row">
+        <div class="service-num">04</div>
+        <div class="service-info">
+          <h3>Automação & Email Marketing</h3>
+          <p>Fluxos de nutrição, segmentação avançada e campanhas de email que geram receita recorrente.</p>
+        </div>
+        <div class="service-icon">⚙️</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- NUMBERS -->
+  <section class="numbers">
+    <div class="numbers-grid">
+      <div class="number-item">
+        <div class="number-val">+340%</div>
+        <div class="number-label">Crescimento médio em tráfego orgânico</div>
+      </div>
+      <div class="number-item">
+        <div class="number-val">120+</div>
+        <div class="number-label">Clientes ativos em 2025</div>
+      </div>
+      <div class="number-item">
+        <div class="number-val">4.8×</div>
+        <div class="number-label">ROAS médio em tráfego pago</div>
+      </div>
+      <div class="number-item">
+        <div class="number-val">7 anos</div>
+        <div class="number-label">De expertise em marketing digital</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CASES -->
+  <section class="cases">
+    <div class="cases-header">
+      <p class="section-eyebrow">Resultados Reais</p>
+      <h2 class="section-h2">Cases de<br>Sucesso</h2>
+    </div>
+    <div class="cases-grid">
+      <div class="case-card">
+        <div style="height:180px;overflow:hidden;margin:-40px -36px 24px;border-bottom:1px solid var(--border);">
+          <img decoding="async" loading="lazy" src="https://images.unsplash.com/photo-1607082348824-0a96f2a4b9da?w=600&auto=format&fit=crop&q=65" alt="Bloom Store" style="width:100%;height:100%;object-fit:cover;object-position:center;display:block;filter:brightness(0.75) saturate(0.7);transition:filter 0.3s;" onmouseover="this.style.filter='brightness(0.9) saturate(1)'" onmouseout="this.style.filter='brightness(0.75) saturate(0.7)'">
+        </div>
+        <p class="case-industry">E-commerce · Moda</p>
+        <h3>Bloom Store</h3>
+        <p>Implementamos SEO técnico + Google Shopping. Em 6 meses, o site saiu da página 4 para a posição 2 em 80+ palavras-chave principais.</p>
+        <div class="case-result">
+          <div>
+            <div class="result-num">+218%</div>
+            <div class="result-label">Tráfego orgânico</div>
+          </div>
+          <div>
+            <div class="result-num">3.2×</div>
+            <div class="result-label">em vendas</div>
+          </div>
+        </div>
+      </div>
+      <div class="case-card">
+        <div style="height:180px;overflow:hidden;margin:-40px -36px 24px;border-bottom:1px solid var(--border);">
+          <img decoding="async" loading="lazy" src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=600&auto=format&fit=crop&q=65" alt="ContaFácil" style="width:100%;height:100%;object-fit:cover;display:block;filter:brightness(0.75) saturate(0.7);transition:filter 0.3s;" onmouseover="this.style.filter='brightness(0.9) saturate(1)'" onmouseout="this.style.filter='brightness(0.75) saturate(0.7)'">
+        </div>
+        <p class="case-industry">SaaS · B2B</p>
+        <h3>ContaFácil</h3>
+        <p>Estratégia de conteúdo + LinkedIn Ads para geração de leads B2B. Reduzimos o CPL em 60% em apenas 3 meses de gestão.</p>
+        <div class="case-result">
+          <div>
+            <div class="result-num">-60%</div>
+            <div class="result-label">Custo por lead</div>
+          </div>
+          <div>
+            <div class="result-num">+94</div>
+            <div class="result-label">Leads/mês</div>
+          </div>
+        </div>
+      </div>
+      <div class="case-card">
+        <div style="height:180px;overflow:hidden;margin:-40px -36px 24px;border-bottom:1px solid var(--border);">
+          <img decoding="async" loading="lazy" src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=600&auto=format&fit=crop&q=65" alt="Trattoria Napoli" style="width:100%;height:100%;object-fit:cover;object-position:center;display:block;filter:brightness(0.75) saturate(0.7);transition:filter 0.3s;" onmouseover="this.style.filter='brightness(0.9) saturate(1)'" onmouseout="this.style.filter='brightness(0.75) saturate(0.7)'">
+        </div>
+        <p class="case-industry">Restaurante · Local</p>
+        <h3>Trattoria Napoli</h3>
+        <p>SEO local + Meta Ads com segmentação por raio. A casa passou a ocupar o primeiro resultado orgânico para 15 buscas locais relevantes.</p>
+        <div class="case-result">
+          <div>
+            <div class="result-num">#1</div>
+            <div class="result-label">Google local</div>
+          </div>
+          <div>
+            <div class="result-num">+87%</div>
+            <div class="result-label">Reservas online</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA STRIP -->
+  <section class="cta-strip">
+    <h2>Pronto para<br><span>dominar</span><br>o digital?</h2>
+    <div class="cta-strip-actions">
+      <a href="#" class="btn-big">Diagnóstico Grátis →</a>
+      <p style="font-size:0.75rem;color:var(--text-muted);max-width:240px;line-height:1.6;">Análise completa do seu site e concorrência. Sem compromisso.</p>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-top">
+      <div>
+        <div class="footer-brand">Digital<span>Boost</span></div>
+        <p class="footer-tagline">Agência de marketing digital especializada em crescimento orgânico e pago para empresas que querem resultados de verdade.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Serviços</h4>
+        <ul>
+          <li><a href="#">SEO</a></li>
+          <li><a href="#">Google Ads</a></li>
+          <li><a href="#">Meta Ads</a></li>
+          <li><a href="#">Conteúdo</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Empresa</h4>
+        <ul>
+          <li><a href="#">Sobre nós</a></li>
+          <li><a href="#">Cases</a></li>
+          <li><a href="#">Blog</a></li>
+          <li><a href="#">Contato</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p class="footer-copy">© 2025 Digital Boost — Todos os direitos reservados.</p>
+      <a href="portfolio_web.html" class="back-link">← Voltar ao Portfólio</a>
+    </div>
+  </footer>
+
+
+<!-- DEMO BANNER -->
+<div id="demo-banner" style="
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 99999;
+  background: #0b0b0b;
+  border-top: 2px solid #c6ff00;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 28px;
+  gap: 16px;
+  font-family: 'Poppins', sans-serif;
+  flex-wrap: wrap;
+">
+  <div style="display: flex; align-items: center; gap: 12px; flex-wrap: wrap;">
+    <span style="
+      background: #c6ff00;
+      color: #0b0b0b;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      padding: 3px 9px;
+      border-radius: 3px;
+      text-transform: uppercase;
+      white-space: nowrap;
+    ">Site Demonstrativo</span>
+    <p style="
+      color: #aaa;
+      font-size: 13px;
+      margin: 0;
+    ">Este é um site criado apenas para fins de portfólio e demonstração. Nenhuma compra real foi realizada.</p>
+  </div>
+  <div style="display: flex; align-items: center; gap: 12px; flex-wrap: wrap;">
+    <button onclick="document.getElementById('demo-banner').style.display='none'" style="
+      background: #1a1a1a;
+      border: 1px solid #333;
+      color: #ccc;
+      font-size: 13px;
+      padding: 7px 16px;
+      cursor: pointer;
+      border-radius: 4px;
+      font-family: inherit;
+      white-space: nowrap;
+      transition: background 0.2s;
+    " onmouseover="this.style.background='#222'" onmouseout="this.style.background='#1a1a1a'">Entendido</button>
+    <a href="portfolio_web.html" style="
+      color: #c6ff00;
+      font-size: 13px;
+      text-decoration: none;
+      white-space: nowrap;
+      font-weight: 600;
+    ">← Ver outros projetos</a>
+  </div>
+</div>
+<!-- END DEMO BANNER -->
+</body>
+</html>

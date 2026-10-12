@@ -1,0 +1,1361 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Parte 2 — Construa e Publique seu Site</title>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&family=Manrope:wght@300;400;600;800&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --bg:       #07090f;
+      --panel:    #0d1017;
+      --panel2:   #131720;
+      --border:   #1e2535;
+      --border2:  #2a3350;
+      --accent:   #38bdf8;
+      --accent2:  #f472b6;
+      --accent3:  #34d399;
+      --accent4:  #fb923c;
+      --text:     #e2e8f8;
+      --muted:    #64748b;
+      --code-bg:  #060810;
+      --glow:     rgba(56,189,248,0.15);
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Manrope', sans-serif;
+      line-height: 1.75;
+      padding-top: 68px;
+      overflow-x: hidden;
+    }
+
+    /* ─── STARS BG ─── */
+    body::before {
+      content: '';
+      position: fixed; inset: 0; z-index: 0; pointer-events: none;
+      background-image:
+        radial-gradient(1px 1px at 10% 15%, rgba(255,255,255,0.6) 0%, transparent 100%),
+        radial-gradient(1px 1px at 25% 60%, rgba(255,255,255,0.4) 0%, transparent 100%),
+        radial-gradient(1px 1px at 40% 30%, rgba(255,255,255,0.5) 0%, transparent 100%),
+        radial-gradient(1px 1px at 55% 80%, rgba(255,255,255,0.3) 0%, transparent 100%),
+        radial-gradient(1px 1px at 70% 20%, rgba(255,255,255,0.6) 0%, transparent 100%),
+        radial-gradient(1px 1px at 85% 55%, rgba(255,255,255,0.4) 0%, transparent 100%),
+        radial-gradient(1px 1px at 92% 10%, rgba(255,255,255,0.5) 0%, transparent 100%),
+        radial-gradient(1px 1px at 5%  90%, rgba(255,255,255,0.3) 0%, transparent 100%),
+        radial-gradient(1px 1px at 33% 45%, rgba(255,255,255,0.4) 0%, transparent 100%),
+        radial-gradient(1px 1px at 78% 70%, rgba(255,255,255,0.5) 0%, transparent 100%);
+    }
+
+    /* ─── NAV ─── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; height: 68px;
+      background: rgba(7,9,15,0.9);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+      display: flex; align-items: center;
+      padding: 0 28px; z-index: 1000; gap: 16px;
+    }
+    .nav-brand {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.9rem; font-weight: 700;
+      color: var(--accent);
+      text-decoration: none;
+      margin-right: auto;
+      letter-spacing: 0.04em;
+    }
+    .nav-steps {
+      display: flex; gap: 6px; align-items: center;
+    }
+    .nav-step {
+      width: 28px; height: 28px; border-radius: 50%;
+      background: var(--panel2);
+      border: 1px solid var(--border2);
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Space Mono', monospace;
+      font-size: 0.7rem; color: var(--muted);
+      text-decoration: none; cursor: pointer;
+      transition: all 0.2s;
+    }
+    .nav-step:hover, .nav-step.active {
+      background: var(--accent); color: #000; border-color: var(--accent);
+      box-shadow: 0 0 12px var(--glow);
+    }
+    .hamburger {
+      background: none; border: none; cursor: pointer;
+      display: flex; flex-direction: column; justify-content: space-between;
+      width: 32px; height: 24px;
+    }
+    .hamburger .bar {
+      display: block; width: 100%; height: 2.5px;
+      background: var(--muted); border-radius: 2px; transition: all 0.35s ease;
+    }
+    .hamburger.active .bar:nth-child(1) { transform: translateY(10.75px) rotate(45deg); background: var(--accent); }
+    .hamburger.active .bar:nth-child(2) { opacity: 0; }
+    .hamburger.active .bar:nth-child(3) { transform: translateY(-10.75px) rotate(-45deg); background: var(--accent); }
+
+    /* ─── SIDEBAR ─── */
+    #sidebar {
+      position: fixed; top: 68px; left: 0;
+      width: 270px; height: calc(100vh - 68px);
+      background: var(--panel);
+      border-right: 1px solid var(--border);
+      padding: 24px 0; overflow-y: auto;
+      transform: translateX(-100%);
+      transition: transform 0.35s ease; z-index: 999;
+    }
+    #sidebar.open { transform: translateX(0); }
+    .sb-label {
+      padding: 0 20px; margin-bottom: 6px;
+      font-size: 0.68rem; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted);
+    }
+    #sidebar ul { list-style: none; padding: 0 10px; margin-bottom: 24px; }
+    #sidebar ul li a {
+      display: flex; align-items: center; gap: 10px;
+      padding: 8px 12px; border-radius: 8px;
+      text-decoration: none; color: var(--muted);
+      font-size: 0.88rem; font-weight: 500;
+      transition: all 0.2s;
+    }
+    #sidebar ul li a:hover { background: var(--panel2); color: var(--text); }
+    #sidebar ul li a .step-num {
+      width: 22px; height: 22px; border-radius: 50%;
+      background: var(--panel2); border: 1px solid var(--border2);
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Space Mono', monospace; font-size: 0.65rem;
+      flex-shrink: 0; color: var(--accent);
+    }
+
+    /* ─── MAIN ─── */
+    main {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 0 24px 100px;
+      position: relative; z-index: 1;
+    }
+
+    /* ─── HERO ─── */
+    .hero {
+      padding: 72px 0 64px;
+      text-align: center;
+      position: relative;
+    }
+    .hero-label {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: rgba(56,189,248,0.08);
+      border: 1px solid rgba(56,189,248,0.25);
+      padding: 5px 16px; border-radius: 999px;
+      font-family: 'Space Mono', monospace;
+      font-size: 0.75rem; color: var(--accent);
+      margin-bottom: 24px;
+      letter-spacing: 0.06em;
+    }
+    .hero h1 {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: clamp(2rem, 5vw, 3.8rem);
+      font-weight: 700;
+      line-height: 1.1;
+      margin-bottom: 20px;
+    }
+    .hero h1 span {
+      background: linear-gradient(90deg, var(--accent) 0%, var(--accent2) 100%);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    }
+    .hero p {
+      color: var(--muted); font-size: 1.05rem;
+      max-width: 560px; margin: 0 auto 36px;
+    }
+
+    /* Tech chips */
+    .tech-row {
+      display: flex; flex-wrap: wrap; justify-content: center; gap: 8px;
+      margin-bottom: 48px;
+    }
+    .tech-chip {
+      display: flex; align-items: center; gap: 6px;
+      background: var(--panel2); border: 1px solid var(--border2);
+      padding: 6px 14px; border-radius: 8px;
+      font-size: 0.8rem; font-weight: 600; color: var(--text);
+      transition: all 0.2s;
+    }
+    .tech-chip:hover { border-color: var(--accent); color: var(--accent); transform: translateY(-2px); }
+    .chip-dot { width: 7px; height: 7px; border-radius: 50%; }
+
+    /* ─── TIMELINE / STEPS ─── */
+    .timeline { position: relative; padding-left: 40px; }
+    .timeline::before {
+      content: '';
+      position: absolute; left: 11px; top: 0; bottom: 0;
+      width: 2px;
+      background: linear-gradient(to bottom, var(--accent), var(--accent2), var(--accent3), var(--accent4), var(--accent), var(--accent2), var(--accent3), var(--accent4));
+    }
+
+    /* ─── STEP CARD ─── */
+    .step {
+      position: relative;
+      margin-bottom: 64px;
+      animation: riseIn 0.5s ease both;
+    }
+    @keyframes riseIn {
+      from { opacity: 0; transform: translateY(24px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .step-dot {
+      position: absolute;
+      left: -40px; top: 6px;
+      width: 24px; height: 24px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Space Mono', monospace;
+      font-size: 0.65rem; font-weight: 700;
+      border: 2px solid;
+      background: var(--bg);
+      z-index: 2;
+    }
+
+    .step-header {
+      display: flex; align-items: flex-start; gap: 14px;
+      margin-bottom: 16px;
+    }
+    .step-icon {
+      width: 48px; height: 48px; border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.5rem; flex-shrink: 0;
+    }
+    .step-meta h2 {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.55rem; font-weight: 700;
+      margin-bottom: 3px;
+    }
+    .step-meta .tag {
+      display: inline-block;
+      font-family: 'Space Mono', monospace;
+      font-size: 0.7rem; padding: 2px 10px;
+      border-radius: 999px; font-weight: 700;
+      letter-spacing: 0.06em;
+    }
+
+    .step p {
+      color: #8898b8;
+      font-size: 0.96rem;
+      margin-bottom: 14px;
+      line-height: 1.8;
+    }
+
+    /* ─── CODE BLOCK ─── */
+    .code-wrap {
+      background: var(--code-bg);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+      margin: 16px 0;
+    }
+    .code-topbar {
+      background: var(--panel2);
+      border-bottom: 1px solid var(--border);
+      padding: 10px 16px;
+      display: flex; align-items: center; gap: 10px;
+    }
+    .code-dots { display: flex; gap: 6px; }
+    .code-dots span { width: 12px; height: 12px; border-radius: 50%; }
+    .cd-r { background: #ff5f56; }
+    .cd-y { background: #ffbd2e; }
+    .cd-g { background: #27c93f; }
+    .code-fname {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.75rem; color: var(--muted);
+      margin-left: 4px;
+    }
+    .copy-btn {
+      margin-left: auto; background: none; border: 1px solid var(--border2);
+      color: var(--muted); padding: 3px 10px; border-radius: 5px;
+      cursor: pointer; font-size: 0.72rem; font-family: 'Space Mono', monospace;
+      transition: all 0.2s;
+    }
+    .copy-btn:hover { border-color: var(--accent); color: var(--accent); }
+    .copy-btn.copied { border-color: var(--accent3); color: var(--accent3); }
+
+    .code-wrap pre {
+      padding: 20px 22px;
+      font-family: 'Space Mono', monospace;
+      font-size: 0.84rem; line-height: 1.7;
+      color: #b8c4e0;
+      overflow-x: auto; margin: 0;
+    }
+
+    /* ─── LIVE EDITOR ─── */
+    .live-editor {
+      background: var(--code-bg);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+      margin: 16px 0;
+    }
+    .live-topbar {
+      background: var(--panel2); border-bottom: 1px solid var(--border);
+      padding: 10px 16px;
+      display: flex; align-items: center; gap: 10px;
+    }
+    .live-topbar span { font-family: 'Space Mono', monospace; font-size: 0.75rem; color: var(--muted); }
+    .live-btn {
+      margin-left: auto;
+      background: var(--accent3); border: none; cursor: pointer;
+      color: #000; padding: 5px 14px; border-radius: 6px;
+      font-size: 0.78rem; font-weight: 700; font-family: 'Space Mono', monospace;
+      transition: all 0.2s;
+    }
+    .live-btn:hover { filter: brightness(1.1); transform: translateY(-1px); }
+    .live-editor textarea {
+      width: 100%; background: var(--code-bg); color: #b8c4e0;
+      border: none; outline: none; resize: vertical;
+      font-family: 'Space Mono', monospace; font-size: 0.83rem;
+      line-height: 1.65; padding: 18px 22px; min-height: 140px;
+    }
+    .live-preview {
+      border-top: 1px solid var(--border);
+      background: white; min-height: 180px;
+    }
+    .live-preview iframe { width: 100%; min-height: 180px; border: none; display: block; }
+
+    /* ─── INFO BOX ─── */
+    .info-box {
+      background: var(--panel2);
+      border: 1px solid var(--border2);
+      border-left: 3px solid;
+      border-radius: 0 10px 10px 0;
+      padding: 14px 18px;
+      margin: 16px 0;
+      font-size: 0.88rem;
+    }
+    .info-box strong { display: block; margin-bottom: 4px; }
+    .info-box.tip  { border-left-color: var(--accent3); }
+    .info-box.tip  strong { color: var(--accent3); }
+    .info-box.warn { border-left-color: var(--accent4); }
+    .info-box.warn strong { color: var(--accent4); }
+    .info-box.info { border-left-color: var(--accent); }
+    .info-box.info strong { color: var(--accent); }
+    .info-box.note { border-left-color: var(--accent2); }
+    .info-box.note strong { color: var(--accent2); }
+
+    /* ─── GRID CARDS ─── */
+    .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 16px 0; }
+    .g-card {
+      background: var(--panel2); border: 1px solid var(--border2);
+      border-radius: 10px; padding: 16px;
+    }
+    .g-card h5 {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.72rem; text-transform: uppercase;
+      letter-spacing: 0.1em; color: var(--accent); margin-bottom: 6px;
+    }
+    .g-card p { color: var(--muted); font-size: 0.85rem; margin: 0; }
+
+    /* ─── FILE TREE ─── */
+    .file-tree {
+      background: var(--code-bg); border: 1px solid var(--border);
+      border-radius: 12px; padding: 20px 22px;
+      font-family: 'Space Mono', monospace; font-size: 0.83rem;
+      line-height: 1.9; margin: 16px 0;
+    }
+    .ft-folder { color: var(--accent4); }
+    .ft-file   { color: #b8c4e0; }
+    .ft-html   { color: var(--accent); }
+    .ft-css    { color: #38bdf8; }
+    .ft-js     { color: #fbbf24; }
+    .ft-muted  { color: var(--muted); }
+
+    /* ─── ROADMAP ─── */
+    .roadmap {
+      display: flex; flex-direction: column; gap: 0;
+      border: 1px solid var(--border); border-radius: 12px;
+      overflow: hidden; margin: 16px 0;
+    }
+    .rm-row {
+      display: flex; align-items: center; gap: 16px;
+      padding: 14px 20px;
+      border-bottom: 1px solid var(--border);
+      transition: background 0.2s;
+    }
+    .rm-row:last-child { border-bottom: none; }
+    .rm-row:hover { background: var(--panel2); }
+    .rm-num {
+      width: 28px; height: 28px; border-radius: 50%;
+      background: var(--panel2); border: 1px solid var(--border2);
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Space Mono', monospace; font-size: 0.7rem;
+      color: var(--accent); flex-shrink: 0;
+    }
+    .rm-text { flex: 1; font-size: 0.9rem; }
+    .rm-text strong { color: var(--text); display: block; font-size: 0.93rem; }
+    .rm-text span   { color: var(--muted); font-size: 0.82rem; }
+    .rm-badge {
+      font-family: 'Space Mono', monospace; font-size: 0.68rem;
+      padding: 3px 10px; border-radius: 999px; font-weight: 700;
+    }
+
+    /* ─── PROGRESS BAR ─── */
+    .progress-wrap {
+      background: var(--panel); border: 1px solid var(--border);
+      border-radius: 12px; padding: 20px 22px; margin: 16px 0;
+    }
+    .progress-wrap h4 {
+      font-family: 'Space Mono', monospace; font-size: 0.78rem;
+      color: var(--muted); margin-bottom: 14px; text-transform: uppercase; letter-spacing: 0.08em;
+    }
+    .prog-item { margin-bottom: 12px; }
+    .prog-label {
+      display: flex; justify-content: space-between;
+      font-size: 0.82rem; margin-bottom: 5px;
+    }
+    .prog-label span:first-child { color: var(--text); }
+    .prog-label span:last-child  { color: var(--muted); font-family: 'Space Mono', monospace; }
+    .prog-bar {
+      height: 6px; background: var(--panel2);
+      border-radius: 999px; overflow: hidden;
+    }
+    .prog-fill {
+      height: 100%; border-radius: 999px;
+      animation: fillBar 1.5s ease both;
+    }
+    @keyframes fillBar { from { width: 0; } }
+
+    /* ─── FINAL CARD ─── */
+    .final-card {
+      background: linear-gradient(135deg, rgba(56,189,248,0.08), rgba(244,114,182,0.08));
+      border: 1px solid var(--border2);
+      border-radius: 16px; padding: 40px;
+      text-align: center; margin-top: 32px;
+    }
+    .final-card h2 {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 2rem; font-weight: 700; margin-bottom: 12px;
+    }
+    .final-card p { color: var(--muted); margin-bottom: 24px; }
+    .btn-row { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+    .btn-primary {
+      background: var(--accent); color: #000; border: none;
+      padding: 12px 28px; border-radius: 8px; cursor: pointer;
+      font-weight: 700; font-size: 0.9rem; text-decoration: none;
+      transition: all 0.2s; display: inline-block;
+    }
+    .btn-primary:hover { filter: brightness(1.1); transform: translateY(-2px); }
+    .btn-secondary {
+      background: none; color: var(--text);
+      border: 1px solid var(--border2);
+      padding: 12px 28px; border-radius: 8px; cursor: pointer;
+      font-weight: 600; font-size: 0.9rem; text-decoration: none;
+      transition: all 0.2s; display: inline-block;
+    }
+    .btn-secondary:hover { border-color: var(--accent); color: var(--accent); }
+
+    /* ─── TOKENS ─── */
+    .tk { color: #94a3b8; }
+    .tk-kw  { color: #c792ea; }
+    .tk-str { color: #c3e88d; }
+    .tk-fn  { color: #82aaff; }
+    .tk-num { color: #f78c6c; }
+    .tk-cmt { color: #546e7a; font-style: italic; }
+    .tk-tag { color: #f07178; }
+    .tk-attr{ color: #ffcb6b; }
+    .tk-val { color: #c3e88d; }
+    .tk-sel { color: #82aaff; }
+    .tk-prop{ color: #b2ccd6; }
+
+    code {
+      background: rgba(56,189,248,0.1); color: var(--accent);
+      padding: 2px 7px; border-radius: 4px;
+      font-family: 'Space Mono', monospace; font-size: 0.85em;
+    }
+
+    .sep { height: 1px; background: var(--border); margin: 8px 0 48px; }
+
+    @media (max-width: 640px) {
+      .grid2 { grid-template-columns: 1fr; }
+      .nav-steps { display: none; }
+      .timeline { padding-left: 28px; }
+      .timeline::before { left: 8px; }
+      .step-dot { left: -28px; }
+      .hero h1 { font-size: 1.7rem; line-height: 1.2; }
+      .hero { padding: 40px 16px 32px; }
+      main { padding: 0 14px 80px; }
+      .final-card { padding: 28px 20px; }
+      nav { padding: 0 14px; }
+      .code-box pre { font-size: 0.78rem; }
+      .tip-box, .warn-box, .check-box { padding: 14px 16px; }
+    }
+    @media (max-width: 400px) {
+      .hero h1 { font-size: 1.4rem; }
+      .step-title { font-size: 1.2rem; }
+    }
+
+    /* ── BOTÃO VOLTAR PARTE 1 ── */
+    .btn-back {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: transparent;
+      border: 1px solid var(--border2);
+      color: var(--muted); font-size: 0.88rem; font-weight: 600;
+      padding: 7px 16px; border-radius: 8px;
+      text-decoration: none; cursor: pointer;
+      transition: border-color 0.2s, color 0.2s;
+    }
+    .btn-back:hover { border-color: var(--accent); color: var(--accent); }
+    .nav-footer-p2 {
+      display: flex; justify-content: center;
+      padding: 40px 24px 64px;
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <button class="hamburger" id="hbBtn" aria-label="Menu" aria-expanded="false">
+    <span class="bar"></span><span class="bar"></span><span class="bar"></span>
+  </button>
+  <a class="nav-brand" href="#">⬡ PARTE 2</a>
+  <div class="nav-steps">
+    <a class="nav-step" href="#s1" title="HTML">1</a>
+    <a class="nav-step" href="#s2" title="CSS">2</a>
+    <a class="nav-step" href="#s3" title="JS">3</a>
+    <a class="nav-step" href="#s4" title="VSCode">4</a>
+    <a class="nav-step" href="#s5" title="Terminal">5</a>
+    <a class="nav-step" href="#s6" title="Git">6</a>
+    <a class="nav-step" href="#s7" title="GitHub">7</a>
+    <a class="nav-step" href="#s8" title="Hospedar">8</a>
+  </div>
+  <a class="btn-back" href="Tutoriais.html">← Parte 1</a>
+</nav>
+
+<!-- SIDEBAR -->
+<div id="sidebar">
+  <p class="sb-label">Etapas do Projeto</p>
+  <ul>
+    <li><a href="#s1"><span class="step-num">1</span> Estrutura HTML</a></li>
+    <li><a href="#s2"><span class="step-num">2</span> Estilos com CSS</a></li>
+    <li><a href="#s3"><span class="step-num">3</span> Interatividade JS</a></li>
+    <li><a href="#s4"><span class="step-num">4</span> VSCode e extensões</a></li>
+    <li><a href="#s5"><span class="step-num">5</span> Terminal e arquivos</a></li>
+    <li><a href="#s6"><span class="step-num">6</span> Git — versionar</a></li>
+    <li><a href="#s7"><span class="step-num">7</span> GitHub — repositório</a></li>
+    <li><a href="#s8"><span class="step-num">8</span> Hospedar online</a></li>
+    <li><a href="#s9"><span class="step-num">★</span> SQL — próximos passos</a></li>
+  </ul>
+  <p class="sb-label">Navegação</p>
+  <ul>
+    <li><a href="Tutoriais.html"><span class="step-num">←</span> Parte 1</a></li>
+    <li><a href="index.html"><span class="step-num">⌂</span> Início</a></li>
+  </ul>
+</div>
+
+<main>
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-label">🚀 PROJETO PRÁTICO · PARTE 2</div>
+    <h1>Construa e publique<br><span>seu primeiro site</span></h1>
+    <p>Um guia completo do zero ao ar — aprenda criando um portfólio pessoal real usando 8 ferramentas essenciais.</p>
+    <div class="tech-row">
+      <div class="tech-chip"><span class="chip-dot" style="background:#e34f26"></span> HTML</div>
+      <div class="tech-chip"><span class="chip-dot" style="background:#1572b6"></span> CSS</div>
+      <div class="tech-chip"><span class="chip-dot" style="background:#f7df1e"></span> JavaScript</div>
+      <div class="tech-chip"><span class="chip-dot" style="background:#007acc"></span> VSCode</div>
+      <div class="tech-chip"><span class="chip-dot" style="background:#00e5c0"></span> Terminal</div>
+      <div class="tech-chip"><span class="chip-dot" style="background:#f05032"></span> Git</div>
+      <div class="tech-chip"><span class="chip-dot" style="background:#6e40c9"></span> GitHub</div>
+      <div class="tech-chip"><span class="chip-dot" style="background:#00b4d8"></span> SQL</div>
+    </div>
+  </div>
+
+  <!-- ROADMAP OVERVIEW -->
+  <div class="roadmap" style="margin-bottom:60px">
+    <div class="rm-row">
+      <div class="rm-num">1</div>
+      <div class="rm-text"><strong>Escrever o HTML</strong><span>Estrutura da página de portfólio</span></div>
+      <span class="rm-badge" style="background:rgba(227,79,38,.15);color:#f07178;">HTML</span>
+    </div>
+    <div class="rm-row">
+      <div class="rm-num">2</div>
+      <div class="rm-text"><strong>Estilizar com CSS</strong><span>Visual, fontes, cores, layout responsivo</span></div>
+      <span class="rm-badge" style="background:rgba(21,114,182,.15);color:#38bdf8;">CSS</span>
+    </div>
+    <div class="rm-row">
+      <div class="rm-num">3</div>
+      <div class="rm-text"><strong>Adicionar JavaScript</strong><span>Menu mobile, animações, interações</span></div>
+      <span class="rm-badge" style="background:rgba(247,223,30,.1);color:#fbbf24;">JS</span>
+    </div>
+    <div class="rm-row">
+      <div class="rm-num">4</div>
+      <div class="rm-text"><strong>Configurar VSCode</strong><span>Editor profissional com extensões</span></div>
+      <span class="rm-badge" style="background:rgba(0,122,204,.15);color:#38bdf8;">VSCode</span>
+    </div>
+    <div class="rm-row">
+      <div class="rm-num">5</div>
+      <div class="rm-text"><strong>Usar o Terminal</strong><span>Criar pastas e arquivos sem mouse</span></div>
+      <span class="rm-badge" style="background:rgba(0,229,192,.1);color:#34d399;">Terminal</span>
+    </div>
+    <div class="rm-row">
+      <div class="rm-num">6</div>
+      <div class="rm-text"><strong>Versionar com Git</strong><span>Salvar histórico de mudanças</span></div>
+      <span class="rm-badge" style="background:rgba(240,80,50,.15);color:#fb923c;">Git</span>
+    </div>
+    <div class="rm-row">
+      <div class="rm-num">7</div>
+      <div class="rm-text"><strong>Enviar ao GitHub</strong><span>Repositório remoto na nuvem</span></div>
+      <span class="rm-badge" style="background:rgba(110,64,201,.2);color:#a78bfa;">GitHub</span>
+    </div>
+    <div class="rm-row">
+      <div class="rm-num">8</div>
+      <div class="rm-text"><strong>Publicar online</strong><span>GitHub Pages — site gratuito no ar</span></div>
+      <span class="rm-badge" style="background:rgba(56,189,248,.1);color:#38bdf8;">Deploy</span>
+    </div>
+  </div>
+
+  <!-- ══════════════════════ TIMELINE ══════════════════════ -->
+  <div class="timeline">
+
+    <!-- ─── STEP 1: HTML ─── -->
+    <div class="step" id="s1">
+      <div class="step-dot" style="color:var(--accent);border-color:var(--accent)">01</div>
+      <div class="step-header">
+        <div class="step-icon" style="background:rgba(227,79,38,0.15)">🟠</div>
+        <div class="step-meta">
+          <h2>Estrutura HTML</h2>
+          <span class="tag" style="background:rgba(227,79,38,.15);color:#f07178;">HTML · Esqueleto da página</span>
+        </div>
+      </div>
+
+      <p>O HTML é a <strong>fundação</strong> de tudo. Vamos criar um portfólio pessoal com seções: cabeçalho, sobre mim, projetos e contato. Cada elemento HTML tem um significado semântico — usamos as tags certas para cada conteúdo.</p>
+
+      <p>Primeiro, entenda a estrutura de arquivos do projeto:</p>
+
+      <div class="file-tree">
+        <div><span class="ft-folder">📁 meu-portfolio/</span></div>
+        <div>&nbsp;&nbsp;<span class="ft-html">📄 index.html</span> <span class="ft-muted">← página principal</span></div>
+        <div>&nbsp;&nbsp;<span class="ft-css">📄 style.css</span>&nbsp;&nbsp;<span class="ft-muted">← estilos visuais</span></div>
+        <div>&nbsp;&nbsp;<span class="ft-js">📄 script.js</span>&nbsp;&nbsp;<span class="ft-muted">← interatividade</span></div>
+        <div>&nbsp;&nbsp;<span class="ft-folder">📁 imagens/</span>&nbsp;&nbsp;<span class="ft-muted">← fotos e ícones</span></div>
+      </div>
+
+      <p>Agora o código completo do <code>index.html</code>. Edite as informações pessoais e clique em <strong>▶ Visualizar</strong>:</p>
+
+      <div class="live-editor">
+        <div class="live-topbar">
+          <div class="code-dots"><span class="cd-r"></span><span class="cd-y"></span><span class="cd-g"></span></div>
+          <span>index.html — edite e visualize ao vivo</span>
+          <button class="live-btn" onclick="previewHTML('le1','lf1')">▶ Visualizar</button>
+        </div>
+        <textarea id="le1" rows="28" spellcheck="false"><!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Meu Portfólio</title>
+  <style>
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body { font-family: sans-serif; background:#0f172a; color:#e2e8f0; }
+    header { background:#1e293b; padding:20px 40px; display:flex; justify-content:space-between; align-items:center; }
+    header h1 { font-size:1.4rem; color:#38bdf8; }
+    nav a { color:#94a3b8; text-decoration:none; margin-left:20px; }
+    nav a:hover { color:#38bdf8; }
+    .hero { padding:80px 40px; text-align:center; }
+    .hero h2 { font-size:2.5rem; margin-bottom:12px; }
+    .hero p { color:#64748b; font-size:1.1rem; }
+    .hero span { color:#38bdf8; }
+    .btn { background:#38bdf8; color:#000; padding:12px 28px; border-radius:8px; text-decoration:none; font-weight:700; display:inline-block; margin-top:24px; }
+    .section { padding:60px 40px; max-width:900px; margin:0 auto; }
+    .section h3 { font-size:1.6rem; margin-bottom:24px; color:#38bdf8; }
+    .cards { display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:16px; }
+    .card { background:#1e293b; border-radius:10px; padding:20px; }
+    .card h4 { margin-bottom:8px; }
+    .card p { color:#64748b; font-size:0.9rem; }
+    footer { text-align:center; padding:30px; color:#334155; border-top:1px solid #1e293b; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>⬡ João Dev</h1>
+    <nav>
+      <a href="#sobre">Sobre</a>
+      <a href="#projetos">Projetos</a>
+      <a href="#contato">Contato</a>
+    </nav>
+  </header>
+
+  <div class="hero">
+    <h2>Olá, sou <span>João</span> 👋</h2>
+    <p>Desenvolvedor web apaixonado por criar experiências digitais incríveis</p>
+    <a href="#projetos" class="btn">Ver meus projetos</a>
+  </div>
+
+  <div class="section" id="projetos">
+    <h3>Projetos</h3>
+    <div class="cards">
+      <div class="card">
+        <h4>🛒 Loja Online</h4>
+        <p>E-commerce com HTML, CSS e JavaScript puro.</p>
+      </div>
+      <div class="card">
+        <h4>📊 Dashboard</h4>
+        <p>Painel de dados com gráficos interativos.</p>
+      </div>
+      <div class="card">
+        <h4>📱 App Todo</h4>
+        <p>Lista de tarefas com localStorage.</p>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <p>Feito com ❤️ por João Dev · 2025</p>
+  </footer>
+</body>
+</html></textarea>
+        <div class="live-preview"><iframe id="lf1" srcdoc="<p style='padding:20px;font-family:sans-serif;color:#888'>Clique em Visualizar para ver o resultado...</p>"></iframe></div>
+      </div>
+
+      <div class="info-box tip">
+        <strong>💡 Dica profissional</strong>
+        Use tags semânticas como <code>&lt;header&gt;</code>, <code>&lt;main&gt;</code>, <code>&lt;section&gt;</code> e <code>&lt;footer&gt;</code> — elas melhoram acessibilidade e SEO.
+      </div>
+    </div><!-- /step 1 -->
+
+    <!-- ─── STEP 2: CSS ─── -->
+    <div class="step" id="s2">
+      <div class="step-dot" style="color:#38bdf8;border-color:#38bdf8">02</div>
+      <div class="step-header">
+        <div class="step-icon" style="background:rgba(21,114,182,0.15)">🎨</div>
+        <div class="step-meta">
+          <h2>Estilos com CSS</h2>
+          <span class="tag" style="background:rgba(21,114,182,.15);color:#38bdf8;">CSS · Visual e responsividade</span>
+        </div>
+      </div>
+
+      <p>O CSS transforma o HTML cru em algo visualmente atraente. Vamos criar um <code>style.css</code> separado — mantendo o HTML limpo e o CSS organizado. Os pontos-chave são: variáveis CSS, Flexbox, Grid e Media Queries.</p>
+
+      <div class="code-wrap">
+        <div class="code-topbar">
+          <div class="code-dots"><span class="cd-r"></span><span class="cd-y"></span><span class="cd-g"></span></div>
+          <span class="code-fname">style.css</span>
+          <button class="copy-btn" onclick="copyCode(this)">copiar</button>
+        </div>
+        <pre><span class="tk-cmt">/* ── Variáveis globais ── */</span>
+<span class="tk-sel">:root</span> {
+  <span class="tk-prop">--cor-fundo</span>:    <span class="tk-val">#0f172a</span>;
+  <span class="tk-prop">--cor-painel</span>:   <span class="tk-val">#1e293b</span>;
+  <span class="tk-prop">--cor-destaque</span>: <span class="tk-val">#38bdf8</span>;
+  <span class="tk-prop">--cor-texto</span>:    <span class="tk-val">#e2e8f0</span>;
+  <span class="tk-prop">--cor-muted</span>:    <span class="tk-val">#64748b</span>;
+  <span class="tk-prop">--raio</span>:         <span class="tk-val">12px</span>;
+  <span class="tk-prop">--sombra</span>:       <span class="tk-val">0 4px 24px rgba(0,0,0,0.3)</span>;
+}
+
+<span class="tk-cmt">/* ── Reset e base ── */</span>
+<span class="tk-sel">*, *::before, *::after</span> { <span class="tk-prop">box-sizing</span>: <span class="tk-val">border-box</span>; <span class="tk-prop">margin</span>: <span class="tk-val">0</span>; <span class="tk-prop">padding</span>: <span class="tk-val">0</span>; }
+
+<span class="tk-sel">body</span> {
+  <span class="tk-prop">font-family</span>:       <span class="tk-val">'Segoe UI', system-ui, sans-serif</span>;
+  <span class="tk-prop">background-color</span>: <span class="tk-val">var(--cor-fundo)</span>;
+  <span class="tk-prop">color</span>:             <span class="tk-val">var(--cor-texto)</span>;
+  <span class="tk-prop">line-height</span>:       <span class="tk-val">1.7</span>;
+}
+
+<span class="tk-cmt">/* ── Header fixo ── */</span>
+<span class="tk-sel">header</span> {
+  <span class="tk-prop">position</span>:   <span class="tk-val">sticky</span>;
+  <span class="tk-prop">top</span>:        <span class="tk-val">0</span>;
+  <span class="tk-prop">background</span>: <span class="tk-val">var(--cor-painel)</span>;
+  <span class="tk-prop">padding</span>:    <span class="tk-val">16px 40px</span>;
+  <span class="tk-prop">display</span>:    <span class="tk-val">flex</span>;
+  <span class="tk-prop">justify-content</span>: <span class="tk-val">space-between</span>;
+  <span class="tk-prop">align-items</span>: <span class="tk-val">center</span>;
+  <span class="tk-prop">z-index</span>:    <span class="tk-val">100</span>;
+  <span class="tk-prop">box-shadow</span>: <span class="tk-val">var(--sombra)</span>;
+}
+
+<span class="tk-cmt">/* ── Grid de projetos ── */</span>
+<span class="tk-sel">.grid-projetos</span> {
+  <span class="tk-prop">display</span>:               <span class="tk-val">grid</span>;
+  <span class="tk-prop">grid-template-columns</span>: <span class="tk-val">repeat(auto-fit, minmax(240px, 1fr))</span>;
+  <span class="tk-prop">gap</span>:                   <span class="tk-val">20px</span>;
+}
+
+<span class="tk-cmt">/* ── Responsivo ── */</span>
+<span class="tk-sel">@media (max-width: 640px)</span> {
+  <span class="tk-sel">header</span>    { <span class="tk-prop">padding</span>: <span class="tk-val">14px 20px</span>; }
+  <span class="tk-sel">.hero h2</span> { <span class="tk-prop">font-size</span>: <span class="tk-val">1.8rem</span>; }
+  <span class="tk-sel">nav</span>       { <span class="tk-prop">display</span>: <span class="tk-val">none</span>; }
+  <span class="tk-sel">nav.aberto</span>{ <span class="tk-prop">display</span>: <span class="tk-val">flex</span>; <span class="tk-prop">flex-direction</span>: <span class="tk-val">column</span>; }
+}</pre>
+      </div>
+
+      <div class="grid2">
+        <div class="g-card">
+          <h5>Variáveis CSS</h5>
+          <p>Use <code>--nome: valor</code> no <code>:root</code> para criar um sistema de design consistente — mude uma variável e atualiza tudo.</p>
+        </div>
+        <div class="g-card">
+          <h5>Flexbox vs Grid</h5>
+          <p>Flexbox para linhas de itens (nav, botões). Grid para layouts bidimensionais (cards, galerias).</p>
+        </div>
+        <div class="g-card">
+          <h5>Mobile First</h5>
+          <p>Escreva o CSS para telas pequenas primeiro. Use <code>@media (min-width)</code> para expandir para desktop.</p>
+        </div>
+        <div class="g-card">
+          <h5>Transições</h5>
+          <p><code>transition: all 0.2s ease</code> em botões e links torna a interface muito mais fluida e profissional.</p>
+        </div>
+      </div>
+    </div><!-- /step 2 -->
+
+    <!-- ─── STEP 3: JS ─── -->
+    <div class="step" id="s3">
+      <div class="step-dot" style="color:#fbbf24;border-color:#fbbf24">03</div>
+      <div class="step-header">
+        <div class="step-icon" style="background:rgba(247,223,30,0.1)">⚡</div>
+        <div class="step-meta">
+          <h2>Interatividade com JS</h2>
+          <span class="tag" style="background:rgba(247,223,30,.1);color:#fbbf24;">JavaScript · Vida à página</span>
+        </div>
+      </div>
+
+      <p>Com JavaScript adicionamos comportamentos dinâmicos: menu hambúrguer para mobile, animação de scroll, modo claro/escuro e formulário de contato com validação.</p>
+
+      <div class="code-wrap">
+        <div class="code-topbar">
+          <div class="code-dots"><span class="cd-r"></span><span class="cd-y"></span><span class="cd-g"></span></div>
+          <span class="code-fname">script.js</span>
+          <button class="copy-btn" onclick="copyCode(this)">copiar</button>
+        </div>
+        <pre><span class="tk-cmt">// ── Menu hambúrguer para mobile ──</span>
+<span class="tk-kw">const</span> btn = document.<span class="tk-fn">getElementById</span>(<span class="tk-str">'menu-btn'</span>);
+<span class="tk-kw">const</span> nav = document.<span class="tk-fn">getElementById</span>(<span class="tk-str">'menu'</span>);
+
+btn.<span class="tk-fn">addEventListener</span>(<span class="tk-str">'click'</span>, () => {
+  nav.classList.<span class="tk-fn">toggle</span>(<span class="tk-str">'aberto'</span>);
+  btn.textContent = nav.classList.<span class="tk-fn">contains</span>(<span class="tk-str">'aberto'</span>) ? <span class="tk-str">'✕'</span> : <span class="tk-str">'☰'</span>;
+});
+
+<span class="tk-cmt">// ── Animação ao rolar (Intersection Observer) ──</span>
+<span class="tk-kw">const</span> observer = <span class="tk-kw">new</span> <span class="tk-fn">IntersectionObserver</span>((entries) => {
+  entries.<span class="tk-fn">forEach</span>(entry => {
+    <span class="tk-kw">if</span> (entry.isIntersecting) {
+      entry.target.classList.<span class="tk-fn">add</span>(<span class="tk-str">'visivel'</span>);
+    }
+  });
+}, { threshold: <span class="tk-num">0.15</span> });
+
+document.<span class="tk-fn">querySelectorAll</span>(<span class="tk-str">'.card'</span>).<span class="tk-fn">forEach</span>(el => observer.<span class="tk-fn">observe</span>(el));
+
+<span class="tk-cmt">// ── Modo escuro / claro ──</span>
+<span class="tk-kw">const</span> temaBtn = document.<span class="tk-fn">getElementById</span>(<span class="tk-str">'tema-btn'</span>);
+temaBtn.<span class="tk-fn">addEventListener</span>(<span class="tk-str">'click'</span>, () => {
+  document.body.classList.<span class="tk-fn">toggle</span>(<span class="tk-str">'claro'</span>);
+  temaBtn.textContent = document.body.classList.<span class="tk-fn">contains</span>(<span class="tk-str">'claro'</span>) ? <span class="tk-str">'🌙'</span> : <span class="tk-str">'☀️'</span>;
+  <span class="tk-fn">localStorage</span>.<span class="tk-fn">setItem</span>(<span class="tk-str">'tema'</span>, document.body.classList.<span class="tk-fn">contains</span>(<span class="tk-str">'claro'</span>) ? <span class="tk-str">'claro'</span> : <span class="tk-str">'escuro'</span>);
+});
+
+<span class="tk-cmt">// ── Validação do formulário de contato ──</span>
+<span class="tk-kw">const</span> form = document.<span class="tk-fn">getElementById</span>(<span class="tk-str">'contato-form'</span>);
+form.<span class="tk-fn">addEventListener</span>(<span class="tk-str">'submit'</span>, (e) => {
+  e.<span class="tk-fn">preventDefault</span>();
+  <span class="tk-kw">const</span> email = form.<span class="tk-fn">querySelector</span>(<span class="tk-str">'[name="email"]'</span>).value;
+  <span class="tk-kw">if</span> (!email.<span class="tk-fn">includes</span>(<span class="tk-str">'@'</span>)) {
+    <span class="tk-fn">alert</span>(<span class="tk-str">'E-mail inválido!'</span>);
+    <span class="tk-kw">return</span>;
+  }
+  <span class="tk-fn">alert</span>(<span class="tk-str">'Mensagem enviada! ✅'</span>);
+  form.<span class="tk-fn">reset</span>();
+});</pre>
+      </div>
+
+      <div class="info-box info">
+        <strong>💡 Intersection Observer</strong>
+        É uma API moderna do navegador que detecta quando um elemento entra na tela — perfeita para animações de scroll sem prejudicar performance.
+      </div>
+    </div><!-- /step 3 -->
+
+    <!-- ─── STEP 4: VSCODE ─── -->
+    <div class="step" id="s4">
+      <div class="step-dot" style="color:#007acc;border-color:#007acc">04</div>
+      <div class="step-header">
+        <div class="step-icon" style="background:rgba(0,122,204,0.15)">💙</div>
+        <div class="step-meta">
+          <h2>Configurando o VSCode</h2>
+          <span class="tag" style="background:rgba(0,122,204,.15);color:#38bdf8;">VSCode · Ambiente profissional</span>
+        </div>
+      </div>
+
+      <p>Antes de continuar codificando, configure o VSCode para máxima produtividade. Com as extensões certas, o editor detecta erros, formata código e até pré-visualiza o site em tempo real.</p>
+
+      <div class="roadmap">
+        <div class="rm-row">
+          <div class="rm-num">①</div>
+          <div class="rm-text"><strong>Baixe o VSCode</strong><span>code.visualstudio.com — gratuito para todos os sistemas</span></div>
+        </div>
+        <div class="rm-row">
+          <div class="rm-num">②</div>
+          <div class="rm-text"><strong>Instale: Live Server</strong><span>Recarrega o navegador automaticamente ao salvar o arquivo</span></div>
+        </div>
+        <div class="rm-row">
+          <div class="rm-num">③</div>
+          <div class="rm-text"><strong>Instale: Prettier</strong><span>Formata seu código automaticamente ao salvar</span></div>
+        </div>
+        <div class="rm-row">
+          <div class="rm-num">④</div>
+          <div class="rm-text"><strong>Instale: HTML CSS Support</strong><span>Autocomplete de classes CSS dentro do HTML</span></div>
+        </div>
+        <div class="rm-row">
+          <div class="rm-num">⑤</div>
+          <div class="rm-text"><strong>Abra a pasta do projeto</strong><span>File → Open Folder → selecione meu-portfolio/</span></div>
+        </div>
+      </div>
+
+      <p>Configure o Prettier para formatar ao salvar — adicione ao <code>settings.json</code> do VSCode:</p>
+
+      <div class="code-wrap">
+        <div class="code-topbar">
+          <div class="code-dots"><span class="cd-r"></span><span class="cd-y"></span><span class="cd-g"></span></div>
+          <span class="code-fname">.vscode/settings.json</span>
+          <button class="copy-btn" onclick="copyCode(this)">copiar</button>
+        </div>
+        <pre>{
+  <span class="tk-str">"editor.formatOnSave"</span>: <span class="tk-kw">true</span>,
+  <span class="tk-str">"editor.defaultFormatter"</span>: <span class="tk-val">"esbenp.prettier-vscode"</span>,
+  <span class="tk-str">"editor.tabSize"</span>: <span class="tk-num">2</span>,
+  <span class="tk-str">"editor.wordWrap"</span>: <span class="tk-val">"on"</span>,
+  <span class="tk-str">"liveServer.settings.donotShowInfoMsg"</span>: <span class="tk-kw">true</span>,
+  <span class="tk-str">"emmet.includeLanguages"</span>: {
+    <span class="tk-str">"javascript"</span>: <span class="tk-val">"javascriptreact"</span>
+  }
+}</pre>
+      </div>
+
+      <div class="info-box tip">
+        <strong>⚡ Atalho mágico: Emmet</strong>
+        No VSCode, digite <code>!</code> e pressione Tab dentro de um arquivo <code>.html</code> — ele gera toda a estrutura base automaticamente!
+      </div>
+    </div><!-- /step 4 -->
+
+    <!-- ─── STEP 5: TERMINAL ─── -->
+    <div class="step" id="s5">
+      <div class="step-dot" style="color:var(--accent3);border-color:var(--accent3)">05</div>
+      <div class="step-header">
+        <div class="step-icon" style="background:rgba(52,211,153,0.1)">⚙️</div>
+        <div class="step-meta">
+          <h2>Terminal — criar o projeto</h2>
+          <span class="tag" style="background:rgba(52,211,153,.1);color:#34d399;">Terminal · Controle total</span>
+        </div>
+      </div>
+
+      <p>Criamos o projeto inteiro pelo terminal — sem clicar em nada. Abra o terminal integrado do VSCode com <code>Ctrl + `</code> e execute os comandos abaixo:</p>
+
+      <div class="code-wrap">
+        <div class="code-topbar">
+          <div class="code-dots"><span class="cd-r"></span><span class="cd-y"></span><span class="cd-g"></span></div>
+          <span class="code-fname">terminal (bash / zsh / PowerShell)</span>
+          <button class="copy-btn" onclick="copyCode(this)">copiar</button>
+        </div>
+        <pre><span class="tk-cmt"># 1. Navegar até onde quer criar o projeto</span>
+<span class="tk-fn">cd</span> ~/Documentos
+
+<span class="tk-cmt"># 2. Criar a pasta do projeto</span>
+<span class="tk-fn">mkdir</span> meu-portfolio
+
+<span class="tk-cmt"># 3. Entrar na pasta</span>
+<span class="tk-fn">cd</span> meu-portfolio
+
+<span class="tk-cmt"># 4. Criar os arquivos de uma vez</span>
+<span class="tk-fn">touch</span> index.html style.css script.js
+
+<span class="tk-cmt"># 5. Criar pasta para imagens</span>
+<span class="tk-fn">mkdir</span> imagens
+
+<span class="tk-cmt"># 6. Confirmar que tudo foi criado</span>
+<span class="tk-fn">ls</span> -la
+
+<span class="tk-cmt"># 7. Abrir no VSCode direto do terminal</span>
+<span class="tk-fn">code</span> .</pre>
+      </div>
+
+      <div class="info-box warn">
+        <strong>⚠️ Windows?</strong>
+        Use o <strong>Git Bash</strong> (instalado junto com o Git) ou o <strong>PowerShell</strong>. No PowerShell, <code>touch</code> não existe — use <code>New-Item index.html</code> ou crie pelo VSCode.
+      </div>
+
+      <p>Após criar a estrutura, inicie o Live Server clicando em <strong>"Go Live"</strong> no canto inferior direito do VSCode. O navegador abrirá automaticamente em <code>http://localhost:5500</code> e atualizará a cada salvamento.</p>
+    </div><!-- /step 5 -->
+
+    <!-- ─── STEP 6: GIT ─── -->
+    <div class="step" id="s6">
+      <div class="step-dot" style="color:var(--accent4);border-color:var(--accent4)">06</div>
+      <div class="step-header">
+        <div class="step-icon" style="background:rgba(240,80,50,0.15)">🔀</div>
+        <div class="step-meta">
+          <h2>Git — versionar o projeto</h2>
+          <span class="tag" style="background:rgba(240,80,50,.15);color:#fb923c;">Git · Histórico de mudanças</span>
+        </div>
+      </div>
+
+      <p>O Git registra cada mudança no seu código como um "snapshot" chamado <em>commit</em>. Se você errar, pode voltar para qualquer ponto anterior. É como um Ctrl+Z infinito e inteligente.</p>
+
+      <div class="code-wrap">
+        <div class="code-topbar">
+          <div class="code-dots"><span class="cd-r"></span><span class="cd-y"></span><span class="cd-g"></span></div>
+          <span class="code-fname">terminal — inicializando o Git</span>
+          <button class="copy-btn" onclick="copyCode(this)">copiar</button>
+        </div>
+        <pre><span class="tk-cmt"># Configurar nome e e-mail (apenas uma vez)</span>
+git config --global user.name  <span class="tk-str">"Seu Nome"</span>
+git config --global user.email <span class="tk-str">"seuemail@exemplo.com"</span>
+
+<span class="tk-cmt"># Inicializar repositório Git na pasta</span>
+git init
+
+<span class="tk-cmt"># Ver o status dos arquivos</span>
+git status
+
+<span class="tk-cmt"># Adicionar todos os arquivos ao "stage"</span>
+git add .
+
+<span class="tk-cmt"># Criar o primeiro commit</span>
+git commit -m <span class="tk-str">"feat: criar estrutura inicial do portfólio"</span>
+
+<span class="tk-cmt"># ── Fluxo do dia a dia ──</span>
+<span class="tk-cmt"># (depois de fazer alterações no código)</span>
+git add .
+git commit -m <span class="tk-str">"feat: adicionar seção de projetos"</span>
+git commit -m <span class="tk-str">"fix: corrigir layout mobile"</span>
+git commit -m <span class="tk-str">"style: ajustar cores do header"</span></pre>
+      </div>
+
+      <p>Boas mensagens de commit seguem um padrão. Use esses prefixos:</p>
+
+      <div class="roadmap">
+        <div class="rm-row">
+          <div class="rm-num" style="color:#34d399">feat</div>
+          <div class="rm-text"><strong>feat: nova funcionalidade</strong><span>Exemplo: "feat: adicionar formulário de contato"</span></div>
+        </div>
+        <div class="rm-row">
+          <div class="rm-num" style="color:#f87171">fix</div>
+          <div class="rm-text"><strong>fix: correção de bug</strong><span>Exemplo: "fix: corrigir link quebrado no menu"</span></div>
+        </div>
+        <div class="rm-row">
+          <div class="rm-num" style="color:#60a5fa">style</div>
+          <div class="rm-text"><strong>style: mudanças visuais</strong><span>Exemplo: "style: atualizar paleta de cores"</span></div>
+        </div>
+        <div class="rm-row">
+          <div class="rm-num" style="color:#a78bfa">docs</div>
+          <div class="rm-text"><strong>docs: documentação</strong><span>Exemplo: "docs: atualizar README"</span></div>
+        </div>
+      </div>
+
+      <div class="info-box info">
+        <strong>📄 Crie um .gitignore</strong>
+        Adicione um arquivo <code>.gitignore</code> na raiz do projeto com <code>node_modules/</code> e <code>.DS_Store</code> para evitar enviar arquivos desnecessários ao GitHub.
+      </div>
+    </div><!-- /step 6 -->
+
+    <!-- ─── STEP 7: GITHUB ─── -->
+    <div class="step" id="s7">
+      <div class="step-dot" style="color:#a78bfa;border-color:#a78bfa">07</div>
+      <div class="step-header">
+        <div class="step-icon" style="background:rgba(110,64,201,0.2)">🐙</div>
+        <div class="step-meta">
+          <h2>GitHub — repositório remoto</h2>
+          <span class="tag" style="background:rgba(110,64,201,.2);color:#a78bfa;">GitHub · Na nuvem</span>
+        </div>
+      </div>
+
+      <p>O GitHub armazena seu repositório Git na nuvem — backup automático, acesso de qualquer lugar e compartilhamento com o mundo. Siga esses passos exatos:</p>
+
+      <div class="roadmap">
+        <div class="rm-row">
+          <div class="rm-num">①</div>
+          <div class="rm-text"><strong>Criar conta</strong><span>Acesse github.com e crie uma conta gratuita</span></div>
+        </div>
+        <div class="rm-row">
+          <div class="rm-num">②</div>
+          <div class="rm-text"><strong>Novo repositório</strong><span>Clique em "+" → "New repository" → nome: meu-portfolio</span></div>
+        </div>
+        <div class="rm-row">
+          <div class="rm-num">③</div>
+          <div class="rm-text"><strong>Visibilidade: Public</strong><span>Necessário para usar o GitHub Pages (hospedagem gratuita)</span></div>
+        </div>
+        <div class="rm-row">
+          <div class="rm-num">④</div>
+          <div class="rm-text"><strong>NÃO inicialize com README</strong><span>Nosso repositório local já existe — não conflite</span></div>
+        </div>
+        <div class="rm-row">
+          <div class="rm-num">⑤</div>
+          <div class="rm-text"><strong>Copie a URL do repositório</strong><span>https://github.com/seu-usuario/meu-portfolio.git</span></div>
+        </div>
+      </div>
+
+      <p>Agora conecte e envie o repositório local ao GitHub:</p>
+
+      <div class="code-wrap">
+        <div class="code-topbar">
+          <div class="code-dots"><span class="cd-r"></span><span class="cd-y"></span><span class="cd-g"></span></div>
+          <span class="code-fname">terminal — conectar ao GitHub</span>
+          <button class="copy-btn" onclick="copyCode(this)">copiar</button>
+        </div>
+        <pre><span class="tk-cmt"># Conectar repositório local ao GitHub</span>
+git remote add origin https://github.com/<span class="tk-str">SEU-USUARIO</span>/meu-portfolio.git
+
+<span class="tk-cmt"># Renomear branch para "main" (padrão atual)</span>
+git branch -M main
+
+<span class="tk-cmt"># Enviar código ao GitHub pela primeira vez</span>
+git push -u origin main
+
+<span class="tk-cmt"># Nas próximas vezes, apenas:</span>
+git push</pre>
+      </div>
+
+      <div class="info-box note">
+        <strong>🔑 Autenticação</strong>
+        O GitHub não aceita mais senha no terminal. Use um <strong>Personal Access Token</strong> (Settings → Developer Settings → Tokens) ou configure o <strong>SSH</strong> para autenticar de forma segura.
+      </div>
+    </div><!-- /step 7 -->
+
+    <!-- ─── STEP 8: DEPLOY ─── -->
+    <div class="step" id="s8">
+      <div class="step-dot" style="color:var(--accent2);border-color:var(--accent2)">08</div>
+      <div class="step-header">
+        <div class="step-icon" style="background:rgba(244,114,182,0.15)">🌐</div>
+        <div class="step-meta">
+          <h2>Hospedar com GitHub Pages</h2>
+          <span class="tag" style="background:rgba(244,114,182,.15);color:#f472b6;">Deploy · Site no ar de graça</span>
+        </div>
+      </div>
+
+      <p>O <strong>GitHub Pages</strong> publica automaticamente o repositório como um site — completamente grátis, com URL no formato <code>seu-usuario.github.io/meu-portfolio</code>. Sem servidor, sem mensalidade.</p>
+
+      <div class="roadmap">
+        <div class="rm-row">
+          <div class="rm-num">①</div>
+          <div class="rm-text"><strong>Acesse o repositório no GitHub</strong><span>github.com/seu-usuario/meu-portfolio</span></div>
+        </div>
+        <div class="rm-row">
+          <div class="rm-num">②</div>
+          <div class="rm-text"><strong>Clique em "Settings"</strong><span>Aba no menu superior do repositório</span></div>
+        </div>
+        <div class="rm-row">
+          <div class="rm-num">③</div>
+          <div class="rm-text"><strong>Vá em "Pages" (menu lateral)</strong><span>Seção específica para GitHub Pages</span></div>
+        </div>
+        <div class="rm-row">
+          <div class="rm-num">④</div>
+          <div class="rm-text"><strong>Source: Deploy from a branch</strong><span>Branch: main · Pasta: / (root)</span></div>
+        </div>
+        <div class="rm-row">
+          <div class="rm-num">⑤</div>
+          <div class="rm-text"><strong>Clique em "Save"</strong><span>Aguarde 1-2 minutos — o GitHub publica automaticamente</span></div>
+        </div>
+        <div class="rm-row">
+          <div class="rm-num">⑥</div>
+          <div class="rm-text"><strong>Acesse a URL gerada</strong><span>seu-usuario.github.io/meu-portfolio — compartilhe com o mundo!</span></div>
+        </div>
+      </div>
+
+      <div class="info-box tip">
+        <strong>🔄 Atualizações automáticas</strong>
+        Sempre que você fizer <code>git push</code>, o GitHub Pages publica a nova versão automaticamente em menos de 2 minutos. Editar → commitar → push → site atualizado.
+      </div>
+
+      <p>Fluxo completo de atualização depois do deploy:</p>
+
+      <div class="code-wrap">
+        <div class="code-topbar">
+          <div class="code-dots"><span class="cd-r"></span><span class="cd-y"></span><span class="cd-g"></span></div>
+          <span class="code-fname">fluxo de atualização do site</span>
+          <button class="copy-btn" onclick="copyCode(this)">copiar</button>
+        </div>
+        <pre><span class="tk-cmt"># 1. Editar o código no VSCode</span>
+<span class="tk-cmt"># 2. Salvar os arquivos (Ctrl+S)</span>
+<span class="tk-cmt"># 3. No terminal:</span>
+
+git add .
+git commit -m <span class="tk-str">"feat: atualizar seção de projetos"</span>
+git push
+
+<span class="tk-cmt"># ✅ Pronto! Em ~2 minutos o site estará atualizado</span>
+<span class="tk-cmt"># Acesse: seu-usuario.github.io/meu-portfolio</span></pre>
+      </div>
+
+      <div class="progress-wrap">
+        <h4>Progresso do projeto</h4>
+        <div class="prog-item">
+          <div class="prog-label"><span>HTML estruturado</span><span>100%</span></div>
+          <div class="prog-bar"><div class="prog-fill" style="width:100%;background:var(--accent4)"></div></div>
+        </div>
+        <div class="prog-item">
+          <div class="prog-label"><span>CSS responsivo</span><span>100%</span></div>
+          <div class="prog-bar"><div class="prog-fill" style="width:100%;background:var(--accent)"></div></div>
+        </div>
+        <div class="prog-item">
+          <div class="prog-label"><span>JavaScript interativo</span><span>100%</span></div>
+          <div class="prog-bar"><div class="prog-fill" style="width:100%;background:var(--accent4);filter:hue-rotate(30deg)"></div></div>
+        </div>
+        <div class="prog-item">
+          <div class="prog-label"><span>Git versionado</span><span>100%</span></div>
+          <div class="prog-bar"><div class="prog-fill" style="width:100%;background:var(--accent2)"></div></div>
+        </div>
+        <div class="prog-item">
+          <div class="prog-label"><span>Publicado no GitHub Pages</span><span>100%</span></div>
+          <div class="prog-bar"><div class="prog-fill" style="width:100%;background:var(--accent3)"></div></div>
+        </div>
+      </div>
+    </div><!-- /step 8 -->
+
+    <!-- ─── STEP 9: SQL ─── -->
+    <div class="step" id="s9">
+      <div class="step-dot" style="color:#00b4d8;border-color:#00b4d8">★</div>
+      <div class="step-header">
+        <div class="step-icon" style="background:rgba(0,180,216,0.15)">🗄️</div>
+        <div class="step-meta">
+          <h2>SQL — próximo nível</h2>
+          <span class="tag" style="background:rgba(0,180,216,.15);color:#00b4d8;">SQL · Dados dinâmicos</span>
+        </div>
+      </div>
+
+      <p>Seu portfólio atual é <em>estático</em> — o conteúdo está fixo no HTML. O próximo passo é torná-lo <em>dinâmico</em>: os projetos vêm de um banco de dados, formulários salvam respostas, visitantes deixam comentários.</p>
+
+      <p>Com SQL você criaria tabelas para gerenciar o conteúdo do portfólio:</p>
+
+      <div class="code-wrap">
+        <div class="code-topbar">
+          <div class="code-dots"><span class="cd-r"></span><span class="cd-y"></span><span class="cd-g"></span></div>
+          <span class="code-fname">portfolio_db.sql — banco de dados do portfólio</span>
+          <button class="copy-btn" onclick="copyCode(this)">copiar</button>
+        </div>
+        <pre><span class="tk-cmt">-- Tabela de projetos</span>
+<span class="tk-kw">CREATE TABLE</span> projetos (
+  id          <span class="tk-kw">INTEGER PRIMARY KEY AUTOINCREMENT</span>,
+  titulo      <span class="tk-kw">TEXT NOT NULL</span>,
+  descricao   <span class="tk-kw">TEXT</span>,
+  url_demo    <span class="tk-kw">TEXT</span>,
+  url_github  <span class="tk-kw">TEXT</span>,
+  tecnologias <span class="tk-kw">TEXT</span>,             <span class="tk-cmt">-- "HTML,CSS,JS"</span>
+  destaque    <span class="tk-kw">INTEGER DEFAULT</span> <span class="tk-num">0</span>,  <span class="tk-cmt">-- 0 ou 1</span>
+  criado_em   <span class="tk-kw">TIMESTAMP DEFAULT</span> <span class="tk-fn">CURRENT_TIMESTAMP</span>
+);
+
+<span class="tk-cmt">-- Tabela de mensagens do formulário</span>
+<span class="tk-kw">CREATE TABLE</span> contatos (
+  id        <span class="tk-kw">INTEGER PRIMARY KEY AUTOINCREMENT</span>,
+  nome      <span class="tk-kw">TEXT NOT NULL</span>,
+  email     <span class="tk-kw">TEXT NOT NULL</span>,
+  mensagem  <span class="tk-kw">TEXT NOT NULL</span>,
+  lido      <span class="tk-kw">INTEGER DEFAULT</span> <span class="tk-num">0</span>,
+  criado_em <span class="tk-kw">TIMESTAMP DEFAULT</span> <span class="tk-fn">CURRENT_TIMESTAMP</span>
+);
+
+<span class="tk-cmt">-- Inserir projetos de exemplo</span>
+<span class="tk-kw">INSERT INTO</span> projetos (titulo, descricao, tecnologias, destaque)
+<span class="tk-kw">VALUES</span>
+  (<span class="tk-str">'Portfólio Pessoal'</span>, <span class="tk-str">'Este mesmo site!'</span>,             <span class="tk-str">'HTML,CSS,JS'</span>, <span class="tk-num">1</span>),
+  (<span class="tk-str">'App de Tarefas'</span>,    <span class="tk-str">'Lista com localStorage'</span>,       <span class="tk-str">'HTML,CSS,JS'</span>, <span class="tk-num">1</span>),
+  (<span class="tk-str">'Dashboard SQL'</span>,     <span class="tk-str">'Painel com Python + SQLite'</span>,   <span class="tk-str">'Python,SQL'</span>,  <span class="tk-num">0</span>);
+
+<span class="tk-cmt">-- Consultar projetos em destaque</span>
+<span class="tk-kw">SELECT</span> titulo, descricao, tecnologias
+<span class="tk-kw">FROM</span>   projetos
+<span class="tk-kw">WHERE</span>  destaque = <span class="tk-num">1</span>
+<span class="tk-kw">ORDER BY</span> criado_em <span class="tk-kw">DESC</span>;</pre>
+      </div>
+
+      <div class="grid2">
+        <div class="g-card">
+          <h5>Stack sugerida</h5>
+          <p>Python + Flask + SQLite para iniciantes. Node.js + Express + PostgreSQL para quem quer ir mais longe.</p>
+        </div>
+        <div class="g-card">
+          <h5>Hosting com backend</h5>
+          <p>Para sites com banco de dados, use <strong>Railway</strong>, <strong>Render</strong> ou <strong>Vercel</strong> — todos têm plano gratuito.</p>
+        </div>
+      </div>
+
+      <div class="info-box tip">
+        <strong>🛣️ Caminho de aprendizado recomendado</strong>
+        HTML → CSS → JS → Git/GitHub Pages → Python básico → Flask → SQL → API REST → Deploy com backend. Você já concluiu os primeiros passos!
+      </div>
+    </div><!-- /step 9 -->
+
+  </div><!-- /timeline -->
+
+  <!-- FINAL -->
+  <div class="final-card">
+    <div style="font-size:3rem;margin-bottom:16px">🎉</div>
+    <h2>Parabéns, você criou e publicou seu site!</h2>
+    <p>Você passou por HTML, CSS, JavaScript, VSCode, Terminal, Git, GitHub e SQL. Seu portfólio está no ar — agora é hora de continuar construindo.</p>
+    <div class="btn-row">
+      <a href="Tutoriais.html" class="btn-primary">← Revisitar Parte 1</a>
+      <a href="#s1" class="btn-secondary">↑ Voltar ao topo</a>
+    </div>
+  </div>
+
+</main>
+
+<!-- ── NAVEGAÇÃO FINAL ── -->
+<div class="nav-footer-p2">
+  <a href="Tutoriais.html" class="btn-back">← Voltar para Parte 1</a>
+</div>
+
+<script>
+// ── Menu ──
+const hbBtn = document.getElementById('hbBtn');
+const sidebar = document.getElementById('sidebar');
+hbBtn.addEventListener('click', () => {
+  const open = sidebar.classList.toggle('open');
+  hbBtn.classList.toggle('active');
+  hbBtn.setAttribute('aria-expanded', open);
+});
+document.querySelectorAll('#sidebar a').forEach(a => {
+  a.addEventListener('click', () => {
+    sidebar.classList.remove('open');
+    hbBtn.classList.remove('active');
+  });
+});
+
+// ── Live Preview ──
+function previewHTML(textareaId, frameId) {
+  const code = document.getElementById(textareaId).value;
+  const frame = document.getElementById(frameId);
+  frame.srcdoc = code;
+  frame.style.height = '340px';
+}
+
+// ── Copy button ──
+function copyCode(btn) {
+  const pre = btn.closest('.code-wrap').querySelector('pre');
+  navigator.clipboard.writeText(pre.innerText).then(() => {
+    btn.textContent = 'copiado!';
+    btn.classList.add('copied');
+    setTimeout(() => { btn.textContent = 'copiar'; btn.classList.remove('copied'); }, 2000);
+  });
+}
+
+// ── Nav step highlight on scroll ──
+const steps = document.querySelectorAll('.step');
+const navSteps = document.querySelectorAll('.nav-step');
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      const id = e.target.id;
+      navSteps.forEach(n => {
+        n.classList.toggle('active', n.getAttribute('href') === '#' + id);
+      });
+    }
+  });
+}, { threshold: 0.3 });
+steps.forEach(s => observer.observe(s));
+</script>
+</body>
+</html>

@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NotasApp — Download Oficial</title>
+    <style>
+        :root {
+            --bg: #0e0e0f;
+            --card: #18181b;
+            --text: #e4e4e7;
+            --text-light: #a1a1aa;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Inter", Arial, sans-serif;
+        }
+
+        body {
+            background: var(--bg);
+            color: var(--text);
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        header {
+            position: relative;
+            padding: 28px 20px;
+            text-align: center;
+            font-size: 30px;
+            font-weight: 700;
+            background: var(--card);
+            border-bottom: 1px solid #27272a;
+        }
+
+        .container {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 40px 20px;
+        }
+
+        .apk-card {
+            background: var(--card);
+            border: 1px solid #27272a;
+            border-radius: 14px;
+            padding: 40px;
+            width: 370px;
+            text-align: center;
+            box-shadow: 0 0 24px rgba(0,0,0,0.35);
+            animation: fadeIn 0.4s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .apk-card img {
+            width: 110px;
+            height: 110px;
+            border-radius: 18px;
+            border: 1px solid #3f3f46;
+        }
+
+        h2 {
+            margin-top: 18px;
+            font-size: 26px;
+            font-weight: 600;
+        }
+
+        .info {
+            margin-top: 10px;
+            font-size: 15px;
+            color: var(--text-light);
+        }
+
+        .creator {
+            margin-top: 12px;
+            font-size: 15px;
+            font-weight: 500;
+            color: #38bdf8;
+        }
+
+        /* === BOTÃO LED MULTICOLOR === */
+        .btn-download {
+            display: block;
+            width: 100%;
+            margin-top: 26px;
+            padding: 14px 22px;
+            font-size: 17px;
+            font-weight: 600;
+            text-align: center;
+            text-decoration: none;
+            background: #e0f7ff;
+            color: #000;
+            border-radius: 10px;
+            text-transform: uppercase;
+            position: relative;
+            letter-spacing: 1px;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .btn-download::before {
+            content: "";
+            position: absolute;
+            inset: -3px;
+            border-radius: 12px;
+            background: linear-gradient(
+                90deg,
+                #3b82f6,
+                #10b981,
+                #ef4444,
+                #8b5cf6,
+                #facc15,
+                #e0f7ff
+            );
+            background-size: 400%;
+            filter: blur(6px);
+            animation: glow 5s linear infinite;
+            z-index: -1;
+        }
+
+        @keyframes glow {
+            0% { background-position: 0% }
+            100% { background-position: 400% }
+        }
+
+        .btn-download:hover {
+            transform: scale(1.03);
+        }
+
+        .btn-download:active {
+            transform: scale(0.97);
+        }
+
+        /* === BOTÃO VOLTAR === */
+        .btn-back {
+            position: absolute;
+            left: max(16px, env(safe-area-inset-left));
+            top: 50%;
+            transform: translateY(-50%);
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            min-height: 40px;
+            padding: 0 16px 0 12px;
+            border: 1px solid #3f3f46;
+            border-radius: 100px;
+            background: var(--bg);
+            color: var(--text);
+            font-size: 14px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: border-color .2s, transform .2s;
+        }
+
+        .btn-back svg {
+            width: 16px;
+            height: 16px;
+            fill: none;
+            stroke: currentColor;
+            stroke-width: 2.2;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        .btn-back:hover { border-color: #38bdf8; }
+        .btn-back:active { transform: translateY(-50%) scale(.95); }
+        .btn-back:focus-visible { outline: 2px solid #38bdf8; outline-offset: 3px; }
+
+
+        footer {
+            text-align: center;
+            padding: 22px;
+            background: #000;
+            color: var(--text-light);
+            font-size: 15px;
+            border-top: 1px solid #27272a;
+        }
+
+        @media(max-width: 480px) {
+            .apk-card {
+                width: 100%;
+                padding: 32px 22px;
+            }
+            header {
+                font-size: 26px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <a href="index.html" class="btn-back" aria-label="Voltar para o Index">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="15 18 9 12 15 6"/></svg>Voltar
+    </a>
+    NotasApp
+</header>
+
+<div class="container">
+    <div class="apk-card">
+        <img src="icones/notas.webp" alt="Ícone NotasApp">
+        <h2>NotasApp</h2>
+
+        <div class="info">Versão 1.0.0 • 9MB • Android</div>
+        
+        <div class="creator">Criador: Davi Ramos</div>
+
+        <!-- LINK ATUALIZADO AQUI -->
+        <a class="btn-download" href="https://drive.google.com/file/d/1Ep_GRWKUibIEOPxp1JQLiFfgu4cuRVmj/view?usp=drive_link" target="_blank">
+            Baixar APK
+        </a>
+    </div>
+</div>
+
+<footer>
+    © 2026 • NotasApp — Desenvolvido por Davi Ramos
+</footer>
+
+</body>
+</html>

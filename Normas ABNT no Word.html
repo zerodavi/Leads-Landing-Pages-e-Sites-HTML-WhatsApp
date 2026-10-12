@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <title>Normas ABNT no Word</title>
+    <style>
+        body {
+            font-family: 'Times New Roman', serif;
+            font-size: 12pt;
+            line-height: 1.5;
+            margin: 0;
+            background-color: #f9f9f9;
+            color: #333;
+        }
+
+        header {
+            background-color: #004080;
+            color: white;
+            padding: 20px 10px;
+            text-align: center;
+        }
+
+        nav {
+            background-color: #333;
+            overflow: hidden;
+        }
+
+        nav a {
+            float: left;
+            display: block;
+            color: white;
+            text-align: center;
+            padding: 14px 20px;
+            text-decoration: none;
+        }
+
+        nav a:hover {
+            background-color: #575757;
+        }
+
+        section {
+            margin: 30px 20px;
+            background-color: white;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+        }
+
+        h2 {
+            color: #004080;
+            font-size: 1.3em;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+        h3 {
+            font-weight: bold;
+            text-transform: uppercase;
+            margin-top: 30px;
+            margin-bottom: 10px;
+        }
+
+        p {
+            text-align: justify;
+            text-indent: 1.25cm;
+            margin: 10px 0;
+        }
+
+        blockquote {
+            background-color: #f0f0f0;
+            border-left: 4px solid #004080;
+            margin: 15px 0;
+            padding: 10px;
+            font-style: italic;
+        }
+
+        .citacao-bloco {
+            font-size: 10pt;
+            margin: 15px 40px;
+            padding: 10px;
+            background-color: #f3f3f3;
+            border-left: 3px solid #aaa;
+        }
+
+        code {
+            background-color: #eee;
+            padding: 2px 5px;
+            border-radius: 4px;
+            font-size: 0.95em;
+        }
+
+        footer {
+            text-align: center;
+            padding: 10px;
+            background-color: #ddd;
+            margin-top: 40px;
+        }
+
+        /* Estilo para exemplo de capa */
+        .exemplo-capa {
+            border: 1px solid #ccc;
+            height: 500px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            /* centraliza verticalmente */
+            align-items: center;
+            /* centraliza horizontalmente */
+            text-align: center;
+            padding: 40px;
+            margin: 30px auto;
+            background-color: #fff;
+            max-width: 600px;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .exemplo-capa p {
+            margin: 30px 0;
+            text-indent: 0;
+            font-size: 12pt;
+        }
+
+        .exemplo-capa .instituicao {
+            text-transform: uppercase;
+        }
+
+        .exemplo-capa .titulo {
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+        /* ── NAV TOPBAR ── */
+        nav {
+            position: fixed; top: 0; left: 0; right: 0; height: 64px;
+            background: rgba(0, 30, 70, 0.97);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid #1a3a6a;
+            display: flex; align-items: center; padding: 0 24px;
+            z-index: 1000; gap: 16px;
+            /* reset anteriores */
+            max-height: none; opacity: 1; overflow: visible;
+            text-align: left;
+        }
+
+        .nav-logo {
+            font-family: 'Times New Roman', serif;
+            font-weight: 700; font-size: 1.1rem;
+            color: #a8c8f0;
+            margin-right: auto;
+            letter-spacing: 0.03em;
+        }
+
+        /* ── HAMBURGER ── */
+        .hamburger {
+            background: none; border: none; cursor: pointer;
+            width: 34px; height: 26px;
+            display: flex; flex-direction: column; justify-content: space-between;
+            flex-shrink: 0;
+        }
+        .hamburger .bar {
+            display: block; width: 100%; height: 3px;
+            background: #7a9ec4; border-radius: 2px;
+            transition: all 0.32s ease;
+        }
+        .hamburger.active .bar:nth-child(1) { transform: translateY(11.5px) rotate(45deg); background: #5b9bd5; }
+        .hamburger.active .bar:nth-child(2) { opacity: 0; transform: translateX(18px); }
+        .hamburger.active .bar:nth-child(3) { transform: translateY(-11.5px) rotate(-45deg); background: #5b9bd5; }
+
+        /* ── SIDEBAR ── */
+        #mainMenu {
+            position: fixed; top: 64px; left: 0;
+            width: 260px; height: calc(100vh - 64px);
+            background: #0b1e38;
+            border-right: 1px solid #1a3a6a;
+            padding: 24px 0;
+            transform: translateX(-100%);
+            transition: transform 0.35s ease;
+            overflow-y: auto; z-index: 999;
+        }
+        #mainMenu.active { transform: translateX(0); }
+
+        .menu-section {
+            padding: 0 20px;
+            margin-bottom: 6px;
+            font-size: 0.68rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.13em;
+            color: #4a6a90;
+            font-family: Arial, sans-serif;
+        }
+
+        #mainMenu ul { list-style: none; padding: 0 10px; margin-bottom: 18px; }
+        #mainMenu ul li + li { margin-top: 2px; }
+        #mainMenu ul li a {
+            text-decoration: none; color: #7a9ec4;
+            display: flex; align-items: center; gap: 10px;
+            padding: 9px 12px; border-radius: 8px;
+            font-size: 0.93rem; font-weight: 500;
+            font-family: Arial, sans-serif;
+            transition: all 0.2s ease;
+        }
+        #mainMenu ul li a:hover { background: #132d52; color: #e0eaf8; }
+        #mainMenu ul li a .dot {
+            width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0;
+        }
+        .dot-margens   { background: #e74c3c; }
+        .dot-fonte     { background: #f39c12; }
+        .dot-capa      { background: #27ae60; }
+        .dot-sumario   { background: #8e44ad; }
+        .dot-ref       { background: #2980b9; }
+        .dot-exemplo   { background: #16a085; }
+        .dot-video     { background: #e67e22; }
+        .dot-voltar    { background: #7f8c8d; }
+
+        /* body e header ajustados para a nav fixa */
+        body { padding-top: 64px; }
+        header { position: relative; }
+        #menuToggleBtn { display: none; } /* esconde botão antigo */
+    </style>
+</head>
+
+<body>
+
+    
+    <header>
+    <h1>Como Aplicar Normas ABNT no Word</h1>
+    
+    <p style="max-width: 800px; margin: 10px auto; font-size: 14pt; color: #f0f0f0;">
+        Este site é um guia completo para estudantes, com instruções claras de como aplicar corretamente as normas ABNT em trabalhos acadêmicos usando o Microsoft Word. Inclui exemplos visuais, dicas práticas e um vídeo tutorial para facilitar o processo de formatação.
+    </p>
+</header>
+
+    <button onclick="toggleMenu()" id="menuToggleBtn" aria-label="Alternar Menu">&#9776;</button>
+
+<nav>
+  <button class="hamburger" id="hamburgerBtn" aria-label="Menu" aria-expanded="false" aria-controls="mainMenu">
+    <span class="bar"></span><span class="bar"></span><span class="bar"></span>
+  </button>
+  <span class="nav-logo">📄 Normas ABNT no Word</span>
+</nav>
+
+<div id="mainMenu" role="navigation" aria-label="Menu principal">
+  <p class="menu-section">Formatação</p>
+  <ul>
+    <li><a href="#margens"><span class="dot dot-margens"></span> Margens</a></li>
+    <li><a href="#fonte"><span class="dot dot-fonte"></span> Fonte e Espaçamento</a></li>
+    <li><a href="#capa"><span class="dot dot-capa"></span> Capa</a></li>
+    <li><a href="#sumario"><span class="dot dot-sumario"></span> Sumário</a></li>
+    <li><a href="#referencias"><span class="dot dot-ref"></span> Referências</a></li>
+  </ul>
+  <p class="menu-section">Conteúdo</p>
+  <ul>
+    <li><a href="#exemplo"><span class="dot dot-exemplo"></span> Exemplo de Texto</a></li>
+    <li><a href="#video"><span class="dot dot-video"></span> Vídeo Tutorial</a></li>
+  </ul>
+  <p class="menu-section">Navegação</p>
+  <ul>
+    <li><a href="index.html"><span class="dot dot-voltar"></span> ← Voltar</a></li>
+  </ul>
+</div>
+
+    <section id="margens">
+        <h2>1. Margens</h2>
+        <p>Abra o Word e vá em <code>Layout &gt; Margens &gt; Margens Personalizadas</code>. Configure assim:</p>
+        <ul>
+            <li>Superior: 3 cm</li>
+            <li>Inferior: 2 cm</li>
+            <li>Esquerda: 3 cm</li>
+            <li>Direita: 2 cm</li>
+        </ul>
+    </section>
+
+    <section id="fonte">
+        <h2>2. Fonte e Espaçamento</h2>
+        <p>Vá em <code>Início</code> e configure:</p>
+        <ul>
+            <li>Fonte: Times New Roman ou Arial</li>
+            <li>Tamanho: 12 pt</li>
+            <li>Espaçamento: 1,5 linhas</li>
+            <li>Alinhamento: Justificado</li>
+        </ul>
+    </section>
+
+    <section id="capa">
+        <h2>3. Capa</h2>
+        <p>A capa deve conter (centralizado):</p>
+        <ul>
+            <li>Nome da instituição</li>
+            <li>Nome do autor</li>
+            <li>Título do trabalho</li>
+            <li>Local (cidade)</li>
+            <li>Ano</li>
+        </ul>
+    </section>
+
+    <section id="sumario">
+        <h2>4. Sumário</h2>
+        <p>Use o recurso automático do Word:</p>
+        <ol>
+            <li>Aplique os estilos de título (<code>Título 1</code>, <code>Título 2</code>, etc.)</li>
+            <li>Vá em <code>Referências &gt; Sumário &gt; Inserir Sumário</code></li>
+        </ol>
+    </section>
+
+    <section id="referencias">
+        <h2>5. Referências</h2>
+        <p>Use o formato ABNT. Exemplo:</p>
+        <blockquote>
+            SOBRENOME, Nome. <strong>Título do livro</strong>. Edição. Local: Editora, ano.
+        </blockquote>
+    </section>
+
+    <section id="exemplo">
+        <h2>6. Exemplo de Texto Formatado</h2>
+
+        <h3>Exemplo de Capa Formatada (ABNT)</h3>
+        <div class="exemplo-capa">
+            <p class="instituicao">INSTITUTO DE ENSINO SUPERIOR EXEMPLO</p>
+            <p class="autor">Seu Nome</p>
+            <p class="titulo">COMO FORMATAR UM TRABALHO ACADÊMICO NAS NORMAS ABNT</p>
+            <p class="cidade">São Paulo</p>
+            <p class="ano">2025</p>
+        </div>
+
+        <h3>1 INTRODUÇÃO</h3>
+        <p>
+            A pesquisa científica tem como objetivo gerar conhecimento por meio de métodos sistemáticos e rigorosos.
+            Segundo Lakatos e Marconi (2003), a metodologia científica “é o conjunto de atividades sistemáticas,
+            racionais e objetivas que, com maior segurança e economia, permite alcançar o objetivo — conhecimento válido
+            e verdadeiro”.
+        </p>
+        <p>
+            A citação direta com mais de três linhas deve ser apresentada em bloco separado, com recuo de 4 cm da margem
+            esquerda, fonte menor e sem aspas:
+        </p>
+        <div class="citacao-bloco">
+            A metodologia científica é um conjunto de atividades sistemáticas, racionais e objetivas que, com maior
+            segurança e economia, permite alcançar o objetivo — conhecimento válido e verdadeiro. (LAKATOS; MARCONI,
+            2003, p. 23)
+        </div>
+        <p>
+            Neste trabalho, busca-se apresentar os principais elementos da norma ABNT aplicados à produção textual em
+            documentos acadêmicos, visando facilitar a vida dos estudantes e pesquisadores.
+        </p>
+        <h3>Referência utilizada no exemplo:</h3>
+        <blockquote>
+            LAKATOS, Eva Maria; MARCONI, Marina de Andrade. <strong>Fundamentos de metodologia científica</strong>. 5.
+            ed. São Paulo: Atlas, 2003.
+        </blockquote>
+    </section>
+
+    <!-- Área de vídeo -->
+    <section id="video">
+        <h2>Assista ao Vídeo</h2>
+        <iframe width="560" height="315" src="https://www.youtube.com/embed/jOI16aH01ko" frameborder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowfullscreen></iframe>
+            
+
+    </section>
+
+    <footer>
+        <p>&copy;2025Davi Ramos Guia ABNT. Todos os direitos reservados.</p>
+    </footer>
+    <script>
+    const hamburger = document.getElementById('hamburgerBtn');
+    const navMenu   = document.getElementById('mainMenu');
+
+    hamburger.addEventListener('click', () => {
+        const exp = hamburger.getAttribute('aria-expanded') === 'true';
+        hamburger.setAttribute('aria-expanded', !exp);
+        hamburger.classList.toggle('active');
+        navMenu.classList.toggle('active');
+    });
+
+    navMenu.querySelectorAll('a').forEach(a => {
+        a.addEventListener('click', () => {
+            hamburger.classList.remove('active');
+            hamburger.setAttribute('aria-expanded', false);
+            navMenu.classList.remove('active');
+        });
+    });
+</script>
+
+
+</body>
+
+</html>

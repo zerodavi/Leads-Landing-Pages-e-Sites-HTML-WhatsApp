@@ -1,0 +1,1301 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Tutoriais Dev</title>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=JetBrains+Mono:wght@400;600&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #0d0f14;
+      --surface: #161820;
+      --surface2: #1e2130;
+      --border: #2a2d3e;
+      --accent: #7c5cfc;
+      --accent2: #00e5c0;
+      --accent3: #ff6b6b;
+      --text: #e2e4f0;
+      --text-muted: #7b80a0;
+      --code-bg: #0a0c12;
+      --success: #00e5c0;
+      --error: #ff6b6b;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'DM Sans', sans-serif;
+      line-height: 1.7;
+      min-height: 100vh;
+      padding-top: 70px;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; height: 70px;
+      background: rgba(13,15,20,0.95);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      display: flex; align-items: center; padding: 0 28px;
+      z-index: 1000; gap: 20px;
+    }
+
+    .nav-logo {
+      font-family: 'Syne', sans-serif;
+      font-weight: 800; font-size: 1.3rem;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      margin-right: auto;
+    }
+
+    .hamburger {
+      background: none; border: none; cursor: pointer;
+      width: 36px; height: 28px;
+      display: flex; flex-direction: column; justify-content: space-between;
+    }
+    .hamburger .bar {
+      display: block; width: 100%; height: 3px;
+      background: var(--text-muted); border-radius: 2px;
+      transition: all 0.35s ease;
+    }
+    .hamburger.active .bar:nth-child(1) { transform: translateY(12.5px) rotate(45deg); background: var(--accent); }
+    .hamburger.active .bar:nth-child(2) { opacity: 0; transform: translateX(20px); }
+    .hamburger.active .bar:nth-child(3) { transform: translateY(-12.5px) rotate(-45deg); background: var(--accent); }
+
+    /* ── SIDEBAR ── */
+    #mainMenu {
+      position: fixed; top: 70px; left: 0;
+      width: 260px; height: calc(100vh - 70px);
+      background: var(--surface);
+      border-right: 1px solid var(--border);
+      padding: 28px 0;
+      transform: translateX(-100%);
+      transition: transform 0.35s ease;
+      overflow-y: auto; z-index: 999;
+    }
+    #mainMenu.active { transform: translateX(0); }
+
+    .menu-section {
+      padding: 0 20px;
+      margin-bottom: 8px;
+      font-size: 0.7rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--text-muted);
+    }
+
+    #mainMenu ul { list-style: none; padding: 0 12px; margin-bottom: 20px; }
+    #mainMenu ul li + li { margin-top: 2px; }
+    #mainMenu ul li a {
+      text-decoration: none; color: var(--text-muted);
+      display: flex; align-items: center; gap: 10px;
+      padding: 9px 12px; border-radius: 8px;
+      font-size: 0.95rem; font-weight: 500;
+      transition: all 0.2s ease;
+    }
+    #mainMenu ul li a:hover { background: var(--surface2); color: var(--text); }
+    #mainMenu ul li a .dot {
+      width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0;
+    }
+    .dot-python { background: #3776ab; }
+    .dot-js { background: #f7df1e; }
+    .dot-html { background: #e34f26; }
+    .dot-css { background: #1572b6; }
+    .dot-vscode { background: #007acc; }
+    .dot-github { background: #6e40c9; }
+    .dot-sql { background: #00b4d8; }
+    .dot-terminal { background: var(--accent2); }
+
+    /* ── MAIN ── */
+    main {
+      max-width: 820px;
+      margin: 0 auto;
+      padding: 40px 24px 80px;
+    }
+
+    /* ── HERO ── */
+    .hero {
+      text-align: center;
+      padding: 60px 20px 48px;
+      position: relative;
+    }
+    .hero::before {
+      content: '';
+      position: absolute; top: 0; left: 50%; transform: translateX(-50%);
+      width: 600px; height: 300px;
+      background: radial-gradient(ellipse at center, rgba(124,92,252,0.12) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .hero h1 {
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(2.2rem, 5vw, 3.5rem);
+      font-weight: 800;
+      background: linear-gradient(135deg, #fff 30%, var(--accent2));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      margin-bottom: 16px;
+      line-height: 1.1;
+    }
+    .hero p {
+      color: var(--text-muted); font-size: 1.1rem;
+      max-width: 540px; margin: 0 auto 32px;
+    }
+    .badge-row {
+      display: flex; flex-wrap: wrap; justify-content: center; gap: 8px;
+    }
+    .badge {
+      background: var(--surface2); border: 1px solid var(--border);
+      padding: 5px 14px; border-radius: 999px;
+      font-size: 0.8rem; font-weight: 600; color: var(--text-muted);
+    }
+
+    /* ── BOTÃO PARTE 2 ── */
+    .hero-cta {
+      display: flex; flex-wrap: wrap; justify-content: center;
+      gap: 12px; margin-top: 28px;
+    }
+    .btn-parte2 {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      color: #fff; font-family: 'Syne', sans-serif;
+      font-weight: 700; font-size: 1rem;
+      padding: 13px 28px; border-radius: 12px;
+      text-decoration: none; border: none; cursor: pointer;
+      transition: transform 0.2s, box-shadow 0.2s;
+      box-shadow: 0 4px 24px rgba(124,92,252,0.35);
+    }
+    .btn-parte2:hover { transform: translateY(-2px); box-shadow: 0 8px 32px rgba(124,92,252,0.5); }
+    .btn-parte2:active { transform: translateY(0); }
+    .btn-parte2 .arrow { font-size: 1.1rem; }
+
+    /* ── NAV FOOTER ── */
+    .nav-footer {
+      display: flex; justify-content: center; padding: 40px 24px 60px;
+    }
+
+    /* ── RESPONSIVE MOBILE ── */
+    @media (max-width: 600px) {
+      nav { padding: 0 16px; }
+      main { padding: 28px 14px 60px; }
+      .hero { padding: 40px 12px 32px; }
+      .hero h1 { font-size: 2rem; }
+      .hero p { font-size: 0.97rem; }
+      .tutorial-header { flex-wrap: wrap; gap: 10px; }
+      .tutorial-title-wrap h2 { font-size: 1.35rem; }
+      .info-cards { grid-template-columns: 1fr; }
+      .playground textarea { font-size: 0.8rem; min-height: 140px; }
+      .tabs { flex-wrap: wrap; gap: 6px; }
+      .tab-btn { font-size: 0.78rem; padding: 6px 10px; }
+      .quiz-options { flex-direction: column; }
+      .quiz-opt { width: 100%; text-align: left; }
+      .btn-parte2 { width: 100%; justify-content: center; font-size: 0.95rem; padding: 12px 20px; }
+      #mainMenu { width: 85vw; }
+    }
+    @media (max-width: 400px) {
+      .hero h1 { font-size: 1.6rem; }
+      .badge { font-size: 0.72rem; padding: 4px 10px; }
+    }
+
+    /* ── TUTORIAL SECTION ── */
+    .tutorial {
+      margin-bottom: 60px;
+      animation: fadeUp 0.5s ease both;
+    }
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .tutorial-header {
+      display: flex; align-items: center; gap: 14px;
+      margin-bottom: 18px;
+      padding-bottom: 18px;
+      border-bottom: 1px solid var(--border);
+    }
+    .tutorial-icon {
+      width: 44px; height: 44px; border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.4rem; flex-shrink: 0;
+    }
+    .icon-python { background: rgba(55,118,171,0.2); }
+    .icon-js     { background: rgba(247,223,30,0.15); }
+    .icon-html   { background: rgba(227,79,38,0.2); }
+    .icon-css    { background: rgba(21,114,182,0.2); }
+    .icon-vscode { background: rgba(0,122,204,0.2); }
+    .icon-github { background: rgba(110,64,201,0.2); }
+    .icon-sql    { background: rgba(0,180,216,0.2); }
+    .icon-terminal { background: rgba(0,229,192,0.15); }
+
+    .tutorial-title-wrap h2 {
+      font-family: 'Syne', sans-serif;
+      font-size: 1.7rem; font-weight: 800;
+      color: var(--text); margin-bottom: 4px;
+    }
+    .tutorial-title-wrap .summary {
+      color: var(--text-muted); font-size: 0.9rem; font-style: italic;
+    }
+
+    .tutorial p {
+      color: #a0a5bc; font-size: 0.97rem;
+      margin-bottom: 16px; line-height: 1.75;
+    }
+
+    /* ── TABS ── */
+    .tabs {
+      display: flex; gap: 4px;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 10px 10px 0 0;
+      padding: 6px 6px 0;
+    }
+    .tab-btn {
+      background: none; border: none; cursor: pointer;
+      padding: 8px 16px; border-radius: 6px 6px 0 0;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.82rem; color: var(--text-muted);
+      transition: all 0.2s;
+    }
+    .tab-btn.active { background: var(--code-bg); color: var(--accent2); }
+
+    /* ── CODE BOX ── */
+    .code-box {
+      background: var(--code-bg);
+      border: 1px solid var(--border); border-top: none;
+      border-radius: 0 0 10px 10px;
+      margin-bottom: 0;
+    }
+    .code-box pre {
+      padding: 20px 22px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.88rem; line-height: 1.65;
+      color: #c9d1e9;
+      overflow-x: auto;
+      margin: 0;
+    }
+
+    /* ── INTERACTIVE PLAYGROUND ── */
+    .playground {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+      margin: 20px 0;
+    }
+    .playground-header {
+      background: var(--surface2);
+      padding: 10px 16px;
+      display: flex; align-items: center; justify-content: space-between;
+      border-bottom: 1px solid var(--border);
+    }
+    .playground-header span {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.78rem; color: var(--text-muted);
+    }
+    .run-btn {
+      background: var(--accent); border: none; cursor: pointer;
+      color: #fff; padding: 6px 16px;
+      border-radius: 6px; font-size: 0.82rem; font-weight: 600;
+      transition: all 0.2s; display: flex; align-items: center; gap: 6px;
+    }
+    .run-btn:hover { background: #6a4de8; transform: translateY(-1px); }
+    .run-btn:active { transform: translateY(0); }
+
+    .playground textarea {
+      width: 100%;
+      background: var(--code-bg);
+      color: #c9d1e9;
+      border: none; outline: none; resize: vertical;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.88rem; line-height: 1.65;
+      padding: 18px 22px;
+      min-height: 130px;
+    }
+
+    .playground-output {
+      background: #080a10;
+      border-top: 1px solid var(--border);
+      padding: 14px 20px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.85rem; line-height: 1.6;
+      min-height: 50px; display: none;
+    }
+    .playground-output.has-content { display: block; }
+    .playground-output .out-line { color: var(--accent2); }
+    .playground-output .err-line { color: var(--error); }
+    .playground-output .label {
+      color: var(--text-muted); font-size: 0.75rem;
+      margin-bottom: 6px; letter-spacing: 0.05em;
+    }
+
+    /* ── HTML LIVE PREVIEW ── */
+    .html-preview {
+      border: 1px solid var(--border);
+      border-radius: 0 0 10px 10px;
+      overflow: hidden; background: #fff;
+      min-height: 160px;
+      display: none;
+    }
+    .html-preview iframe {
+      width: 100%; border: none;
+      min-height: 160px; display: block;
+    }
+
+    /* ── CSS LIVE PREVIEW ── */
+    .css-demo {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 10px; padding: 20px;
+      margin: 16px 0;
+    }
+    .css-demo-inner { padding: 16px; border-radius: 8px; }
+
+    /* ── QUIZ ── */
+    .quiz {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px; padding: 22px 24px;
+      margin: 20px 0;
+    }
+    .quiz h4 {
+      font-family: 'Syne', sans-serif;
+      font-size: 1rem; margin-bottom: 14px; color: var(--text);
+    }
+    .quiz-options { display: flex; flex-direction: column; gap: 8px; }
+    .quiz-opt {
+      background: var(--surface2); border: 1px solid var(--border);
+      color: var(--text); padding: 10px 16px;
+      border-radius: 8px; cursor: pointer; font-size: 0.9rem;
+      text-align: left; transition: all 0.2s;
+    }
+    .quiz-opt:hover { border-color: var(--accent); color: var(--accent); }
+    .quiz-opt.correct { border-color: var(--success); background: rgba(0,229,192,0.1); color: var(--success); }
+    .quiz-opt.wrong   { border-color: var(--error);   background: rgba(255,107,107,0.1); color: var(--error); }
+    .quiz-feedback { margin-top: 12px; font-size: 0.88rem; color: var(--text-muted); display: none; }
+
+    /* ── INFO CARDS ── */
+    .info-cards {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 16px 0;
+    }
+    .info-card {
+      background: var(--surface2); border: 1px solid var(--border);
+      border-radius: 10px; padding: 16px;
+    }
+    .info-card h5 {
+      font-size: 0.82rem; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.08em;
+      color: var(--accent2); margin-bottom: 6px;
+    }
+    .info-card p { font-size: 0.88rem; color: var(--text-muted); margin: 0; }
+
+    /* ── SEPARATOR ── */
+    .sep {
+      height: 1px; background: var(--border);
+      margin: 60px 0;
+    }
+
+    /* ── CODE TOKENS ── */
+    .tok-kw   { color: #c792ea; }
+    .tok-fn   { color: #82aaff; }
+    .tok-str  { color: #c3e88d; }
+    .tok-num  { color: #f78c6c; }
+    .tok-cmt  { color: #546e7a; font-style: italic; }
+    .tok-var  { color: #eeffff; }
+
+    code {
+      background: rgba(124,92,252,0.15);
+      color: #b48bff;
+      padding: 2px 7px; border-radius: 5px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.88em;
+    }
+
+    /* ── GIT VISUAL ── */
+    .git-viz {
+      background: var(--code-bg);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 20px 24px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.85rem;
+      margin: 16px 0;
+    }
+    .git-line { display: flex; align-items: center; gap: 10px; margin: 6px 0; }
+    .git-dot { width: 12px; height: 12px; border-radius: 50%; flex-shrink: 0; }
+    .git-dot.main { background: var(--accent); }
+    .git-dot.feature { background: var(--accent2); }
+    .git-line-v { width: 2px; height: 20px; background: var(--border); margin-left: 5px; }
+
+    /* ── SHORTCUTS TABLE ── */
+    .shortcuts { width: 100%; border-collapse: collapse; margin: 16px 0; }
+    .shortcuts th, .shortcuts td {
+      padding: 10px 14px; text-align: left;
+      border-bottom: 1px solid var(--border); font-size: 0.88rem;
+    }
+    .shortcuts th { color: var(--text-muted); font-weight: 600; font-size: 0.78rem; text-transform: uppercase; }
+    .shortcuts td:first-child { font-family: 'JetBrains Mono', monospace; color: var(--accent2); }
+
+    /* ── SQL ── */
+    .sql-result {
+      background: var(--code-bg);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      overflow: hidden; margin-top: 10px;
+    }
+    .sql-table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+    .sql-table th {
+      background: var(--surface2);
+      color: var(--accent2); padding: 8px 16px;
+      text-align: left; font-family: 'JetBrains Mono', monospace;
+      font-size: 0.78rem; text-transform: uppercase;
+    }
+    .sql-table td {
+      padding: 8px 16px; color: var(--text);
+      border-top: 1px solid var(--border);
+    }
+
+    @media (max-width: 640px) {
+      .info-cards { grid-template-columns: 1fr; }
+      .tutorial-header { flex-wrap: wrap; }
+      .tutorial-title-wrap h2 { font-size: 1.4rem; }
+      main { padding: 24px 16px 60px; }
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <button class="hamburger" id="hamburgerBtn" aria-label="Menu" aria-expanded="false" aria-controls="mainMenu">
+    <span class="bar"></span><span class="bar"></span><span class="bar"></span>
+  </button>
+  <span class="nav-logo">⟨ DevTutoriais /⟩</span>
+</nav>
+
+<div id="mainMenu" role="navigation" aria-label="Menu principal">
+  <p class="menu-section">Linguagens</p>
+  <ul>
+    <li><a href="#python"><span class="dot dot-python"></span> Python</a></li>
+    <li><a href="#js"><span class="dot dot-js"></span> JavaScript</a></li>
+    <li><a href="#html"><span class="dot dot-html"></span> HTML</a></li>
+    <li><a href="#css"><span class="dot dot-css"></span> CSS</a></li>
+    <li><a href="#sql"><span class="dot dot-sql"></span> SQL</a></li>
+  </ul>
+  <p class="menu-section">Ferramentas</p>
+  <ul>
+    <li><a href="#vscode"><span class="dot dot-vscode"></span> VSCode</a></li>
+    <li><a href="#github"><span class="dot dot-github"></span> GitHub</a></li>
+    <li><a href="#terminal"><span class="dot dot-terminal"></span> Terminal</a></li>
+  </ul>
+  <p class="menu-section">Navegação</p>
+  <ul>
+    <li><a href="index.html"><span class="dot" style="background:#888"></span> ← Voltar</a></li>
+  </ul>
+</div>
+
+<main>
+
+  <!-- HERO -->
+  <div class="hero">
+    <h1>Aprenda na Prática</h1>
+    <p>Tutoriais interativos com exemplos reais que você pode editar e executar direto no navegador.</p>
+    <div class="badge-row">
+      <span class="badge">Python</span><span class="badge">JavaScript</span>
+      <span class="badge">HTML</span><span class="badge">CSS</span>
+      <span class="badge">SQL</span><span class="badge">VSCode</span>
+      <span class="badge">GitHub</span><span class="badge">Terminal</span>
+    </div>
+    <div class="hero-cta">
+      <a href="tutorial_parte2.html" class="btn-parte2">
+        Parte 2 — Construa e Publique <span class="arrow">→</span>
+      </a>
+    </div>
+  </div>
+
+  <!-- ── PYTHON ── -->
+  <section class="tutorial" id="python" tabindex="-1">
+    <div class="tutorial-header">
+      <div class="tutorial-icon icon-python">🐍</div>
+      <div class="tutorial-title-wrap">
+        <h2>Python</h2>
+        <span class="summary">Linguagem clara, versátil e popular — perfeita para iniciantes.</span>
+      </div>
+    </div>
+
+    <p>Python é uma das linguagens mais usadas no mundo, presente em desenvolvimento web, ciência de dados, IA, automação e muito mais. Sua sintaxe limpa permite focar na lógica sem se perder em detalhes técnicos.</p>
+
+    <div class="info-cards">
+      <div class="info-card"><h5>Criada em</h5><p>1991 por Guido van Rossum. Hoje mantida pela Python Software Foundation.</p></div>
+      <div class="info-card"><h5>Onde é usada</h5><p>Google, NASA, Instagram, Netflix, Spotify e centenas de empresas globais.</p></div>
+      <div class="info-card"><h5>Ponto forte</h5><p>Mais de 400.000 pacotes disponíveis no PyPI para qualquer finalidade.</p></div>
+      <div class="info-card"><h5>Versão atual</h5><p>Python 3.12+ — sempre use a versão 3 em projetos novos.</p></div>
+    </div>
+
+    <p>Experimente o editor abaixo — edite o código e clique em <strong>▶ Executar</strong> para ver o resultado:</p>
+
+    <div class="playground">
+      <div class="playground-header">
+        <span>🐍 python_basico.py</span>
+        <button class="run-btn" onclick="runPython('py1')">▶ Executar</button>
+      </div>
+      <textarea id="py1" spellcheck="false">
+# Variáveis e tipos de dados
+nome = "Dev"
+idade = 25
+altura = 1.75
+programador = True
+
+print(f"Olá, {nome}!")
+print(f"Idade: {idade} | Altura: {altura}m")
+
+# Lista e loop
+linguagens = ["Python", "JavaScript", "CSS"]
+print("\nLinguagens que conheço:")
+for lang in linguagens:
+    print(f"  → {lang}")
+
+# Função simples
+def saudacao(pessoa):
+    return f"Bem-vindo ao mundo do código, {pessoa}! 🚀"
+
+print("\n" + saudacao(nome))
+      </textarea>
+      <div class="playground-output" id="py1-out"></div>
+    </div>
+
+    <div class="playground">
+      <div class="playground-header">
+        <span>🐍 logica_e_funcoes.py</span>
+        <button class="run-btn" onclick="runPython('py2')">▶ Executar</button>
+      </div>
+      <textarea id="py2" spellcheck="false">
+# Condicionais e funções com retorno
+def classificar_nota(nota):
+    if nota >= 9:
+        return "Excelente ⭐"
+    elif nota >= 7:
+        return "Bom ✓"
+    elif nota >= 5:
+        return "Regular ⚠️"
+    else:
+        return "Reprovado ✗"
+
+notas = [10, 7.5, 5, 3]
+for n in notas:
+    print(f"Nota {n}: {classificar_nota(n)}")
+
+# Dicionário
+aluno = {"nome": "Ana", "curso": "Python", "nota": 9.2}
+print(f"\nAluno: {aluno['nome']} — {classificar_nota(aluno['nota'])}")
+      </textarea>
+      <div class="playground-output" id="py2-out"></div>
+    </div>
+
+    <div class="quiz">
+      <h4>📝 Teste seu conhecimento: o que <code>range(5)</code> gera em Python?</h4>
+      <div class="quiz-options">
+        <button class="quiz-opt" onclick="quiz(this, false)">1, 2, 3, 4, 5</button>
+        <button class="quiz-opt" onclick="quiz(this, true)">0, 1, 2, 3, 4</button>
+        <button class="quiz-opt" onclick="quiz(this, false)">0, 1, 2, 3, 4, 5</button>
+        <button class="quiz-opt" onclick="quiz(this, false)">Depende do sistema</button>
+      </div>
+      <div class="quiz-feedback">✅ Correto! <code>range(5)</code> começa em 0 e vai até 4 — nunca inclui o número final.</div>
+    </div>
+  </section>
+
+  <div class="sep"></div>
+
+  <!-- ── JAVASCRIPT ── -->
+  <section class="tutorial" id="js" tabindex="-1">
+    <div class="tutorial-header">
+      <div class="tutorial-icon icon-js">🟨</div>
+      <div class="tutorial-title-wrap">
+        <h2>JavaScript</h2>
+        <span class="summary">A linguagem da web — roda no navegador e no servidor.</span>
+      </div>
+    </div>
+
+    <p>JavaScript é a única linguagem que roda nativamente nos navegadores, tornando as páginas interativas. Com Node.js também roda no servidor. É essencial para qualquer desenvolvedor web.</p>
+
+    <div class="info-cards">
+      <div class="info-card"><h5>Criada em</h5><p>10 dias em 1995 por Brendan Eich. Hoje é o padrão oficial da web com o ECMAScript.</p></div>
+      <div class="info-card"><h5>Frameworks</h5><p>React, Vue, Angular, Svelte — todos baseados em JavaScript.</p></div>
+      <div class="info-card"><h5>Uso</h5><p>Frontend, backend (Node.js), mobile (React Native), desktop (Electron).</p></div>
+      <div class="info-card"><h5>Popularidade</h5><p>Linguagem mais usada no GitHub por 11 anos consecutivos.</p></div>
+    </div>
+
+    <div class="playground">
+      <div class="playground-header">
+        <span>🟨 fundamentos.js</span>
+        <button class="run-btn" onclick="runJS('js1')">▶ Executar</button>
+      </div>
+      <textarea id="js1" spellcheck="false">
+// Variáveis modernas: const e let
+const nome = "Dev";
+let contador = 0;
+
+// Arrow function
+const saudacao = (pessoa) => `Olá, ${pessoa}! 👋`;
+console.log(saudacao(nome));
+
+// Array e métodos funcionais
+const numeros = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+const pares = numeros.filter(n => n % 2 === 0);
+const dobrados = pares.map(n => n * 2);
+
+console.log("Pares:", pares.join(", "));
+console.log("Dobrados:", dobrados.join(", "));
+
+// Objeto
+const pessoa = { nome: "Ana", idade: 28, curso: "Dev Web" };
+console.log(`${pessoa.nome} tem ${pessoa.idade} anos e estuda ${pessoa.curso}`);
+      </textarea>
+      <div class="playground-output" id="js1-out"></div>
+    </div>
+
+    <div class="playground">
+      <div class="playground-header">
+        <span>🟨 classes_e_objetos.js</span>
+        <button class="run-btn" onclick="runJS('js2')">▶ Executar</button>
+      </div>
+      <textarea id="js2" spellcheck="false">
+// Classes modernas em JS
+class Animal {
+  constructor(nome, som) {
+    this.nome = nome;
+    this.som = som;
+  }
+
+  falar() {
+    return `${this.nome} diz: "${this.som}!"`;
+  }
+}
+
+class Cachorro extends Animal {
+  constructor(nome) {
+    super(nome, "Au au");
+  }
+
+  buscar(objeto) {
+    return `${this.nome} foi buscar o ${objeto}! 🐕`;
+  }
+}
+
+const rex = new Cachorro("Rex");
+console.log(rex.falar());
+console.log(rex.buscar("graveto"));
+
+// Promessa simulada
+const esperar = (ms) => new Promise(r => setTimeout(r, ms));
+console.log("Início...");
+esperar(0).then(() => console.log("Pronto! ✅"));
+      </textarea>
+      <div class="playground-output" id="js2-out"></div>
+    </div>
+
+    <div class="quiz">
+      <h4>📝 Qual a diferença entre <code>let</code> e <code>const</code>?</h4>
+      <div class="quiz-options">
+        <button class="quiz-opt" onclick="quiz(this, false)">São idênticos, apenas estilo de escrita diferente</button>
+        <button class="quiz-opt" onclick="quiz(this, true)"><code>const</code> não pode ser reatribuído, <code>let</code> pode</button>
+        <button class="quiz-opt" onclick="quiz(this, false)"><code>let</code> é para números, <code>const</code> para textos</button>
+        <button class="quiz-opt" onclick="quiz(this, false)"><code>const</code> é mais rápido que <code>let</code></button>
+      </div>
+      <div class="quiz-feedback">✅ Correto! Use <code>const</code> por padrão e mude para <code>let</code> apenas quando precisar reatribuir o valor.</div>
+    </div>
+  </section>
+
+  <div class="sep"></div>
+
+  <!-- ── HTML ── -->
+  <section class="tutorial" id="html" tabindex="-1">
+    <div class="tutorial-header">
+      <div class="tutorial-icon icon-html">🟠</div>
+      <div class="tutorial-title-wrap">
+        <h2>HTML</h2>
+        <span class="summary">A estrutura de toda página web — linguagem de marcação.</span>
+      </div>
+    </div>
+
+    <p>HTML (HyperText Markup Language) define a estrutura e o significado do conteúdo. Não é uma linguagem de programação — é de marcação: você usa <em>tags</em> para dizer ao navegador o que cada parte representa.</p>
+
+    <p>Edite o código abaixo e veja o resultado em tempo real na pré-visualização:</p>
+
+    <div class="playground">
+      <div class="playground-header">
+        <span>🟠 index.html — visualização ao vivo</span>
+        <button class="run-btn" onclick="runHTML('html1', 'html1-preview')">▶ Visualizar</button>
+      </div>
+      <textarea id="html1" spellcheck="false" rows="14">
+<h1 style="color: #7c5cfc; font-family: sans-serif;">Minha Primeira Página 🚀</h1>
+<p>Este parágrafo foi escrito com <strong>HTML puro</strong>.</p>
+
+<h2>Lista de tecnologias</h2>
+<ul>
+  <li>🐍 Python</li>
+  <li>🟨 JavaScript</li>
+  <li>🎨 CSS</li>
+</ul>
+
+<a href="https://developer.mozilla.org" target="_blank">📚 Documentação MDN</a>
+      </textarea>
+      <div class="html-preview" id="html1-preview" style="display:block">
+        <iframe id="html1-frame" srcdoc="<p style='color:#888;padding:16px;font-family:sans-serif'>Clique em Visualizar para ver o resultado aqui...</p>"></iframe>
+      </div>
+    </div>
+
+    <div class="info-cards">
+      <div class="info-card"><h5>Tags semânticas</h5><p><code>&lt;header&gt;</code>, <code>&lt;nav&gt;</code>, <code>&lt;main&gt;</code>, <code>&lt;article&gt;</code>, <code>&lt;footer&gt;</code> — dão significado ao conteúdo.</p></div>
+      <div class="info-card"><h5>Atributos</h5><p><code>id</code>, <code>class</code>, <code>href</code>, <code>src</code>, <code>alt</code> — informações extras nas tags.</p></div>
+    </div>
+
+    <div class="quiz">
+      <h4>📝 Qual tag define o título principal de uma página?</h4>
+      <div class="quiz-options">
+        <button class="quiz-opt" onclick="quiz(this, false)"><code>&lt;title&gt;</code></button>
+        <button class="quiz-opt" onclick="quiz(this, true)"><code>&lt;h1&gt;</code></button>
+        <button class="quiz-opt" onclick="quiz(this, false)"><code>&lt;header&gt;</code></button>
+        <button class="quiz-opt" onclick="quiz(this, false)"><code>&lt;p&gt;</code></button>
+      </div>
+      <div class="quiz-feedback">✅ Correto! <code>&lt;h1&gt;</code> é o cabeçalho de nível 1 — o título principal visível na página. <code>&lt;title&gt;</code> fica no <code>&lt;head&gt;</code> e aparece na aba do navegador.</div>
+    </div>
+  </section>
+
+  <div class="sep"></div>
+
+  <!-- ── CSS ── -->
+  <section class="tutorial" id="css" tabindex="-1">
+    <div class="tutorial-header">
+      <div class="tutorial-icon icon-css">🔵</div>
+      <div class="tutorial-title-wrap">
+        <h2>CSS</h2>
+        <span class="summary">Estilo e design das páginas — cores, layout, animações.</span>
+      </div>
+    </div>
+
+    <p>CSS (Cascading Style Sheets) controla a aparência visual dos elementos HTML. Separa o conteúdo da apresentação, facilitando manutenção e permitindo designs responsivos e modernos.</p>
+
+    <div class="playground">
+      <div class="playground-header">
+        <span>🎨 estilos.css + HTML — visualização ao vivo</span>
+        <button class="run-btn" onclick="runHTML('css1', 'css1-preview')">▶ Visualizar</button>
+      </div>
+      <textarea id="css1" spellcheck="false" rows="18">
+<style>
+  body { font-family: sans-serif; background: #f0f4ff; padding: 20px; }
+
+  .card {
+    background: white;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+    max-width: 300px;
+    transition: transform 0.2s;
+  }
+  .card:hover { transform: translateY(-4px); }
+
+  .card h2 { color: #7c5cfc; margin-bottom: 8px; }
+  .card p  { color: #666; font-size: 0.9rem; }
+
+  .btn {
+    background: #7c5cfc; color: white;
+    border: none; padding: 8px 18px;
+    border-radius: 6px; cursor: pointer;
+    margin-top: 12px;
+  }
+  .btn:hover { background: #6a4de8; }
+</style>
+
+<div class="card">
+  <h2>CSS é incrível! 🎨</h2>
+  <p>Passe o mouse sobre este card para ver a animação.</p>
+  <button class="btn">Botão estilizado</button>
+</div>
+      </textarea>
+      <div class="html-preview" id="css1-preview" style="display:block">
+        <iframe id="css1-frame" srcdoc="<p style='color:#888;padding:16px;font-family:sans-serif'>Clique em Visualizar...</p>" style="min-height:200px"></iframe>
+      </div>
+    </div>
+
+    <p>Conceitos fundamentais do CSS:</p>
+    <div class="info-cards">
+      <div class="info-card"><h5>Box Model</h5><p>Todo elemento é uma caixa: <code>margin</code> → <code>border</code> → <code>padding</code> → conteúdo.</p></div>
+      <div class="info-card"><h5>Flexbox</h5><p><code>display: flex</code> — alinha itens em linha ou coluna com facilidade.</p></div>
+      <div class="info-card"><h5>Grid</h5><p><code>display: grid</code> — cria layouts bidimensionais complexos com poucos comandos.</p></div>
+      <div class="info-card"><h5>Media Queries</h5><p><code>@media (max-width: 768px)</code> — adapta o layout para diferentes telas.</p></div>
+    </div>
+  </section>
+
+  <div class="sep"></div>
+
+  <!-- ── SQL ── -->
+  <section class="tutorial" id="sql" tabindex="-1">
+    <div class="tutorial-header">
+      <div class="tutorial-icon icon-sql">🗄️</div>
+      <div class="tutorial-title-wrap">
+        <h2>SQL</h2>
+        <span class="summary">Consultas em bancos de dados — habilidade essencial para qualquer dev.</span>
+      </div>
+    </div>
+
+    <p>SQL (Structured Query Language) é a linguagem padrão para consultar e manipular bancos de dados relacionais como MySQL, PostgreSQL e SQLite. Todo back-end trabalha com SQL em algum momento.</p>
+
+    <div class="tabs">
+      <button class="tab-btn active" onclick="switchTab(this, 'sql-select')">SELECT</button>
+      <button class="tab-btn" onclick="switchTab(this, 'sql-join')">JOIN</button>
+      <button class="tab-btn" onclick="switchTab(this, 'sql-crud')">CRUD</button>
+    </div>
+
+    <div class="code-box" id="sql-select">
+      <pre><span class="tok-kw">SELECT</span> nome, email, cidade
+<span class="tok-kw">FROM</span> usuarios
+<span class="tok-kw">WHERE</span> ativo = <span class="tok-num">1</span>
+  <span class="tok-kw">AND</span> cidade = <span class="tok-str">'São Paulo'</span>
+<span class="tok-kw">ORDER BY</span> nome <span class="tok-kw">ASC</span>
+<span class="tok-kw">LIMIT</span> <span class="tok-num">10</span>;</pre>
+    </div>
+    <div class="code-box" id="sql-join" style="display:none">
+      <pre><span class="tok-kw">SELECT</span> u.nome, p.titulo, p.data_publicacao
+<span class="tok-kw">FROM</span> usuarios u
+<span class="tok-kw">INNER JOIN</span> posts p <span class="tok-kw">ON</span> p.usuario_id = u.id
+<span class="tok-kw">WHERE</span> p.publicado = <span class="tok-num">1</span>
+<span class="tok-kw">ORDER BY</span> p.data_publicacao <span class="tok-kw">DESC</span>;</pre>
+    </div>
+    <div class="code-box" id="sql-crud" style="display:none">
+      <pre><span class="tok-cmt">-- Criar</span>
+<span class="tok-kw">INSERT INTO</span> usuarios (nome, email) <span class="tok-kw">VALUES</span> (<span class="tok-str">'Ana'</span>, <span class="tok-str">'ana@email.com'</span>);
+
+<span class="tok-cmt">-- Ler</span>
+<span class="tok-kw">SELECT</span> * <span class="tok-kw">FROM</span> usuarios <span class="tok-kw">WHERE</span> id = <span class="tok-num">1</span>;
+
+<span class="tok-cmt">-- Atualizar</span>
+<span class="tok-kw">UPDATE</span> usuarios <span class="tok-kw">SET</span> cidade = <span class="tok-str">'RJ'</span> <span class="tok-kw">WHERE</span> id = <span class="tok-num">1</span>;
+
+<span class="tok-cmt">-- Deletar</span>
+<span class="tok-kw">DELETE FROM</span> usuarios <span class="tok-kw">WHERE</span> id = <span class="tok-num">1</span>;</pre>
+    </div>
+
+    <p>Resultado de um SELECT simulado:</p>
+    <div class="sql-result">
+      <table class="sql-table">
+        <tr><th>nome</th><th>email</th><th>cidade</th></tr>
+        <tr><td>Ana Silva</td><td>ana@email.com</td><td>São Paulo</td></tr>
+        <tr><td>Carlos Dev</td><td>carlos@dev.br</td><td>São Paulo</td></tr>
+        <tr><td>Maria Coder</td><td>maria@code.io</td><td>São Paulo</td></tr>
+      </table>
+    </div>
+  </section>
+
+  <div class="sep"></div>
+
+  <!-- ── VSCODE ── -->
+  <section class="tutorial" id="vscode" tabindex="-1">
+    <div class="tutorial-header">
+      <div class="tutorial-icon icon-vscode">💙</div>
+      <div class="tutorial-title-wrap">
+        <h2>VSCode</h2>
+        <span class="summary">O editor mais popular do mundo — leve, extensível e gratuito.</span>
+      </div>
+    </div>
+
+    <p>Visual Studio Code da Microsoft é o editor preferido de mais de 70% dos desenvolvedores. Suporta qualquer linguagem, tem debug integrado, Git nativo e milhares de extensões.</p>
+
+    <p>Atalhos essenciais que todo dev precisa saber:</p>
+    <table class="shortcuts">
+      <tr><th>Atalho (Win/Linux)</th><th>Mac</th><th>Ação</th></tr>
+      <tr><td>Ctrl + P</td><td>⌘ P</td><td>Abrir arquivo rapidamente</td></tr>
+      <tr><td>Ctrl + Shift + P</td><td>⌘ ⇧ P</td><td>Paleta de comandos</td></tr>
+      <tr><td>Ctrl + `</td><td>⌃ `</td><td>Abrir terminal integrado</td></tr>
+      <tr><td>Alt + Shift + F</td><td>⌥ ⇧ F</td><td>Formatar documento</td></tr>
+      <tr><td>Ctrl + D</td><td>⌘ D</td><td>Selecionar próxima ocorrência</td></tr>
+      <tr><td>Ctrl + /</td><td>⌘ /</td><td>Comentar/descomentar linha</td></tr>
+      <tr><td>F5</td><td>F5</td><td>Iniciar debug</td></tr>
+      <tr><td>Ctrl + B</td><td>⌘ B</td><td>Mostrar/ocultar barra lateral</td></tr>
+    </table>
+
+    <p>Extensões recomendadas para desenvolvimento web:</p>
+    <div class="info-cards">
+      <div class="info-card"><h5>Prettier</h5><p>Formatação automática de código ao salvar — mantém estilo consistente no projeto.</p></div>
+      <div class="info-card"><h5>ESLint</h5><p>Detecta erros e problemas de código JavaScript em tempo real.</p></div>
+      <div class="info-card"><h5>GitLens</h5><p>Mostra histórico Git, blame e comparações diretamente no editor.</p></div>
+      <div class="info-card"><h5>Live Server</h5><p>Servidor local com recarga automática ao editar HTML/CSS/JS.</p></div>
+    </div>
+  </section>
+
+  <div class="sep"></div>
+
+  <!-- ── GITHUB ── -->
+  <section class="tutorial" id="github" tabindex="-1">
+    <div class="tutorial-header">
+      <div class="tutorial-icon icon-github">🐙</div>
+      <div class="tutorial-title-wrap">
+        <h2>GitHub e Git</h2>
+        <span class="summary">Controle de versão e colaboração — essencial em qualquer projeto.</span>
+      </div>
+    </div>
+
+    <p>Git é o sistema de controle de versão. GitHub é a plataforma online para hospedar e colaborar em projetos Git. Juntos, permitem que times trabalhem no mesmo código sem conflito e com histórico completo de mudanças.</p>
+
+    <div class="tabs">
+      <button class="tab-btn active" onclick="switchTab(this, 'git-inicio')">Primeiro projeto</button>
+      <button class="tab-btn" onclick="switchTab(this, 'git-dia')">Dia a dia</button>
+      <button class="tab-btn" onclick="switchTab(this, 'git-branch')">Branches</button>
+    </div>
+
+    <div class="code-box" id="git-inicio">
+      <pre><span class="tok-cmt"># Configurar identidade (uma vez)</span>
+git config --global user.name <span class="tok-str">"Seu Nome"</span>
+git config --global user.email <span class="tok-str">"email@exemplo.com"</span>
+
+<span class="tok-cmt"># Criar repositório</span>
+git init meu-projeto
+<span class="tok-fn">cd</span> meu-projeto
+
+<span class="tok-cmt"># Conectar ao GitHub</span>
+git remote add origin https://github.com/usuario/repositorio.git
+
+<span class="tok-cmt"># Primeiro envio</span>
+git add .
+git commit -m <span class="tok-str">"feat: início do projeto"</span>
+git push -u origin main</pre>
+    </div>
+
+    <div class="code-box" id="git-dia" style="display:none">
+      <pre><span class="tok-cmt"># Ver o que mudou</span>
+git status
+git diff
+
+<span class="tok-cmt"># Salvar mudanças</span>
+git add arquivo.js          <span class="tok-cmt"># arquivo específico</span>
+git add .                   <span class="tok-cmt"># tudo</span>
+git commit -m <span class="tok-str">"fix: corrigir bug no login"</span>
+
+<span class="tok-cmt"># Sincronizar com remoto</span>
+git pull origin main        <span class="tok-cmt"># baixar mudanças</span>
+git push origin main        <span class="tok-cmt"># enviar mudanças</span>
+
+<span class="tok-cmt"># Ver histórico</span>
+git log --oneline</pre>
+    </div>
+
+    <div class="code-box" id="git-branch" style="display:none">
+      <pre><span class="tok-cmt"># Criar e mudar para nova branch</span>
+git checkout -b feature/nova-funcionalidade
+
+<span class="tok-cmt"># Trabalhar na feature...</span>
+git add .
+git commit -m <span class="tok-str">"feat: adicionar página de contato"</span>
+
+<span class="tok-cmt"># Enviar branch pro GitHub</span>
+git push origin feature/nova-funcionalidade
+
+<span class="tok-cmt"># Voltar para main e fazer merge</span>
+git checkout main
+git merge feature/nova-funcionalidade
+
+<span class="tok-cmt"># Deletar branch após merge</span>
+git branch -d feature/nova-funcionalidade</pre>
+    </div>
+
+    <div class="git-viz">
+      <div class="git-line"><div class="git-dot main"></div><span style="color:#a0a5bc">main</span><span style="color:#546e7a; margin-left:8px">commit: inicial</span></div>
+      <div class="git-line-v"></div>
+      <div class="git-line"><div class="git-dot main"></div><span style="color:#a0a5bc">main</span><span style="color:#546e7a; margin-left:8px">commit: header</span></div>
+      <div class="git-line-v"></div>
+      <div class="git-line"><div class="git-dot feature"></div><span style="color:#00e5c0">feature/login</span><span style="color:#546e7a; margin-left:8px">commit: tela de login</span></div>
+      <div class="git-line-v"></div>
+      <div class="git-line"><div class="git-dot feature"></div><span style="color:#00e5c0">feature/login</span><span style="color:#546e7a; margin-left:8px">commit: validação</span></div>
+      <div class="git-line-v"></div>
+      <div class="git-line"><div class="git-dot main"></div><span style="color:#a0a5bc">main</span><span style="color:#546e7a; margin-left:8px">merge: feature/login ✓</span></div>
+    </div>
+  </section>
+
+  <div class="sep"></div>
+
+  <!-- ── TERMINAL ── -->
+  <section class="tutorial" id="terminal" tabindex="-1">
+    <div class="tutorial-header">
+      <div class="tutorial-icon icon-terminal">⚡</div>
+      <div class="tutorial-title-wrap">
+        <h2>Terminal / Linha de Comando</h2>
+        <span class="summary">Controle total do sistema — mais rápido que qualquer interface gráfica.</span>
+      </div>
+    </div>
+
+    <p>O terminal permite interagir diretamente com o sistema operacional através de comandos de texto. É onde você roda scripts, gerencia pacotes, navega em pastas e executa programas.</p>
+
+    <div class="tabs">
+      <button class="tab-btn active" onclick="switchTab(this, 'term-nav')">Navegação</button>
+      <button class="tab-btn" onclick="switchTab(this, 'term-arch')">Arquivos</button>
+      <button class="tab-btn" onclick="switchTab(this, 'term-npm')">npm / pip</button>
+    </div>
+
+    <div class="code-box" id="term-nav">
+      <pre><span class="tok-cmt"># Ver pasta atual</span>
+<span class="tok-fn">pwd</span>
+
+<span class="tok-cmt"># Listar arquivos</span>
+<span class="tok-fn">ls</span> -la
+
+<span class="tok-cmt"># Navegar entre pastas</span>
+<span class="tok-fn">cd</span> documentos
+<span class="tok-fn">cd</span> ..          <span class="tok-cmt"># voltar um nível</span>
+<span class="tok-fn">cd</span> ~           <span class="tok-cmt"># ir para home</span>
+
+<span class="tok-cmt"># Ver conteúdo de um arquivo</span>
+<span class="tok-fn">cat</span> README.md</pre>
+    </div>
+
+    <div class="code-box" id="term-arch" style="display:none">
+      <pre><span class="tok-cmt"># Criar pasta e arquivo</span>
+<span class="tok-fn">mkdir</span> meu-projeto
+<span class="tok-fn">touch</span> index.html style.css
+
+<span class="tok-cmt"># Copiar e mover</span>
+<span class="tok-fn">cp</span> arquivo.txt copia.txt
+<span class="tok-fn">mv</span> arquivo.txt nova-pasta/
+
+<span class="tok-cmt"># Remover</span>
+<span class="tok-fn">rm</span> arquivo.txt
+<span class="tok-fn">rm</span> -rf pasta/   <span class="tok-cmt"># ⚠️ cuidado!</span>
+
+<span class="tok-cmt"># Buscar texto em arquivos</span>
+<span class="tok-fn">grep</span> -r <span class="tok-str">"função"</span> ./src</pre>
+    </div>
+
+    <div class="code-box" id="term-npm" style="display:none">
+      <pre><span class="tok-cmt"># npm (JavaScript)</span>
+npm init -y                     <span class="tok-cmt"># criar projeto</span>
+npm install react               <span class="tok-cmt"># instalar pacote</span>
+npm install -D prettier         <span class="tok-cmt"># dev dependency</span>
+npm run dev                     <span class="tok-cmt"># executar script</span>
+
+<span class="tok-cmt"># pip (Python)</span>
+pip install requests            <span class="tok-cmt"># instalar pacote</span>
+pip install -r requirements.txt <span class="tok-cmt"># instalar lista</span>
+pip freeze > requirements.txt   <span class="tok-cmt"># exportar lista</span>
+
+<span class="tok-cmt"># Ambiente virtual Python</span>
+python -m venv venv
+source venv/bin/activate        <span class="tok-cmt"># Linux/Mac</span>
+venv\Scripts\activate           <span class="tok-cmt"># Windows</span></pre>
+    </div>
+
+    <div class="quiz">
+      <h4>📝 Qual comando mostra o diretório atual no terminal Linux/Mac?</h4>
+      <div class="quiz-options">
+        <button class="quiz-opt" onclick="quiz(this, false)"><code>ls</code></button>
+        <button class="quiz-opt" onclick="quiz(this, false)"><code>cd</code></button>
+        <button class="quiz-opt" onclick="quiz(this, true)"><code>pwd</code></button>
+        <button class="quiz-opt" onclick="quiz(this, false)"><code>dir</code></button>
+      </div>
+      <div class="quiz-feedback">✅ Correto! <code>pwd</code> significa "Print Working Directory" — imprime o caminho completo da pasta atual. <code>dir</code> é o equivalente no Windows.</div>
+    </div>
+  </section>
+
+</main>
+
+<!-- ── NAVEGAÇÃO FINAL ── -->
+<div class="nav-footer">
+  <a href="tutorial_parte2.html" class="btn-parte2">
+    Continuar para Parte 2 — Construa e Publique <span class="arrow">→</span>
+  </a>
+</div>
+
+<script>
+// ── MENU ──
+const hamburger = document.getElementById('hamburgerBtn');
+const navMenu = document.getElementById('mainMenu');
+hamburger.addEventListener('click', () => {
+  const exp = hamburger.getAttribute('aria-expanded') === 'true';
+  hamburger.setAttribute('aria-expanded', !exp);
+  hamburger.classList.toggle('active');
+  navMenu.classList.toggle('active');
+});
+navMenu.querySelectorAll('a').forEach(a => {
+  a.addEventListener('click', () => {
+    hamburger.classList.remove('active');
+    hamburger.setAttribute('aria-expanded', false);
+    navMenu.classList.remove('active');
+  });
+});
+
+// ── PYTHON SIMULATOR ──
+function runPython(id) {
+  const code = document.getElementById(id).value;
+  const outEl = document.getElementById(id + '-out');
+  const lines = [];
+
+  // Intercept print
+  let output = '';
+  const prints = [];
+  const printRx = /print\((.+?)\)/g;
+
+  // Simple Python interpreter (subset)
+  try {
+    // Convert Python subset to JS
+    let js = code
+      .replace(/#.*/g, '')                                     // strip comments
+      .replace(/def (\w+)\((.*?)\):/g, 'function $1($2){')     // def → function
+      .replace(/^(\s*)if (.+?):/gm, '$1if ($2) {')
+      .replace(/^(\s*)elif (.+?):/gm, '$1} else if ($2) {')
+      .replace(/^(\s*)else:/gm, '$1} else {')
+      .replace(/^(\s*)for (\w+) in range\((\d+)\):/gm, '$1for(let $2=0;$2<$3;$2++){')
+      .replace(/^(\s*)for (\w+) in (.+?):/gm, '$1for(let $2 of $3){')
+      .replace(/^(\s*)return /gm, '$1return ')
+      .replace(/True/g, 'true').replace(/False/g, 'false')
+      .replace(/None/g, 'null')
+      .replace(/f"([^"]*)"/g, (_, s) => '`' + s.replace(/\{/g, '${') + '`')
+      .replace(/f'([^']*)'/g, (_, s) => '`' + s.replace(/\{/g, '${') + '`')
+      .replace(/print\(/g, '__out.push(String(')
+      .replace(/\.join\(([^)]+)\)/g, '.join($1)')
+      .replace(/\.format\(/g, '.replace(/%s/,')
+      .replace(/len\(([^)]+)\)/g, '($1).length')
+      .replace(/str\(([^)]+)\)/g, 'String($1)')
+      .replace(/int\(([^)]+)\)/g, 'parseInt($1)');
+
+    // fix print close
+    js = js.replace(/__out\.push\(String\(([^)]*(?:\([^)]*\)[^)]*)*)\)/g, '__out.push(String($1))');
+    js = fixPythonBlocks(js);
+
+    const __out = [];
+    const fn = new Function('__out', js.replace(/print\(([^)]*)\)/g, '__out.push(String($1))'));
+
+    // Try direct
+    eval(`(function(){const __out=[];${js};window.__pyout=__out;})()`);
+    const result = window.__pyout || [];
+    showOutput(outEl, result, false);
+  } catch(e) {
+    // Fallback: just extract print strings heuristically
+    const fakeOut = simulatePython(code);
+    showOutput(outEl, fakeOut, false);
+  }
+}
+
+function simulatePython(code) {
+  const out = [];
+  const vars = {};
+  const lines = code.split('\n');
+  const cleanLines = lines.map(l => l.replace(/#.*/,'').trimEnd()).filter(l => l.trim());
+
+  for (let i = 0; i < cleanLines.length; i++) {
+    const l = cleanLines[i].trim();
+    // Variable assignment
+    const assign = l.match(/^(\w+)\s*=\s*(.+)$/);
+    if (assign && !l.startsWith('if') && !l.startsWith('for')) {
+      try { vars[assign[1]] = evalExpr(assign[2], vars); } catch(e){}
+    }
+    // Print
+    const printM = l.match(/^print\((.+)\)$/);
+    if (printM) {
+      try { out.push(String(evalPythonExpr(printM[1], vars))); } catch(e){ out.push(printM[1]); }
+    }
+  }
+  return out.length ? out : ['(Código executado — sem saída de print)'];
+}
+
+function evalPythonExpr(expr, vars) {
+  let e = expr
+    .replace(/f"([^"]*)"/g, (_, s) => '`' + s.replace(/\{(\w+)\}/g, (__, v) => '${vars["'+v+'"]}') + '`')
+    .replace(/f'([^']*)'/g, (_, s) => '`' + s.replace(/\{(\w+)\}/g, (__, v) => '${vars["'+v+'"]}') + '`')
+    .replace(/"([^"]*)",\s*/g, '"$1" + ')
+    .replace(/'([^']*)',\s*/g, '"$1" + ')
+    .replace(/True/g,'true').replace(/False/g,'false');
+  // Replace var names
+  for (const [k,v] of Object.entries(vars)) {
+    e = e.replace(new RegExp('\\b'+k+'\\b','g'), JSON.stringify(v));
+  }
+  return eval(e);
+}
+
+function evalExpr(e, vars) {
+  let js = e.replace(/True/g,'true').replace(/False/g,'false')
+    .replace(/\[([^\]]*)\]/g, (_, inner) => {
+      const items = inner.split(',').map(i => {
+        const t = i.trim();
+        return t.startsWith('"') || t.startsWith("'") ? t.replace(/'/g,'"') : t;
+      });
+      return '[' + items.join(',') + ']';
+    });
+  for (const [k,v] of Object.entries(vars)) {
+    js = js.replace(new RegExp('\\b'+k+'\\b','g'), JSON.stringify(v));
+  }
+  return eval(js);
+}
+
+function fixPythonBlocks(code) { return code; }
+
+function showOutput(el, lines, isError) {
+  el.innerHTML = `<div class="label">OUTPUT</div>` +
+    lines.map(l => `<div class="${isError?'err-line':'out-line'}">${escHtml(l)}</div>`).join('');
+  el.classList.add('has-content');
+}
+
+function escHtml(s) {
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+// ── JS RUNNER ──
+function runJS(id) {
+  const code = document.getElementById(id).value;
+  const outEl = document.getElementById(id + '-out');
+  const logs = [];
+  const origLog = console.log;
+  console.log = (...args) => logs.push(args.map(a => typeof a==='object'?JSON.stringify(a):String(a)).join(' '));
+  try {
+    eval(code);
+    showOutput(outEl, logs.length ? logs : ['(Código executado — sem console.log)'], false);
+  } catch(e) {
+    showOutput(outEl, ['Erro: ' + e.message], true);
+  } finally {
+    console.log = origLog;
+  }
+}
+
+// ── HTML PREVIEW ──
+function runHTML(id, previewId) {
+  const code = document.getElementById(id).value;
+  const preview = document.getElementById(previewId);
+  const frame = document.getElementById(id + '-frame') || preview.querySelector('iframe');
+  preview.style.display = 'block';
+  frame.srcdoc = code;
+  frame.style.height = '220px';
+}
+
+// ── TABS ──
+function switchTab(btn, targetId) {
+  const parent = btn.parentElement;
+  parent.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+
+  // Hide siblings
+  const box = parent.nextElementSibling;
+  let el = box;
+  while (el && (el.classList.contains('code-box') || el.id)) {
+    el.style.display = 'none';
+    el = el.nextElementSibling;
+  }
+
+  const target = document.getElementById(targetId);
+  if (target) target.style.display = 'block';
+}
+
+// ── QUIZ ──
+function quiz(btn, correct) {
+  const container = btn.closest('.quiz');
+  if (container.dataset.answered) return;
+  container.dataset.answered = '1';
+  container.querySelectorAll('.quiz-opt').forEach(b => b.disabled = true);
+  btn.classList.add(correct ? 'correct' : 'wrong');
+  const fb = container.querySelector('.quiz-feedback');
+  if (!correct) {
+    fb.textContent = '❌ Não exatamente! Clique em outra opção não é possível, mas veja a resposta certa destacada.';
+    container.querySelectorAll('.quiz-opt').forEach(b => {
+      if (b.onclick.toString().includes('true')) b.classList.add('correct');
+    });
+  }
+  fb.style.display = 'block';
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,743 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Navalha & Co. — Barbearia</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preconnect" href="https://images.pexels.com" crossorigin>
+<script>if(self!==top)document.documentElement.classList.add('in-frame')</script>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Josefin+Sans:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --cream: #f5f0e8;
+    --black: #0d0d0d;
+    --gold: #c8a951;
+    --rust: #8b3a2a;
+    --mid: #2a2420;
+    --border: rgba(200,169,81,0.3);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--black);
+    color: var(--cream);
+    font-family: 'Josefin Sans', sans-serif;
+    overflow-x: hidden;
+    cursor: default;
+  }
+
+  /* ─── NAV ─── */
+  nav {
+    position: fixed; top: 0; width: 100%; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 1.5rem 4rem;
+    background: linear-gradient(to bottom, rgba(13,13,13,.95), transparent);
+  }
+  .logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.4rem; letter-spacing: .2em;
+    color: var(--gold);
+    text-transform: uppercase;
+  }
+  .logo span { color: var(--cream); }
+  nav ul { list-style: none; display: flex; gap: 2.5rem; }
+  nav ul a {
+    text-decoration: none; color: var(--cream);
+    font-size: .75rem; letter-spacing: .2em; text-transform: uppercase;
+    opacity: .7; transition: opacity .3s, color .3s;
+  }
+  nav ul a:hover { opacity: 1; color: var(--gold); }
+  .btn-nav {
+    background: var(--gold); color: var(--black);
+    padding: .6rem 1.6rem; font-family: 'Josefin Sans', sans-serif;
+    font-size: .75rem; letter-spacing: .2em; text-transform: uppercase;
+    font-weight: 600; border: none; cursor: pointer;
+    transition: background .3s;
+  }
+  .btn-nav:hover { background: var(--cream); }
+
+  /* ─── HERO ─── */
+  #hero {
+    height: 100vh; position: relative; overflow: hidden;
+    display: flex; align-items: center;
+  }
+  .hero-bg {
+    position: absolute; inset: 0;
+    background-image: url('https://images.pexels.com/photos/1805600/pexels-photo-1805600.jpeg?auto=compress&cs=tinysrgb&w=1600');
+    background-size: cover; background-position: center 30%;
+    filter: brightness(.35) saturate(.8);
+    transform: scale(1.05);
+    animation: heroZoom 12s ease forwards;
+  }
+  @keyframes heroZoom { to { transform: scale(1); } }
+
+  .hero-overlay {
+    position: absolute; inset: 0;
+    background: linear-gradient(135deg, rgba(13,13,13,.6) 0%, transparent 60%, rgba(139,58,42,.15) 100%);
+  }
+  .hero-content {
+    position: relative; z-index: 2;
+    padding: 0 4rem; max-width: 720px;
+    animation: fadeUp .9s ease .3s both;
+  }
+  @keyframes fadeUp { from { opacity:0; transform: translateY(40px); } to { opacity:1; transform: none; } }
+
+  .hero-eyebrow {
+    font-size: .7rem; letter-spacing: .4em; text-transform: uppercase;
+    color: var(--gold); margin-bottom: 1.2rem; display: flex; align-items: center; gap: 1rem;
+  }
+  .hero-eyebrow::before { content:''; display:inline-block; width:40px; height:1px; background:var(--gold); }
+
+  h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(3.5rem, 8vw, 6.5rem);
+    line-height: .95; font-weight: 900;
+    margin-bottom: 1.5rem;
+  }
+  h1 em { color: var(--gold); font-style: italic; }
+
+  .hero-sub {
+    font-size: .9rem; letter-spacing: .1em; line-height: 1.8;
+    opacity: .7; margin-bottom: 2.5rem; max-width: 400px;
+  }
+  .hero-cta { display: flex; gap: 1rem; align-items: center; }
+  .btn-primary {
+    background: var(--gold); color: var(--black);
+    padding: 1rem 2.4rem; font-family: 'Josefin Sans', sans-serif;
+    font-size: .8rem; letter-spacing: .25em; text-transform: uppercase;
+    font-weight: 600; border: none; cursor: pointer;
+    clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 12px 100%, 0 calc(100% - 12px));
+    transition: background .3s, transform .2s;
+  }
+  .btn-primary:hover { background: var(--cream); transform: translateY(-2px); }
+  .btn-outline {
+    border: 1px solid rgba(200,169,81,.5); color: var(--cream);
+    padding: .95rem 2rem; font-size: .8rem; letter-spacing: .25em;
+    text-transform: uppercase; background: transparent; cursor: pointer;
+    transition: border-color .3s, color .3s;
+  }
+  .btn-outline:hover { border-color: var(--gold); color: var(--gold); }
+
+  .hero-scroll {
+    position: absolute; bottom: 2.5rem; left: 50%; transform: translateX(-50%);
+    display: flex; flex-direction: column; align-items: center; gap: .5rem;
+    font-size: .65rem; letter-spacing: .3em; text-transform: uppercase; opacity: .5;
+    animation: bounce 2s infinite;
+  }
+  @keyframes bounce { 0%,100%{transform:translateX(-50%) translateY(0)} 50%{transform:translateX(-50%) translateY(6px)} }
+  .hero-scroll::after { content:''; width:1px; height:40px; background:var(--gold); opacity:.5; }
+
+  /* ─── STRIP ─── */
+  .strip {
+    background: var(--gold); padding: .8rem 0; overflow: hidden;
+    white-space: nowrap;
+  }
+  .strip-track {
+    display: inline-block;
+    animation: marquee 20s linear infinite;
+  }
+  @keyframes marquee { from{transform:translateX(0)} to{transform:translateX(-50%)} }
+  .strip-track span {
+    display: inline-block; margin: 0 2rem;
+    font-size: .7rem; letter-spacing: .25em; text-transform: uppercase;
+    color: var(--black); font-weight: 600;
+  }
+  .strip-track span::before { content: '✦'; margin-right: 2rem; }
+
+  /* ─── SECTION COMMONS ─── */
+  section { padding: 7rem 4rem; }
+  .section-label {
+    font-size: .65rem; letter-spacing: .5em; text-transform: uppercase;
+    color: var(--gold); margin-bottom: .8rem;
+  }
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2.2rem, 4vw, 3.2rem); font-weight: 900;
+    line-height: 1.1; margin-bottom: 1.5rem;
+  }
+  .gold-line {
+    width: 60px; height: 2px; background: var(--gold); margin-bottom: 2rem;
+  }
+
+  /* ─── SERVICES ─── */
+  #services {
+    background: var(--mid);
+    position: relative;
+  }
+  #services::before {
+    content: 'SERVIÇOS';
+    position: absolute; right: 3rem; top: 50%; transform: translateY(-50%) rotate(90deg);
+    font-family: 'Playfair Display', serif; font-size: 7rem; font-weight: 900;
+    color: rgba(255,255,255,.03); pointer-events: none; letter-spacing: .2em;
+  }
+  .services-header { max-width: 500px; margin-bottom: 4rem; }
+  .services-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+  }
+  .service-card {
+    position: relative; overflow: hidden;
+    aspect-ratio: 3/4; cursor: pointer;
+  }
+  .service-card img {
+    width: 100%; height: 100%; object-fit: cover;
+    filter: brightness(.55) saturate(.7);
+    transition: filter .5s, transform .5s;
+  }
+  .service-card:hover img { filter: brightness(.35) saturate(.5); transform: scale(1.05); }
+  .service-card-body {
+    position: absolute; inset: 0;
+    display: flex; flex-direction: column; justify-content: flex-end;
+    padding: 2rem;
+    background: linear-gradient(to top, rgba(13,13,13,.9) 0%, transparent 60%);
+  }
+  .service-num {
+    font-size: .65rem; letter-spacing: .4em; color: var(--gold); margin-bottom: .5rem;
+  }
+  .service-name {
+    font-family: 'Playfair Display', serif; font-size: 1.5rem; font-weight: 700;
+    margin-bottom: .4rem;
+  }
+  .service-price {
+    font-size: .8rem; letter-spacing: .2em; color: var(--gold);
+  }
+  .service-hover {
+    position: absolute; inset: 0; padding: 2rem;
+    display: flex; flex-direction: column; justify-content: center; align-items: center;
+    text-align: center; opacity: 0; transition: opacity .4s;
+    background: rgba(13,13,13,.6);
+  }
+  .service-card:hover .service-hover { opacity: 1; }
+  .service-hover p { font-size: .85rem; line-height: 1.7; opacity: .8; margin-bottom: 1.5rem; }
+  .btn-sm {
+    border: 1px solid var(--gold); color: var(--gold);
+    padding: .6rem 1.5rem; font-size: .7rem; letter-spacing: .2em;
+    text-transform: uppercase; background: transparent; cursor: pointer;
+    transition: background .3s, color .3s;
+  }
+  .btn-sm:hover { background: var(--gold); color: var(--black); }
+
+  /* ─── GALLERY ─── */
+  #gallery { background: var(--black); }
+  .gallery-header {
+    display: flex; justify-content: space-between; align-items: flex-end;
+    margin-bottom: 3rem;
+  }
+  .gallery-mosaic {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    grid-template-rows: repeat(3, 220px);
+    gap: 8px;
+  }
+  .gm-1 { grid-column: 1/5; grid-row: 1/3; }
+  .gm-2 { grid-column: 5/8; grid-row: 1/2; }
+  .gm-3 { grid-column: 8/13; grid-row: 1/3; }
+  .gm-4 { grid-column: 5/8; grid-row: 2/4; }
+  .gm-5 { grid-column: 1/5; grid-row: 3/4; }
+  .gm-6 { grid-column: 8/13; grid-row: 3/4; }
+
+  .gallery-item {
+    overflow: hidden; position: relative; cursor: pointer;
+  }
+  .gallery-item img {
+    width: 100%; height: 100%; object-fit: cover;
+    transition: transform .6s ease, filter .4s;
+    filter: brightness(.8) saturate(.9);
+  }
+  .gallery-item:hover img { transform: scale(1.07); filter: brightness(.9) saturate(1.1); }
+  .gallery-item::after {
+    content: '';
+    position: absolute; inset: 0;
+    background: linear-gradient(135deg, transparent 70%, rgba(200,169,81,.15));
+    pointer-events: none;
+  }
+
+  /* ─── ABOUT ─── */
+  #about {
+    background: var(--mid);
+    display: grid; grid-template-columns: 1fr 1fr; gap: 6rem; align-items: center;
+  }
+  .about-img-wrap { position: relative; }
+  .about-img-main {
+    width: 100%; aspect-ratio: 4/5; object-fit: cover;
+    filter: saturate(.7) brightness(.9);
+  }
+  .about-img-accent {
+    position: absolute;
+    width: 55%; bottom: -3rem; right: -3rem;
+    aspect-ratio: 1; object-fit: cover;
+    border: 6px solid var(--mid);
+    filter: saturate(.6);
+  }
+  .about-badge {
+    position: absolute; top: 2rem; left: -2rem;
+    width: 90px; height: 90px;
+    background: var(--gold); color: var(--black);
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    font-weight: 700;
+  }
+  .about-badge .num {
+    font-family: 'Playfair Display', serif; font-size: 2rem; line-height: 1;
+  }
+  .about-badge .txt { font-size: .55rem; letter-spacing: .15em; text-align: center; text-transform: uppercase; }
+  .about-text p { opacity: .75; line-height: 1.9; font-size: .9rem; margin-bottom: 1.2rem; }
+  .stats-row { display: flex; gap: 3rem; margin-top: 2.5rem; }
+  .stat-item .big {
+    font-family: 'Playfair Display', serif; font-size: 2.8rem; color: var(--gold); line-height: 1;
+  }
+  .stat-item .lbl { font-size: .7rem; letter-spacing: .2em; text-transform: uppercase; opacity: .6; }
+
+  /* ─── TEAM ─── */
+  #team { background: var(--black); }
+  .team-header { text-align: center; margin-bottom: 4rem; }
+  .team-header .gold-line { margin: 0 auto 2rem; }
+  .team-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.5rem; }
+  .team-card { text-align: center; cursor: pointer; }
+  .team-photo {
+    width: 100%; aspect-ratio: 3/4; object-fit: cover; object-position: top;
+    filter: saturate(.6) brightness(.85);
+    transition: filter .4s, transform .4s;
+    margin-bottom: 1.2rem;
+  }
+  .team-card:hover .team-photo { filter: saturate(.9) brightness(.95); transform: translateY(-4px); }
+  .team-name {
+    font-family: 'Playfair Display', serif; font-size: 1.1rem; margin-bottom: .3rem;
+  }
+  .team-role { font-size: .7rem; letter-spacing: .25em; text-transform: uppercase; color: var(--gold); }
+
+  /* ─── PRICING ─── */
+  #pricing { background: var(--mid); }
+  .pricing-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: var(--border); border: 1px solid var(--border); }
+  .price-row {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 1.3rem 2rem; background: var(--mid);
+    border-bottom: 1px solid var(--border);
+    transition: background .3s;
+    cursor: pointer;
+  }
+  .price-row:hover { background: rgba(200,169,81,.07); }
+  .price-name { font-size: .85rem; letter-spacing: .1em; }
+  .price-val { color: var(--gold); font-size: .9rem; font-weight: 600; letter-spacing: .1em; }
+
+  /* ─── BOOKING ─── */
+  #booking {
+    background: url('https://images.pexels.com/photos/3998429/pexels-photo-3998429.jpeg?auto=compress&cs=tinysrgb&w=1600') center/cover no-repeat;
+    position: relative; text-align: center;
+  }
+  #booking::before {
+    content:''; position: absolute; inset: 0;
+    background: rgba(13,13,13,.82);
+  }
+  #booking > * { position: relative; z-index: 1; }
+  #booking h2 { font-family: 'Playfair Display', serif; font-size: clamp(2.5rem,5vw,4rem); font-weight: 900; margin-bottom: 1rem; }
+  #booking p { opacity: .7; margin-bottom: 2.5rem; font-size: .9rem; letter-spacing: .1em; }
+  .booking-form {
+    display: flex; flex-direction: column; gap: 1rem;
+    max-width: 480px; margin: 0 auto;
+  }
+  .booking-form input, .booking-form select {
+    background: rgba(255,255,255,.07); border: 1px solid var(--border);
+    color: var(--cream); padding: .9rem 1.2rem; font-family: 'Josefin Sans', sans-serif;
+    font-size: .8rem; letter-spacing: .1em; outline: none;
+    transition: border-color .3s;
+  }
+  .booking-form input::placeholder { opacity: .5; }
+  .booking-form input:focus, .booking-form select:focus { border-color: var(--gold); }
+  .booking-form select option { background: var(--black); }
+
+  /* ─── FOOTER ─── */
+  footer {
+    background: #080808; padding: 4rem;
+    display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 3rem;
+    border-top: 1px solid var(--border);
+  }
+  .footer-brand .logo { font-size: 1.6rem; display: block; margin-bottom: 1rem; }
+  .footer-brand p { font-size: .8rem; opacity: .5; line-height: 1.8; }
+  .footer-col h4 {
+    font-size: .65rem; letter-spacing: .35em; text-transform: uppercase;
+    color: var(--gold); margin-bottom: 1.2rem;
+  }
+  .footer-col ul { list-style: none; }
+  .footer-col ul li { margin-bottom: .6rem; }
+  .footer-col ul a { color: var(--cream); text-decoration: none; font-size: .8rem; opacity: .55; transition: opacity .3s; }
+  .footer-col ul a:hover { opacity: 1; }
+  .footer-bottom {
+    border-top: 1px solid var(--border); padding: 1.5rem 4rem;
+    display: flex; justify-content: space-between; align-items: center;
+    font-size: .7rem; opacity: .4;
+  }
+
+/* ===== PERFORMANCE ===== */
+/* seções abaixo da dobra só são renderizadas quando se aproximam da tela */
+#services, #gallery, #about, #team, #pricing, #booking, footer{ content-visibility:auto; contain-intrinsic-size:auto 700px; }
+
+/* touch: sem transições de filtro/zoom em imagens (hover não existe) */
+@media (hover:none){ img{ transition:none !important; } }
+
+/* preview (iframe) e "reduzir movimento": animações rodam uma vez e param */
+.in-frame *, .in-frame *::before, .in-frame *::after{
+  animation-duration:.01ms !important; animation-delay:0s !important; animation-iteration-count:1 !important; scroll-behavior:auto !important;
+}
+@media (prefers-reduced-motion:reduce){
+  *, *::before, *::after{ animation-duration:.01ms !important; animation-delay:0s !important; animation-iteration-count:1 !important; }
+}
+/* hero: escurece com overlay em vez de filter (filter + transform animado repinta a imagem inteira) */
+.hero-bg{ filter:none !important; }
+.hero-bg::after{ content:''; position:absolute; inset:0; background:rgba(0,0,0,.66); }
+@media (max-width:768px){
+  .hero-bg{ animation:none !important; transform:none !important; background-image:url('https://images.pexels.com/photos/1805600/pexels-photo-1805600.jpeg?auto=compress&cs=tinysrgb&w=800') !important; }
+}
+.in-frame .hero-bg{ animation:none !important; transform:none !important; }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="logo">Navalha <span>&</span> Co.</div>
+  <ul>
+    <li><a href="#services">Serviços</a></li>
+    <li><a href="#gallery">Galeria</a></li>
+    <li><a href="#about">Sobre</a></li>
+    <li><a href="#pricing">Preços</a></li>
+    <li><a href="#team">Equipe</a></li>
+  </ul>
+  <button class="btn-nav">Agendar</button>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-overlay"></div>
+  <div class="hero-content">
+    <div class="hero-eyebrow">Desde 2008 — Fortaleza, CE</div>
+    <h1>Arte em<br>cada <em>corte</em></h1>
+    <p class="hero-sub">Tradição, precisão e estilo. Cada cliente sai com a melhor versão de si mesmo.</p>
+    <div class="hero-cta">
+      <button class="btn-primary" onclick="document.getElementById('booking').scrollIntoView({behavior:'smooth'})">Agendar Horário</button>
+      <button class="btn-outline" onclick="document.getElementById('services').scrollIntoView({behavior:'smooth'})">Ver Serviços</button>
+    </div>
+  </div>
+  <div class="hero-scroll">Scroll</div>
+</section>
+
+<!-- STRIP -->
+<div class="strip">
+  <div class="strip-track">
+    <span>Corte Clássico</span><span>Fade & Degradê</span><span>Barba Completa</span><span>Navalhado</span><span>Undercut</span><span>Pompadour</span><span>Skin Fade</span><span>Corte Infantil</span>
+    <span>Corte Clássico</span><span>Fade & Degradê</span><span>Barba Completa</span><span>Navalhado</span><span>Undercut</span><span>Pompadour</span><span>Skin Fade</span><span>Corte Infantil</span>
+  </div>
+</div>
+
+<!-- SERVICES -->
+<section id="services">
+  <div class="services-header">
+    <div class="section-label">O que oferecemos</div>
+    <h2 class="section-title">Nossos<br>Serviços</h2>
+    <div class="gold-line"></div>
+    <p style="opacity:.6; font-size:.85rem; line-height:1.8;">Cada serviço é executado com maestria, produtos premium e atenção absoluta aos detalhes.</p>
+  </div>
+  <div class="services-grid">
+    <div class="service-card">
+      <img decoding="async" src="https://images.pexels.com/photos/2076932/pexels-photo-2076932.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Corte Clássico" loading="lazy">
+      <div class="service-card-body">
+        <div class="service-num">01</div>
+        <div class="service-name">Corte Clássico</div>
+        <div class="service-price">A partir de R$ 45</div>
+      </div>
+      <div class="service-hover">
+        <p>Corte tradicional com tesoura e máquina, acabamento impecável. Inclui lavagem e modelagem.</p>
+        <button class="btn-sm">Agendar</button>
+      </div>
+    </div>
+    <div class="service-card">
+      <img decoding="async" src="https://images.pexels.com/photos/3998422/pexels-photo-3998422.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Barba" loading="lazy">
+      <div class="service-card-body">
+        <div class="service-num">02</div>
+        <div class="service-name">Barba Completa</div>
+        <div class="service-price">A partir de R$ 35</div>
+      </div>
+      <div class="service-hover">
+        <p>Modelagem, toalha quente, navalha e hidratação. A barba perfeita para cada rosto.</p>
+        <button class="btn-sm">Agendar</button>
+      </div>
+    </div>
+    <div class="service-card">
+      <img decoding="async" src="https://images.pexels.com/photos/7781848/pexels-photo-7781848.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Fade" loading="lazy">
+      <div class="service-card-body">
+        <div class="service-num">03</div>
+        <div class="service-name">Fade & Degradê</div>
+        <div class="service-price">A partir de R$ 55</div>
+      </div>
+      <div class="service-hover">
+        <p>Degradê perfeito, do skin fade ao high fade. Técnica avançada para um visual moderno.</p>
+        <button class="btn-sm">Agendar</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- GALLERY -->
+<section id="gallery">
+  <div class="gallery-header">
+    <div>
+      <div class="section-label">Nosso Trabalho</div>
+      <h2 class="section-title">Galeria</h2>
+    </div>
+    <p style="opacity:.5; font-size:.8rem; max-width:250px; text-align:right; line-height:1.7;">Cada corte conta uma história. Veja alguns de nossos melhores trabalhos.</p>
+  </div>
+  <div class="gallery-mosaic">
+    <div class="gallery-item gm-1">
+      <img decoding="async" src="https://images.pexels.com/photos/3998415/pexels-photo-3998415.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Fade haircut" loading="lazy">
+    </div>
+    <div class="gallery-item gm-2">
+      <img decoding="async" src="https://images.pexels.com/photos/1570807/pexels-photo-1570807.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Beard trim" loading="lazy">
+    </div>
+    <div class="gallery-item gm-3">
+      <img decoding="async" src="https://images.pexels.com/photos/3998430/pexels-photo-3998430.jpeg?auto=compress&cs=tinysrgb&w=1000" alt="Barber cutting hair" loading="lazy">
+    </div>
+    <div class="gallery-item gm-4">
+      <img decoding="async" src="https://images.pexels.com/photos/3992874/pexels-photo-3992874.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Haircut style" loading="lazy">
+    </div>
+    <div class="gallery-item gm-5">
+      <img decoding="async" src="https://images.pexels.com/photos/1453005/pexels-photo-1453005.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Beard grooming" loading="lazy">
+    </div>
+    <div class="gallery-item gm-6">
+      <img decoding="async" src="https://images.pexels.com/photos/1319461/pexels-photo-1319461.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Undercut" loading="lazy">
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="about-img-wrap">
+    <img decoding="async" loading="lazy" class="about-img-main" src="https://images.pexels.com/photos/3998429/pexels-photo-3998429.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Barbearia">
+    <img decoding="async" loading="lazy" class="about-img-accent" src="https://images.pexels.com/photos/1813272/pexels-photo-1813272.jpeg?auto=compress&cs=tinysrgb&w=400" alt="Detalhe">
+    <div class="about-badge">
+      <div class="num">15+</div>
+      <div class="txt">anos de tradição</div>
+    </div>
+  </div>
+  <div class="about-text">
+    <div class="section-label">Nossa História</div>
+    <h2 class="section-title">Mais do que<br>um corte</h2>
+    <div class="gold-line"></div>
+    <p>Fundada em 2008 no coração de Fortaleza, a Navalha & Co. nasceu da paixão por transformar a experiência masculina de cuidado pessoal em um ritual de confiança e estilo.</p>
+    <p>Com uma equipe de barbeiros altamente qualificados e um ambiente que une tradição e modernidade, somos o destino de quem busca o melhor.</p>
+    <div class="stats-row">
+      <div class="stat-item">
+        <div class="big">8K+</div>
+        <div class="lbl">Clientes</div>
+      </div>
+      <div class="stat-item">
+        <div class="big">12</div>
+        <div class="lbl">Barbeiros</div>
+      </div>
+      <div class="stat-item">
+        <div class="big">4.9★</div>
+        <div class="lbl">Avaliação</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TEAM -->
+<section id="team">
+  <div class="team-header">
+    <div class="section-label">Nossos Profissionais</div>
+    <h2 class="section-title">A Equipe</h2>
+    <div class="gold-line"></div>
+  </div>
+  <div class="team-grid">
+    <div class="team-card">
+      <img decoding="async" loading="lazy" class="team-photo" src="https://images.pexels.com/photos/2379004/pexels-photo-2379004.jpeg?auto=compress&cs=tinysrgb&w=400" alt="Barbeiro">
+      <div class="team-name">Ricardo Sousa</div>
+      <div class="team-role">Master Barber</div>
+    </div>
+    <div class="team-card">
+      <img decoding="async" loading="lazy" class="team-photo" src="https://images.pexels.com/photos/1222271/pexels-photo-1222271.jpeg?auto=compress&cs=tinysrgb&w=400" alt="Barbeiro">
+      <div class="team-name">André Lima</div>
+      <div class="team-role">Especialista em Barba</div>
+    </div>
+    <div class="team-card">
+      <img decoding="async" loading="lazy" class="team-photo" src="https://images.pexels.com/photos/91227/pexels-photo-91227.jpeg?auto=compress&cs=tinysrgb&w=400" alt="Barbeiro">
+      <div class="team-name">Carlos Menezes</div>
+      <div class="team-role">Fade Specialist</div>
+    </div>
+    <div class="team-card">
+      <img decoding="async" loading="lazy" class="team-photo" src="https://images.pexels.com/photos/874158/pexels-photo-874158.jpeg?auto=compress&cs=tinysrgb&w=400" alt="Barbeiro">
+      <div class="team-name">Bruno Alves</div>
+      <div class="team-role">Senior Barber</div>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section id="pricing">
+  <div class="section-label">Tabela de Preços</div>
+  <h2 class="section-title">Investimento</h2>
+  <div class="gold-line"></div>
+  <br>
+  <div class="pricing-grid">
+    <div class="price-row"><span class="price-name">Corte Clássico</span><span class="price-val">R$ 45</span></div>
+    <div class="price-row"><span class="price-name">Barba Completa</span><span class="price-val">R$ 35</span></div>
+    <div class="price-row"><span class="price-name">Corte + Barba</span><span class="price-val">R$ 70</span></div>
+    <div class="price-row"><span class="price-name">Fade / Degradê</span><span class="price-val">R$ 55</span></div>
+    <div class="price-row"><span class="price-name">Undercut</span><span class="price-val">R$ 50</span></div>
+    <div class="price-row"><span class="price-name">Navalhado (Rosto)</span><span class="price-val">R$ 30</span></div>
+    <div class="price-row"><span class="price-name">Corte Infantil</span><span class="price-val">R$ 40</span></div>
+    <div class="price-row"><span class="price-name">Hidratação Capilar</span><span class="price-val">R$ 25</span></div>
+    <div class="price-row"><span class="price-name">Pompadour</span><span class="price-val">R$ 60</span></div>
+    <div class="price-row"><span class="price-name">Pacote VIP (Tudo)</span><span class="price-val">R$ 110</span></div>
+  </div>
+</section>
+
+<!-- BOOKING -->
+<section id="booking">
+  <div class="section-label">Reserve sua Cadeira</div>
+  <h2>Agende Agora</h2>
+  <p>Escolha o horário ideal e venha nos visitar</p>
+  <div class="booking-form">
+    <input type="text" placeholder="Seu nome completo">
+    <input type="tel" placeholder="WhatsApp / Telefone">
+    <select>
+      <option value="" disabled selected>Selecione o serviço</option>
+      <option>Corte Clássico — R$ 45</option>
+      <option>Barba Completa — R$ 35</option>
+      <option>Corte + Barba — R$ 70</option>
+      <option>Fade / Degradê — R$ 55</option>
+      <option>Pacote VIP — R$ 110</option>
+    </select>
+    <input type="date">
+    <button class="btn-primary" style="width:100%; padding:1.1rem; font-size:.85rem;" onclick="openDemoModal()">Confirmar Agendamento</button>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-brand">
+    <span class="logo">Navalha <span>&</span> Co.</span>
+    <p>Tradição e estilo desde 2008.<br>Rua das Flores, 142 — Centro<br>Fortaleza, CE — (85) 3333-4444</p>
+  </div>
+  <div class="footer-col">
+    <h4>Serviços</h4>
+    <ul>
+      <li><a href="#">Corte Clássico</a></li>
+      <li><a href="#">Fade & Degradê</a></li>
+      <li><a href="#">Barba Completa</a></li>
+      <li><a href="#">Pacote VIP</a></li>
+    </ul>
+  </div>
+  <div class="footer-col">
+    <h4>Links</h4>
+    <ul>
+      <li><a href="#">Sobre Nós</a></li>
+      <li><a href="#">Galeria</a></li>
+      <li><a href="#">Equipe</a></li>
+      <li><a href="#">Agendar</a></li>
+    </ul>
+  </div>
+  <div class="footer-col">
+    <h4>Horários</h4>
+    <ul>
+      <li><a href="#">Seg–Sex: 9h–20h</a></li>
+      <li><a href="#">Sábado: 8h–18h</a></li>
+      <li><a href="#">Domingo: 9h–14h</a></li>
+    </ul>
+  </div>
+</footer>
+<div class="footer-bottom">
+  <span>© 2024 Navalha & Co. Todos os direitos reservados.</span>
+  <span>Fortaleza, CE</span>
+</div>
+
+<script>
+  // Smooth scroll for CTA buttons
+  document.querySelectorAll('[onclick]').forEach(el => {});
+
+  function openDemoModal() {
+    document.getElementById('demoModal').style.display = 'flex';
+  }
+  function closeDemoModal() {
+    document.getElementById('demoModal').style.display = 'none';
+  }
+</script>
+
+<!-- DEMO MODAL -->
+<div id="demoModal" onclick="if(event.target===this)closeDemoModal()" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.75);z-index:99998;align-items:center;justify-content:center;padding:20px;">
+  <div style="background:var(--cream);max-width:420px;width:100%;border-radius:4px;padding:48px 40px;text-align:center;">
+    <div style="font-size:2.6rem;margin-bottom:16px">✂️</div>
+    <h2 style="font-family:'Playfair Display',serif;font-size:1.7rem;font-weight:700;color:var(--black);margin-bottom:12px;">Site Demonstrativo</h2>
+    <p style="font-size:.86rem;color:#666;line-height:1.8;margin-bottom:28px;">Este é um site criado apenas para fins de portfólio e demonstração.<br>Nenhum agendamento real foi realizado.</p>
+    <button onclick="closeDemoModal()" style="width:100%;padding:14px;background:var(--black);color:var(--cream);border:none;font-family:'Josefin Sans',sans-serif;font-size:.76rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;cursor:pointer;margin-bottom:12px;">Entendido</button>
+    <a href="portfolio_web.html" style="display:block;font-size:.72rem;color:#888;text-decoration:none;letter-spacing:.08em;text-transform:uppercase;">← Ver outros projetos</a>
+  </div>
+</div>
+
+<!-- DEMO BANNER -->
+<div id="demo-banner" style="
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 99999;
+  background: #0b0b0b;
+  border-top: 2px solid #c6ff00;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 28px;
+  gap: 16px;
+  font-family: 'Poppins', sans-serif;
+  flex-wrap: wrap;
+">
+  <div style="display: flex; align-items: center; gap: 12px; flex-wrap: wrap;">
+    <span style="
+      background: #c6ff00;
+      color: #0b0b0b;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      padding: 3px 9px;
+      border-radius: 3px;
+      text-transform: uppercase;
+      white-space: nowrap;
+    ">Site Demonstrativo</span>
+    <p style="
+      color: #aaa;
+      font-size: 13px;
+      margin: 0;
+    ">Este é um site criado apenas para fins de portfólio e demonstração. Nenhuma compra real foi realizada.</p>
+  </div>
+  <div style="display: flex; align-items: center; gap: 12px; flex-wrap: wrap;">
+    <button onclick="document.getElementById('demo-banner').style.display='none'" style="
+      background: #1a1a1a;
+      border: 1px solid #333;
+      color: #ccc;
+      font-size: 13px;
+      padding: 7px 16px;
+      cursor: pointer;
+      border-radius: 4px;
+      font-family: inherit;
+      white-space: nowrap;
+      transition: background 0.2s;
+    " onmouseover="this.style.background='#222'" onmouseout="this.style.background='#1a1a1a'">Entendido</button>
+    <a href="portfolio_web.html" style="
+      color: #c6ff00;
+      font-size: 13px;
+      text-decoration: none;
+      white-space: nowrap;
+      font-weight: 600;
+    ">← Ver outros projetos</a>
+  </div>
+</div>
+<!-- END DEMO BANNER -->
+</body>
+</html>

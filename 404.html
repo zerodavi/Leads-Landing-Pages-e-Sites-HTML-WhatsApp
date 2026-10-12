@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="Davi Ramos: desenvolvedor front-end e UX/UI designer. Veja habilidades, cursos e projetos.">
+<meta name="theme-color" content="#0a0a0f">
+<title>Davi Ramos | Desenvolvedor Front-End &amp; UX/UI Designer</title>
+
+<script>
+/* aplica o tema salvo antes da primeira pintura (evita "piscar") */
+(function(){var d=document.documentElement,t='dark';
+try{t=localStorage.getItem('theme')||(matchMedia('(prefers-color-scheme:light)').matches?'light':'dark')}catch(e){}
+d.dataset.theme=t;d.classList.add('js')})();
+</script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" media="print" onload="this.media='all'" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;700;800&display=swap">
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;700;800&display=swap"></noscript>
+<link rel="stylesheet" href="portfolio.css">
+<link rel="preload" as="image" href="assets/foto de perfil.webp">
+</head>
+<body>
+<div class="progress" aria-hidden="true"></div>
+
+<!-- ===== NAVEGAÇÃO ===== -->
+<header class="nav" id="nav">
+  <div class="container">
+    <a href="#inicio" class="logo" aria-label="Davi Ramos, início">DR<span class="grad">.</span></a>
+    <nav class="links" aria-label="Principal">
+      <a href="#sobre">Sobre</a>
+      <a href="#habilidades">Habilidades</a>
+      <a href="#cursos">Cursos</a>
+      <a href="#projetos">Projetos</a>
+      <a href="Dados.html" class="btn btn-primary btn-sm" target="_blank" rel="noopener">Contrate-me</a>
+    </nav>
+    <div class="tools">
+      <button class="icon-btn" id="theme" type="button" aria-label="Alternar tema">
+        <svg class="ico-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+        <svg class="ico-sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+      </button>
+      <button class="icon-btn burger" id="burger" type="button" aria-label="Abrir menu" aria-expanded="false" aria-controls="nav"><span><i></i><i></i><i></i></span></button>
+    </div>
+  </div>
+</header>
+
+<main>
+  <!-- ===== HERO ===== -->
+  <section class="hero" id="inicio">
+    <div class="container">
+      <div>
+        <div class="eyebrow"><i></i>Disponível para novos projetos</div>
+        <h1>Davi <span class="grad">Ramos</span></h1>
+        <div class="role" aria-label="Desenvolvedor Front-End e UX/UI Designer"><span id="typed">Desenvolvedor Front-End</span></div>
+        <p class="lead">Apaixonado por criar experiências digitais inovadoras: interfaces intuitivas, acessíveis e responsivas.</p>
+        <div class="cta">
+          <a class="btn btn-primary" href="Dados.html" target="_blank" rel="noopener">Contrate-me</a>
+          <a class="btn btn-ghost" href="https://wa.me/5586994070772?text=Ol%C3%A1!%20Gostaria%20de%20mais%20informa%C3%A7%C3%B5es." target="_blank" rel="noopener">WhatsApp</a>
+          <a class="btn btn-ghost" href="https://github.com/zerodavi/DAVI-portf-lio" target="_blank" rel="noopener">GitHub</a>
+        </div>
+      </div>
+      <div class="avatar">
+        <img src="assets/foto de perfil.webp" alt="Foto de Davi Ramos, desenvolvedor front-end e UX/UI designer" width="340" height="340" fetchpriority="high" decoding="async">
+        <span class="chip" aria-hidden="true">HTML</span><span class="chip" aria-hidden="true">CSS</span><span class="chip" aria-hidden="true">JavaScript</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== SOBRE ===== -->
+  <section id="sobre">
+    <div class="container about">
+      <div class="reveal">
+        <div class="kicker">Sobre mim</div>
+        <h2 class="title">Tecnologia com <span class="grad">design</span></h2>
+        <p>Sou Davi Ramos, um desenvolvedor com paixão por tecnologia e design. Atuo com Front-End e UX/UI Design, criando interfaces intuitivas, acessíveis e responsivas.</p>
+        <p>Tenho foco em usabilidade, atenção aos detalhes e aprendizado contínuo, buscando sempre entregar soluções modernas e funcionais.</p>
+      </div>
+      <div class="stats reveal">
+        <div class="stat"><b data-n="9">9</b><span>cursos</span></div>
+        <div class="stat"><b data-n="6">6</b><span>projetos</span></div>
+        <div class="stat"><b data-n="3">3</b><span>linguagens web</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== HABILIDADES ===== -->
+  <section id="habilidades">
+    <div class="container">
+      <div class="kicker reveal">Habilidades</div>
+      <h2 class="title reveal">O que eu <span class="grad">sei fazer</span></h2>
+      <div class="cards">
+        <div class="card reveal"><div class="emo" aria-hidden="true">🧱</div><h3>HTML</h3><p>Estruturação semântica de páginas web.</p></div>
+        <div class="card reveal"><div class="emo" aria-hidden="true">🎨</div><h3>CSS</h3><p>Estilização, animações e layout responsivo.</p></div>
+        <div class="card reveal"><div class="emo" aria-hidden="true">⚡</div><h3>JavaScript</h3><p>Interatividade e lógica de programação.</p></div>
+        <div class="card reveal"><div class="emo" aria-hidden="true">📊</div><h3>Pacote Office</h3><p>Excel, Word e PowerPoint para tarefas práticas.</p></div>
+        <div class="card reveal"><div class="emo" aria-hidden="true">🤖</div><h3>Inteligência Artificial</h3><p>Conceitos básicos e uso introdutório de ferramentas.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== CURSOS ===== -->
+  <section id="cursos">
+    <div class="container">
+      <div class="kicker reveal">Formação</div>
+      <h2 class="title reveal">Área de conhecimento <span class="grad">e cursos</span></h2>
+      <ul class="courses">
+        <li class="reveal"><b>Microsoft Office 365</b><span>Conhecendo o Teams</span><em>Fundação Bradesco</em></li>
+        <li class="reveal"><b>Microsoft Word</b><span>Básico, Intermediário e Avançado</span><em>Fundação Bradesco</em></li>
+        <li class="reveal"><b>Microsoft PowerPoint</b><span>Básico</span><em>Fundação Bradesco</em></li>
+        <li class="reveal"><b>Tomada de Decisões</b><span>Desenvolvimento Pessoal</span><em>Fundação Bradesco</em></li>
+        <li class="reveal"><b>Python</b><span>Programação Básica</span><em>Fundação Bradesco</em></li>
+        <li class="reveal"><b>Python OOP</b><span>Orientação a Objetos</span><em>Fundação Bradesco</em></li>
+        <li class="reveal"><b>Letramento Digital</b><span>Tecnologia da Informação</span><em>Fundação Bradesco</em></li>
+        <li class="reveal"><b>Microsoft Excel</b><span>Básico</span><em>Fundação Bradesco</em></li>
+        <li class="reveal"><b>Informática Básica</b><span>Curso presencial</span><em>RJ Informática</em></li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ===== PROJETOS ===== -->
+  <section id="projetos">
+    <div class="container">
+      <div class="kicker reveal">Portfólio</div>
+      <h2 class="title reveal">Projetos <span class="grad">recentes</span></h2>
+      <div class="filters" role="group" aria-label="Filtrar projetos">
+        <button class="filter" data-f="all" aria-pressed="true">Todos</button>
+        <button class="filter" data-f="web" aria-pressed="false">Web</button>
+        <button class="filter" data-f="office" aria-pressed="false">Office</button>
+        <button class="filter" data-f="app" aria-pressed="false">App</button>
+      </div>
+      <div class="grid">
+        <article class="card proj reveal" data-cat="office">
+          <img src="icones/excel.webp" alt="" width="84" height="84" loading="lazy" decoding="async">
+          <h3>Funções no Excel</h3>
+          <p>Tutorial prático com as principais funções do Excel, como SOMA e CONT.VALORES, com exemplos passo a passo.</p>
+          <a class="btn btn-ghost btn-sm" href="Funções no Excel.html" target="_blank" rel="noopener" aria-label="Abrir Funções no Excel">Abrir <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg></a>
+        </article>
+        <article class="card proj reveal" data-cat="office">
+          <img src="icones/ms-word.webp" alt="" width="84" height="84" loading="lazy" decoding="async">
+          <h3>Normas ABNT no Word</h3>
+          <p>Guia prático para formatação correta de trabalhos acadêmicos segundo as normas ABNT utilizando o Microsoft Word.</p>
+          <a class="btn btn-ghost btn-sm" href="Normas ABNT no Word.html" target="_blank" rel="noopener" aria-label="Abrir Normas ABNT no Word">Abrir <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg></a>
+        </article>
+        <article class="card proj reveal" data-cat="web">
+          <img src="icones/HTML.webp" alt="" width="84" height="84" loading="lazy" decoding="async">
+          <h3>Tutoriais</h3>
+          <p>Conjunto de tutoriais introdutórios sobre HTML, CSS e lógica de programação para iniciantes.</p>
+          <a class="btn btn-ghost btn-sm" href="Tutoriais.html" target="_blank" rel="noopener" aria-label="Abrir Tutoriais">Abrir <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg></a>
+        </article>
+        <article class="card proj reveal" data-cat="web">
+          <img src="icones/game.webp" alt="" width="84" height="84" loading="lazy" decoding="async">
+          <h3>Game HTML/PC</h3>
+          <p>Jogo desenvolvido em HTML, CSS e JavaScript com movimentação, colisões e lógica básica de gameplay.</p>
+          <a class="btn btn-ghost btn-sm" href="https://davirs.neocities.org/iniciar" target="_blank" rel="noopener" aria-label="Abrir Game HTML/PC">Abrir <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg></a>
+        </article>
+        <article class="card proj reveal" data-cat="app">
+          <img src="icones/notas.webp" alt="" width="84" height="84" loading="lazy" decoding="async">
+          <h3>NotasApp (APK)</h3>
+          <p>Aplicativo Android para criação, edição e exclusão de notas, focado em simplicidade e produtividade.</p>
+          <a class="btn btn-ghost btn-sm" href="notasapp-download.html" target="_blank" rel="noopener" aria-label="Abrir NotasApp (APK)">Abrir <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg></a>
+        </article>
+        <article class="card proj reveal" data-cat="web">
+          <img src="icones/projeto-Landing.webp" alt="" width="84" height="84" loading="lazy" decoding="async">
+          <h3>Landing Page</h3>
+          <p>Portfólio de projetos em formato de landing page moderna, com animações e visualização interativa dos trabalhos.</p>
+          <a class="btn btn-ghost btn-sm" href="projeto-Landing-v2.html" target="_blank" rel="noopener" aria-label="Abrir Landing Page">Abrir <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg></a>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== CONTATO ===== -->
+  <section id="contato">
+    <div class="container">
+      <div class="contact reveal">
+        <h2 class="title">Vamos criar algo <span class="grad">incrível</span>?</h2>
+        <p>Me chame para conversar sobre o seu projeto. Respondo rápido.</p>
+        <div class="cta">
+          <a class="btn btn-primary" href="Dados.html" target="_blank" rel="noopener">Contrate-me</a>
+          <a class="btn btn-ghost" href="mailto:dr913823@gmail.com">Enviar e-mail</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="footer"><div class="container">&copy; <span id="year">2026</span> Davi Ramos. Todos os direitos reservados.</div></footer>
+
+<button class="icon-btn totop" id="totop" type="button" aria-label="Voltar ao topo"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 19V5M5 12l7-7 7 7"/></svg></button>
+
+<script src="portfolio.js" defer></script>
+</body>
+</html>

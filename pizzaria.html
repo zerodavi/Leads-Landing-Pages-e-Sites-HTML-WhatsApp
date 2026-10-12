@@ -1,0 +1,1324 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>La Forno — Pizzaria Artesanal</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preconnect" href="https://images.pexels.com" crossorigin>
+<script>if(self!==top)document.documentElement.classList.add('in-frame')</script>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Cormorant+Garamond:wght@300;400;500&family=Bebas+Neue&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --cream: #F5EFE0;
+      --red: #C0392B;
+      --dark-red: #7B1A13;
+      --black: #1A0A07;
+      --gold: #D4A843;
+      --warm-gray: #8C7B6B;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--black);
+      color: var(--cream);
+      font-family: 'Cormorant Garamond', serif;
+      overflow-x: hidden;
+    }
+
+    /* ── NOISE OVERLAY ── */
+    body::before {
+      content: '';
+      position: fixed; inset: 0; z-index: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+      pointer-events: none;
+      opacity: 0.35;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 24px 60px;
+      background: linear-gradient(to bottom, rgba(26,10,7,0.95), transparent);
+    }
+    .logo {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 2rem;
+      letter-spacing: 6px;
+      color: var(--gold);
+      text-decoration: none;
+    }
+    .logo span { color: var(--cream); }
+    nav ul {
+      display: flex; gap: 40px; list-style: none;
+    }
+    nav a {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 0.95rem;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--cream);
+      text-decoration: none;
+      opacity: 0.75;
+      transition: opacity 0.2s, color 0.2s;
+    }
+    nav a:hover { opacity: 1; color: var(--gold); }
+    .nav-btn {
+      font-family: 'Bebas Neue', sans-serif;
+      letter-spacing: 3px;
+      font-size: 0.9rem;
+      padding: 10px 28px;
+      background: var(--red);
+      color: var(--cream);
+      border: none;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .nav-btn:hover { background: var(--dark-red); }
+
+    /* ── HERO ── */
+    .hero {
+      position: relative;
+      height: 100vh;
+      display: flex; align-items: center;
+      overflow: hidden;
+    }
+    .hero-bg {
+      position: absolute; inset: 0;
+      background: url('https://images.pexels.com/photos/1566837/pexels-photo-1566837.jpeg?auto=compress&cs=tinysrgb&w=1600') center/cover no-repeat;
+      transform: scale(1.08);
+      animation: heroZoom 12s ease-out forwards;
+    }
+    @keyframes heroZoom { to { transform: scale(1); } }
+    .hero-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(120deg, rgba(26,10,7,0.88) 40%, rgba(26,10,7,0.3) 100%);
+    }
+    .hero-content {
+      position: relative; z-index: 2;
+      padding: 0 80px;
+      max-width: 750px;
+      animation: fadeUp 1.2s 0.3s both;
+    }
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(40px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .hero-eyebrow {
+      font-family: 'Bebas Neue', sans-serif;
+      letter-spacing: 8px;
+      font-size: 0.85rem;
+      color: var(--gold);
+      margin-bottom: 20px;
+    }
+    .hero h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(3.5rem, 7vw, 6.5rem);
+      font-style: italic;
+      font-weight: 900;
+      line-height: 1.05;
+      margin-bottom: 28px;
+      color: var(--cream);
+    }
+    .hero h1 em { color: var(--gold); font-style: normal; }
+    .hero p {
+      font-size: 1.25rem;
+      font-weight: 300;
+      line-height: 1.7;
+      color: rgba(245,239,224,0.75);
+      margin-bottom: 44px;
+      max-width: 480px;
+    }
+    .btn-group { display: flex; gap: 16px; align-items: center; }
+    .btn-primary {
+      font-family: 'Bebas Neue', sans-serif;
+      letter-spacing: 4px;
+      font-size: 1rem;
+      padding: 16px 40px;
+      background: var(--red);
+      color: var(--cream);
+      border: none; cursor: pointer;
+      transition: background 0.2s, transform 0.2s;
+    }
+    .btn-primary:hover { background: var(--dark-red); transform: translateY(-2px); }
+    .btn-outline {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1rem;
+      letter-spacing: 2px;
+      color: var(--cream);
+      border-bottom: 1px solid var(--gold);
+      padding-bottom: 2px;
+      cursor: pointer;
+      background: none; border-top: none; border-left: none; border-right: none;
+      transition: color 0.2s;
+      text-decoration: none;
+    }
+    .btn-outline:hover { color: var(--gold); }
+
+    /* ── MARQUEE ── */
+    .marquee-wrap {
+      background: var(--red);
+      padding: 14px 0;
+      overflow: hidden;
+      white-space: nowrap;
+    }
+    .marquee-track {
+      display: inline-block;
+      animation: marquee 22s linear infinite;
+    }
+    .marquee-track span {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.1rem;
+      letter-spacing: 6px;
+      margin: 0 36px;
+      color: rgba(245,239,224,0.9);
+    }
+    .marquee-track span.dot { color: var(--gold); margin: 0 12px; font-size: 1.4rem; }
+    @keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+    /* ── SECTION COMMON ── */
+    section { position: relative; z-index: 1; }
+    .section-label {
+      font-family: 'Bebas Neue', sans-serif;
+      letter-spacing: 8px;
+      font-size: 0.8rem;
+      color: var(--gold);
+      margin-bottom: 14px;
+    }
+    .section-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2.2rem, 4vw, 3.5rem);
+      font-style: italic;
+      line-height: 1.15;
+      margin-bottom: 20px;
+    }
+
+    /* ── FEATURED PIZZA ── */
+    .featured {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      min-height: 90vh;
+    }
+    .featured-img {
+      position: relative; overflow: hidden;
+    }
+    .featured-img img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      transition: transform 6s ease;
+    }
+    .featured-img:hover img { transform: scale(1.04); }
+    .featured-badge {
+      position: absolute; top: 32px; left: 32px;
+      background: var(--red);
+      font-family: 'Bebas Neue', sans-serif;
+      letter-spacing: 4px;
+      font-size: 0.85rem;
+      padding: 8px 18px;
+      color: var(--cream);
+    }
+    .featured-content {
+      background: #0F0603;
+      display: flex; flex-direction: column; justify-content: center;
+      padding: 80px;
+    }
+    .featured-content .section-title { color: var(--cream); }
+    .featured-content p {
+      font-size: 1.15rem;
+      font-weight: 300;
+      line-height: 1.8;
+      color: rgba(245,239,224,0.7);
+      margin-bottom: 36px;
+    }
+    .ingredients {
+      display: flex; gap: 12px; flex-wrap: wrap;
+      margin-bottom: 40px;
+    }
+    .ingredient {
+      border: 1px solid rgba(212,168,67,0.35);
+      color: var(--gold);
+      font-size: 0.8rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      padding: 6px 14px;
+      font-family: 'Cormorant Garamond', serif;
+    }
+    .price {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.5rem;
+      font-style: italic;
+      color: var(--gold);
+      margin-bottom: 32px;
+    }
+
+    /* ── PIZZA GRID ── */
+    .menu-section {
+      padding: 100px 60px;
+      background: #0F0603;
+    }
+    .menu-header {
+      display: flex; align-items: flex-end; justify-content: space-between;
+      margin-bottom: 60px;
+    }
+    .menu-header .section-title { margin-bottom: 0; }
+    .filter-tabs { display: flex; gap: 6px; }
+    .filter-tab {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 0.85rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      padding: 8px 20px;
+      background: none;
+      border: 1px solid rgba(245,239,224,0.2);
+      color: rgba(245,239,224,0.55);
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .filter-tab.active, .filter-tab:hover {
+      background: var(--red);
+      border-color: var(--red);
+      color: var(--cream);
+    }
+    .pizza-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2px;
+    }
+    .pizza-card {
+      position: relative;
+      overflow: hidden;
+      aspect-ratio: 4/3;
+      cursor: pointer;
+    }
+    .pizza-card img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      transition: transform 0.6s ease, filter 0.6s ease;
+      filter: brightness(0.75);
+    }
+    .pizza-card:hover img { transform: scale(1.07); filter: brightness(0.5); }
+    .pizza-info {
+      position: absolute; bottom: 0; left: 0; right: 0;
+      padding: 28px 24px;
+      background: linear-gradient(to top, rgba(26,10,7,0.95) 0%, transparent 100%);
+      transform: translateY(0);
+      transition: transform 0.4s ease;
+    }
+    .pizza-card:hover .pizza-info { transform: translateY(-8px); }
+    .pizza-name {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.35rem;
+      font-style: italic;
+      color: var(--cream);
+      margin-bottom: 4px;
+    }
+    .pizza-sub {
+      font-size: 0.82rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: rgba(245,239,224,0.5);
+    }
+    .pizza-price-tag {
+      position: absolute; top: 20px; right: 20px;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.1rem;
+      letter-spacing: 2px;
+      background: rgba(26,10,7,0.8);
+      border: 1px solid var(--gold);
+      color: var(--gold);
+      padding: 6px 14px;
+    }
+    /* Large card spans 2 cols */
+    .pizza-card.large { grid-column: span 2; aspect-ratio: 8/3; }
+
+    /* ── ABOUT STRIP ── */
+    .about-strip {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 2px;
+    }
+    .about-img {
+      position: relative; overflow: hidden; aspect-ratio: 3/4;
+    }
+    .about-img img {
+      width: 100%; height: 100%; object-fit: cover;
+      transition: transform 5s ease;
+    }
+    .about-img:hover img { transform: scale(1.05); }
+    .about-text {
+      grid-column: span 1;
+      background: var(--cream);
+      color: var(--black);
+      padding: 80px 60px;
+      display: flex; flex-direction: column; justify-content: center;
+    }
+    .about-text .section-label { color: var(--dark-red); }
+    .about-text .section-title { color: var(--black); font-size: 2.8rem; }
+    .about-text p {
+      font-size: 1.1rem;
+      font-weight: 400;
+      line-height: 1.8;
+      color: #3A2A1F;
+      margin-bottom: 20px;
+    }
+    .about-stat {
+      display: flex; gap: 48px; margin-top: 36px;
+    }
+    .stat-num {
+      font-family: 'Playfair Display', serif;
+      font-size: 3rem;
+      font-style: italic;
+      color: var(--red);
+      line-height: 1;
+    }
+    .stat-label {
+      font-size: 0.8rem;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--warm-gray);
+      margin-top: 4px;
+    }
+
+    /* ── SPECIALS ROW ── */
+    .specials {
+      padding: 100px 60px;
+      background: var(--black);
+    }
+    .specials-header { text-align: center; margin-bottom: 64px; }
+    .specials-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 24px;
+    }
+    .special-card {
+      background: #0F0603;
+      overflow: hidden;
+      transition: transform 0.35s;
+    }
+    .special-card:hover { transform: translateY(-8px); }
+    .special-card img {
+      width: 100%;
+      aspect-ratio: 1;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.6s;
+    }
+    .special-card:hover img { transform: scale(1.06); }
+    .special-card-body { padding: 24px 20px; }
+    .special-card-name {
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      font-size: 1.3rem;
+      color: var(--cream);
+      margin-bottom: 8px;
+    }
+    .special-card-desc {
+      font-size: 0.92rem;
+      line-height: 1.6;
+      color: rgba(245,239,224,0.5);
+      margin-bottom: 20px;
+    }
+    .special-card-footer {
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .special-price {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.5rem;
+      font-style: italic;
+      color: var(--gold);
+    }
+    .add-btn {
+      font-family: 'Bebas Neue', sans-serif;
+      letter-spacing: 2px;
+      font-size: 0.85rem;
+      padding: 8px 18px;
+      background: var(--red);
+      color: var(--cream);
+      border: none; cursor: pointer;
+      transition: background 0.2s;
+    }
+    .add-btn:hover { background: var(--dark-red); }
+
+    /* ── RESERVATION ── */
+    .reservation {
+      position: relative;
+      min-height: 60vh;
+      display: flex; align-items: center;
+      overflow: hidden;
+    }
+    .reservation-bg {
+      position: absolute; inset: 0;
+      background: url('https://images.pexels.com/photos/2323398/pexels-photo-2323398.jpeg?auto=compress&cs=tinysrgb&w=1600') center/cover;
+    }
+    .reservation-overlay {
+      position: absolute; inset: 0;
+      background: rgba(26,10,7,0.85);
+    }
+    .reservation-content {
+      position: relative; z-index: 2;
+      width: 100%;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      padding: 100px 80px;
+      align-items: center;
+    }
+    .reservation-left .section-title { color: var(--cream); font-size: 3rem; }
+    .reservation-left p {
+      font-size: 1.1rem;
+      line-height: 1.75;
+      color: rgba(245,239,224,0.65);
+      margin-top: 16px;
+    }
+    .form-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 16px;
+    }
+    .form-field {
+      display: flex; flex-direction: column; gap: 8px;
+    }
+    .form-field.full { grid-column: span 2; }
+    .form-field label {
+      font-size: 0.78rem;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--gold);
+    }
+    .form-field input, .form-field select {
+      background: rgba(245,239,224,0.07);
+      border: 1px solid rgba(245,239,224,0.15);
+      color: var(--cream);
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1rem;
+      padding: 12px 16px;
+      outline: none;
+      transition: border-color 0.2s;
+      width: 100%;
+      -webkit-appearance: none;
+    }
+    .form-field input::placeholder { color: rgba(245,239,224,0.3); }
+    .form-field input:focus, .form-field select:focus {
+      border-color: var(--gold);
+    }
+    .form-field select option { background: #1A0A07; }
+    .submit-btn {
+      grid-column: span 2;
+      font-family: 'Bebas Neue', sans-serif;
+      letter-spacing: 5px;
+      font-size: 1.05rem;
+      padding: 18px;
+      background: var(--red);
+      color: var(--cream);
+      border: none; cursor: pointer;
+      transition: background 0.2s;
+      width: 100%;
+    }
+    .submit-btn:hover { background: var(--dark-red); }
+
+    /* ── FOOTER ── */
+    footer {
+      background: #060200;
+      padding: 80px 80px 40px;
+      border-top: 1px solid rgba(212,168,67,0.15);
+    }
+    .footer-top {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 1fr;
+      gap: 60px;
+      margin-bottom: 60px;
+    }
+    .footer-brand .logo { font-size: 2.2rem; display: block; margin-bottom: 20px; }
+    .footer-brand p {
+      font-size: 0.95rem;
+      line-height: 1.7;
+      color: rgba(245,239,224,0.45);
+      max-width: 280px;
+    }
+    .footer-col h4 {
+      font-family: 'Bebas Neue', sans-serif;
+      letter-spacing: 5px;
+      font-size: 0.85rem;
+      color: var(--gold);
+      margin-bottom: 20px;
+    }
+    .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 12px; }
+    .footer-col a {
+      font-size: 0.95rem;
+      color: rgba(245,239,224,0.45);
+      text-decoration: none;
+      transition: color 0.2s;
+      letter-spacing: 1px;
+    }
+    .footer-col a:hover { color: var(--cream); }
+    .footer-bottom {
+      border-top: 1px solid rgba(245,239,224,0.08);
+      padding-top: 30px;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .footer-bottom p { font-size: 0.82rem; color: rgba(245,239,224,0.3); letter-spacing: 1px; }
+    .socials { display: flex; gap: 20px; }
+    .social-icon {
+      width: 36px; height: 36px;
+      border: 1px solid rgba(245,239,224,0.15);
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer;
+      transition: border-color 0.2s, background 0.2s;
+      font-size: 0.9rem;
+      color: rgba(245,239,224,0.45);
+      text-decoration: none;
+    }
+    .social-icon:hover { border-color: var(--gold); color: var(--gold); }
+
+    /* ── ANIMATIONS ── */
+    .reveal {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.8s ease, transform 0.8s ease;
+    }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+
+    @media (max-width: 1024px) {
+      .featured { grid-template-columns: 1fr; }
+      .featured-img { height: 50vh; }
+      .pizza-grid { grid-template-columns: repeat(2, 1fr); }
+      .pizza-card.large { grid-column: span 2; }
+      .about-strip { grid-template-columns: 1fr; }
+      .specials-grid { grid-template-columns: repeat(2,1fr); }
+      .footer-top { grid-template-columns: 1fr 1fr; }
+    }
+
+    @media (max-width: 720px) {
+      nav { padding: 18px 24px; }
+      nav ul, nav .nav-btn { display: none; }
+      .hero-content { padding: 0 32px; }
+      .pizza-grid { grid-template-columns: 1fr; }
+      .pizza-card.large { grid-column: span 1; aspect-ratio: 4/3; }
+      .specials-grid { grid-template-columns: 1fr; }
+      .reservation-content { grid-template-columns: 1fr; padding: 60px 32px; }
+      .menu-section, .specials { padding: 80px 24px; }
+      footer { padding: 60px 24px 32px; }
+      .footer-top { grid-template-columns: 1fr; gap: 40px; }
+    }
+  
+/* ===== PERFORMANCE ===== */
+/* seções abaixo da dobra só são renderizadas quando se aproximam da tela */
+.featured, .menu-section, .about-strip, .specials, .reservation, footer{ content-visibility:auto; contain-intrinsic-size:auto 700px; }
+
+/* touch: sem transições de filtro/zoom em imagens (hover não existe) */
+@media (hover:none){ img{ transition:none !important; } }
+
+/* preview (iframe) e "reduzir movimento": animações rodam uma vez e param */
+.in-frame *, .in-frame *::before, .in-frame *::after{
+  animation-duration:.01ms !important; animation-delay:0s !important; animation-iteration-count:1 !important; scroll-behavior:auto !important;
+}
+@media (prefers-reduced-motion:reduce){
+  *, *::before, *::after{ animation-duration:.01ms !important; animation-delay:0s !important; animation-iteration-count:1 !important; }
+}
+/* overlay de ruído SVG (feTurbulence em tela cheia, ~1% de opacidade): invisível e muito caro */
+body::before{ display:none !important; }
+@media (max-width:768px){
+  .hero-bg{ animation:none !important; transform:none !important; background-image:url('https://images.pexels.com/photos/1566837/pexels-photo-1566837.jpeg?auto=compress&cs=tinysrgb&w=800') !important; }
+}
+.in-frame .hero-bg{ animation:none !important; transform:none !important; }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a class="logo" href="#">La <span>Forno</span></a>
+  <ul>
+    <li><a href="#menu">Cardápio</a></li>
+    <li><a href="#sobre">Nossa História</a></li>
+    <li><a href="#reserva">Reservas</a></li>
+  </ul>
+  <button class="nav-btn">Pedir Agora</button>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-overlay"></div>
+  <div class="hero-content">
+    <p class="hero-eyebrow">Desde 1987 · Napolitana Artesanal</p>
+    <h1>A Pizza <em>Perfeita</em><br>nasce do fogo.</h1>
+    <p>Massa fermentada por 72 horas, tomates San Marzano importados e o forno a lenha mais antigo da cidade. Isso é La Forno.</p>
+    <div class="btn-group">
+      <button class="btn-primary" onclick="document.getElementById('menu').scrollIntoView({behavior:'smooth'})">Ver Cardápio</button>
+      <a class="btn-outline" href="#reserva">Fazer Reserva</a>
+    </div>
+  </div>
+</section>
+
+<!-- MARQUEE -->
+<div class="marquee-wrap">
+  <div class="marquee-track">
+    <span>Margherita</span><span class="dot">✦</span>
+    <span>Bufala</span><span class="dot">✦</span>
+    <span>Quatro Queijos</span><span class="dot">✦</span>
+    <span>Calabresa</span><span class="dot">✦</span>
+    <span>Parmegiana</span><span class="dot">✦</span>
+    <span>Funghi</span><span class="dot">✦</span>
+    <span>Napoletana</span><span class="dot">✦</span>
+    <span>Diavola</span><span class="dot">✦</span>
+    <span>Trufa Negra</span><span class="dot">✦</span>
+    <span>Margherita</span><span class="dot">✦</span>
+    <span>Bufala</span><span class="dot">✦</span>
+    <span>Quatro Queijos</span><span class="dot">✦</span>
+    <span>Calabresa</span><span class="dot">✦</span>
+    <span>Parmegiana</span><span class="dot">✦</span>
+    <span>Funghi</span><span class="dot">✦</span>
+    <span>Napoletana</span><span class="dot">✦</span>
+    <span>Diavola</span><span class="dot">✦</span>
+    <span>Trufa Negra</span><span class="dot">✦</span>
+  </div>
+</div>
+
+<!-- FEATURED -->
+<section class="featured">
+  <div class="featured-img">
+    <div class="featured-badge">Destaque do Chef</div>
+    <img decoding="async" src="https://images.pexels.com/photos/905847/pexels-photo-905847.jpeg?auto=compress&cs=tinysrgb&w=1200" alt="Pizza Bufala" loading="lazy"/>
+  </div>
+  <div class="featured-content reveal">
+    <p class="section-label">Pizza da Semana</p>
+    <h2 class="section-title">Bufala &<br>Prosciutto</h2>
+    <p>Mozzarella de búfala fresca importada da Campânia, presunto cru italiano de 24 meses de cura, rúcula selvagem e um fio de azeite extra virgem siciliano. Simplicidade que emociona.</p>
+    <div class="ingredients">
+      <span class="ingredient">Mozzarella Bufala</span>
+      <span class="ingredient">Prosciutto di Parma</span>
+      <span class="ingredient">Rúcula</span>
+      <span class="ingredient">Tomate Cherry</span>
+      <span class="ingredient">Azeite Siciliano</span>
+    </div>
+    <div class="price">R$ 89,00</div>
+    <button class="btn-primary">Pedir Esta Pizza</button>
+  </div>
+</section>
+
+<!-- MENU GRID -->
+<section class="menu-section" id="menu">
+  <div class="menu-header reveal">
+    <div>
+      <p class="section-label">Nosso Cardápio</p>
+      <h2 class="section-title" style="color:var(--cream)">Todas as Pizzas</h2>
+    </div>
+    <div class="filter-tabs">
+      <button class="filter-tab active">Todas</button>
+      <button class="filter-tab">Clássicas</button>
+      <button class="filter-tab">Especiais</button>
+      <button class="filter-tab">Veganas</button>
+    </div>
+  </div>
+  <div class="pizza-grid">
+    <div class="pizza-card large">
+      <img decoding="async" src="https://images.pexels.com/photos/2147491/pexels-photo-2147491.jpeg?auto=compress&cs=tinysrgb&w=1200" alt="Margherita" loading="lazy"/>
+      <div class="pizza-price-tag">R$ 62</div>
+      <div class="pizza-info">
+        <div class="pizza-name">Margherita Classica</div>
+        <div class="pizza-sub">Tomate · Mozzarella · Manjericão</div>
+      </div>
+    </div>
+    <div class="pizza-card">
+      <img decoding="async" src="data:image/jpeg;base64,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" alt="Pepperoni" loading="lazy"/>
+      <div class="pizza-price-tag">R$ 74</div>
+      <div class="pizza-info">
+        <div class="pizza-name">Pepperoni Supremo</div>
+        <div class="pizza-sub">Pepperoni · Gouda · Orégano</div>
+      </div>
+    </div>
+    <div class="pizza-card">
+      <img decoding="async" src="https://images.pexels.com/photos/825661/pexels-photo-825661.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Quatro Queijos" loading="lazy"/>
+      <div class="pizza-price-tag">R$ 78</div>
+      <div class="pizza-info">
+        <div class="pizza-name">Quatro Queijos</div>
+        <div class="pizza-sub">Gorgonzola · Brie · Parmesão · Mozzarella</div>
+      </div>
+    </div>
+    <div class="pizza-card">
+      <img decoding="async" src="https://images.pexels.com/photos/1260968/pexels-photo-1260968.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Funghi" loading="lazy"/>
+      <div class="pizza-price-tag">R$ 82</div>
+      <div class="pizza-info">
+        <div class="pizza-name">Funghi Selvagem</div>
+        <div class="pizza-sub">Porcini · Shiitake · Trufas · Alecrim</div>
+      </div>
+    </div>
+    <div class="pizza-card">
+      <img decoding="async" src="https://images.pexels.com/photos/1566837/pexels-photo-1566837.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Diavola" loading="lazy"/>
+      <div class="pizza-price-tag">R$ 76</div>
+      <div class="pizza-info">
+        <div class="pizza-name">Diavola Picante</div>
+        <div class="pizza-sub">Salame Picante · Pimenta · Mozzarella</div>
+      </div>
+    </div>
+    <div class="pizza-card">
+      <img decoding="async" src="https://images.pexels.com/photos/2323398/pexels-photo-2323398.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Vegana" loading="lazy"/>
+      <div class="pizza-price-tag">R$ 69</div>
+      <div class="pizza-info">
+        <div class="pizza-name">Garden Vegana</div>
+        <div class="pizza-sub">Abobrinha · Berinjela · Pimentão · Tofu</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT STRIP -->
+<section class="about-strip" id="sobre">
+  <div class="about-img">
+    <img decoding="async" src="https://images.pexels.com/photos/4394612/pexels-photo-4394612.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Forno" loading="lazy"/>
+  </div>
+  <div class="about-text reveal">
+    <p class="section-label">Nossa História</p>
+    <h2 class="section-title">Tradição & Paixão<br>desde 1987</h2>
+    <p>Tudo começou quando Nonno Giuseppe trouxe da Nápoles a receita da massa que sua mãe ensinava aos filhos. Três gerações depois, a mesma filosofia: ingredientes honestos, tempo respeitado e fogo vivo.</p>
+    <p>Nosso forno a lenha de 900°C dá à massa aquela borda irregular, levemente carbonizada e inigualável que define uma verdadeira pizza napolitana.</p>
+    <div class="about-stat">
+      <div>
+        <div class="stat-num">37</div>
+        <div class="stat-label">Anos de história</div>
+      </div>
+      <div>
+        <div class="stat-num">48</div>
+        <div class="stat-label">Sabores no cardápio</div>
+      </div>
+      <div>
+        <div class="stat-num">900°</div>
+        <div class="stat-label">No forno a lenha</div>
+      </div>
+    </div>
+  </div>
+  <div class="about-img">
+    <img decoding="async" src="https://images.pexels.com/photos/3915857/pexels-photo-3915857.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Chef" loading="lazy"/>
+  </div>
+</section>
+
+<!-- SPECIALS -->
+<section class="specials">
+  <div class="specials-header reveal">
+    <p class="section-label">Edições Limitadas</p>
+    <h2 class="section-title" style="color:var(--cream)">Especiais do Mês</h2>
+  </div>
+  <div class="specials-grid">
+    <div class="special-card reveal">
+      <img decoding="async" src="https://images.pexels.com/photos/1146760/pexels-photo-1146760.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Especial 1" loading="lazy"/>
+      <div class="special-card-body">
+        <div class="special-card-name">Trufa Negra & Burrata</div>
+        <div class="special-card-desc">Creme de trufa negra, burrata fresca, lascas de parmesão e mel trufado. Uma experiência inesquecível.</div>
+        <div class="special-card-footer">
+          <div class="special-price">R$ 118</div>
+          <button class="add-btn">Adicionar</button>
+        </div>
+      </div>
+    </div>
+    <div class="special-card reveal">
+      <img decoding="async" src="https://images.pexels.com/photos/2323398/pexels-photo-2323398.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Especial 2" loading="lazy"/>
+      <div class="special-card-body">
+        <div class="special-card-name">Camarão & Limão Siciliano</div>
+        <div class="special-card-desc">Camarões grelhados na manteiga, raspas de limão siciliano, cream cheese e cebolinha fresca.</div>
+        <div class="special-card-footer">
+          <div class="special-price">R$ 98</div>
+          <button class="add-btn">Adicionar</button>
+        </div>
+      </div>
+    </div>
+    <div class="special-card reveal">
+      <img decoding="async" src="https://images.pexels.com/photos/5903173/pexels-photo-5903173.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Especial 3" loading="lazy"/>
+      <div class="special-card-body">
+        <div class="special-card-name">Calabresa Braseada</div>
+        <div class="special-card-desc">Linguiça calabresa defumada, cebolas caramelizadas no vinho tinto, azeitonas e pimenta biquinho.</div>
+        <div class="special-card-footer">
+          <div class="special-price">R$ 79</div>
+          <button class="add-btn">Adicionar</button>
+        </div>
+      </div>
+    </div>
+    <div class="special-card reveal">
+      <img decoding="async" src="https://images.pexels.com/photos/905847/pexels-photo-905847.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Especial 4" loading="lazy"/>
+      <div class="special-card-body">
+        <div class="special-card-name">Figo & Gorgonzola</div>
+        <div class="special-card-desc">Base de mel, gorgonzola cremoso, figo fresco fatiado, nozes torradas e rúcula baby.</div>
+        <div class="special-card-footer">
+          <div class="special-price">R$ 88</div>
+          <button class="add-btn">Adicionar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- RESERVATION -->
+<section class="reservation" id="reserva">
+  <div class="reservation-bg"></div>
+  <div class="reservation-overlay"></div>
+  <div class="reservation-content">
+    <div class="reservation-left reveal">
+      <p class="section-label">Reserve sua Mesa</p>
+      <h2 class="section-title">Uma noite<br>inesquecível<br>aguarda você.</h2>
+      <p>Abrimos de terça a domingo, das 18h às 23h30. Grupos acima de 8 pessoas, entre em contato diretamente pelo (85) 3333-4444.</p>
+    </div>
+    <div class="reservation-right reveal">
+      <div class="form-grid">
+        <div class="form-field">
+          <label>Nome</label>
+          <input type="text" placeholder="Seu nome completo"/>
+        </div>
+        <div class="form-field">
+          <label>Telefone</label>
+          <input type="tel" placeholder="(85) 00000-0000"/>
+        </div>
+        <div class="form-field">
+          <label>Data</label>
+          <input type="date"/>
+        </div>
+        <div class="form-field">
+          <label>Horário</label>
+          <select>
+            <option>18:00</option>
+            <option>18:30</option>
+            <option>19:00</option>
+            <option>19:30</option>
+            <option>20:00</option>
+            <option>20:30</option>
+            <option>21:00</option>
+            <option>21:30</option>
+            <option>22:00</option>
+          </select>
+        </div>
+        <div class="form-field">
+          <label>Pessoas</label>
+          <select>
+            <option>1 pessoa</option>
+            <option>2 pessoas</option>
+            <option>3 pessoas</option>
+            <option>4 pessoas</option>
+            <option>5 pessoas</option>
+            <option>6 pessoas</option>
+            <option>7 pessoas</option>
+            <option>8 pessoas</option>
+          </select>
+        </div>
+        <div class="form-field">
+          <label>Ocasião</label>
+          <select>
+            <option>Jantar comum</option>
+            <option>Aniversário</option>
+            <option>Romântico</option>
+            <option>Corporativo</option>
+          </select>
+        </div>
+        <div class="form-field full">
+          <label>Observações</label>
+          <input type="text" placeholder="Alergias, preferências ou pedidos especiais..."/>
+        </div>
+        <button class="submit-btn">Confirmar Reserva</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-top">
+    <div class="footer-brand">
+      <a class="logo" href="#">La <span>Forno</span></a>
+      <p>Pizzaria artesanal napolitana no coração de Fortaleza. Tradição, fogo e amor em cada fatia desde 1987.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Menu</h4>
+      <ul>
+        <li><a href="#">Clássicas</a></li>
+        <li><a href="#">Especiais</a></li>
+        <li><a href="#">Veganas</a></li>
+        <li><a href="#">Bebidas</a></li>
+        <li><a href="#">Sobremesas</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>La Forno</h4>
+      <ul>
+        <li><a href="#">Nossa História</a></li>
+        <li><a href="#">Chef & Equipe</a></li>
+        <li><a href="#">Sustentabilidade</a></li>
+        <li><a href="#">Franquias</a></li>
+        <li><a href="#">Trabalhe Conosco</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Contato</h4>
+      <ul>
+        <li><a href="#">Rua das Tabajaras, 1987</a></li>
+        <li><a href="#">Meireles, Fortaleza — CE</a></li>
+        <li><a href="tel:+558533334444">(85) 3333-4444</a></li>
+        <li><a href="/cdn-cgi/l/email-protection#7f10131e3f131e19100d1110511c1012511d0d"><span class="__cf_email__" data-cfemail="8de2e1eccde1ecebe2ffe3e2a3eee2e0a3efff">[email&#160;protected]</span></a></li>
+        <li><a href="#">Ter–Dom: 18h–23h30</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2024 La Forno Pizzaria Artesanal · Todos os direitos reservados</p>
+    <div class="socials">
+      <a class="social-icon" href="#" aria-label="Instagram">IG</a>
+      <a class="social-icon" href="#" aria-label="Facebook">FB</a>
+      <a class="social-icon" href="#" aria-label="WhatsApp">WA</a>
+    </div>
+  </div>
+</footer>
+
+<!-- CART SIDEBAR -->
+<div id="cart-overlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:999;" onclick="closeCart()"></div>
+<div id="cart-sidebar" style="position:fixed;top:0;right:0;width:380px;height:100vh;background:#0F0603;z-index:1000;transform:translateX(100%);transition:transform 0.4s ease;display:flex;flex-direction:column;border-left:1px solid rgba(212,168,67,0.2);">
+  <div style="padding:28px 24px;border-bottom:1px solid rgba(245,239,224,0.1);display:flex;justify-content:space-between;align-items:center;">
+    <div>
+      <div style="font-family:'Bebas Neue',sans-serif;letter-spacing:6px;font-size:0.8rem;color:var(--gold);">Seu Pedido</div>
+      <div style="font-family:'Playfair Display',serif;font-style:italic;font-size:1.6rem;color:var(--cream);">Carrinho</div>
+    </div>
+    <button onclick="closeCart()" style="background:none;border:none;color:var(--cream);font-size:1.6rem;cursor:pointer;opacity:0.6;line-height:1;">✕</button>
+  </div>
+  <div id="cart-items" style="flex:1;overflow-y:auto;padding:20px 24px;"></div>
+  <div style="padding:20px 24px;border-top:1px solid rgba(245,239,224,0.1);">
+    <div style="display:flex;justify-content:space-between;margin-bottom:20px;">
+      <span style="font-family:'Bebas Neue',sans-serif;letter-spacing:4px;font-size:0.85rem;color:rgba(245,239,224,0.6);">Total</span>
+      <span id="cart-total" style="font-family:'Playfair Display',serif;font-style:italic;font-size:1.5rem;color:var(--gold);">R$ 0,00</span>
+    </div>
+    <button onclick="finalizarPedido()" style="width:100%;font-family:'Bebas Neue',sans-serif;letter-spacing:4px;font-size:1rem;padding:16px;background:var(--red);color:var(--cream);border:none;cursor:pointer;transition:background 0.2s;" onmouseover="this.style.background='#7B1A13'" onmouseout="this.style.background='var(--red)'">Finalizar Pedido</button>
+  </div>
+</div>
+
+<!-- CART FAB -->
+<div id="cart-fab" onclick="openCart()" style="display:none;position:fixed;bottom:32px;right:32px;z-index:998;background:var(--red);width:60px;height:60px;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 4px 20px rgba(0,0,0,0.5);transition:transform 0.2s;" onmouseover="this.style.transform='scale(1.1)'" onmouseout="this.style.transform='scale(1)'">
+  <span style="font-size:1.4rem;">🍕</span>
+  <div id="cart-badge" style="display:none;position:absolute;top:-4px;right:-4px;background:var(--gold);color:var(--black);font-family:'Bebas Neue',sans-serif;font-size:0.75rem;width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:bold;"></div>
+</div>
+
+<!-- MODAL PIZZA DETAIL -->
+<div id="modal-overlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.85);z-index:2000;align-items:center;justify-content:center;">
+  <div id="modal-box" style="background:#0F0603;max-width:540px;width:90%;border:1px solid rgba(212,168,67,0.25);animation:fadeUp 0.3s ease;position:relative;">
+    <button onclick="closeModal()" style="position:absolute;top:16px;right:20px;background:none;border:none;color:var(--cream);font-size:1.5rem;cursor:pointer;opacity:0.6;">✕</button>
+    <img decoding="async" loading="lazy" id="modal-img" src="" alt="" style="width:100%;aspect-ratio:4/3;object-fit:cover;display:block;"/>
+    <div style="padding:28px 32px;">
+      <div id="modal-badge" style="font-family:'Bebas Neue',sans-serif;letter-spacing:4px;font-size:0.75rem;color:var(--gold);margin-bottom:8px;"></div>
+      <div id="modal-name" style="font-family:'Playfair Display',serif;font-style:italic;font-size:1.8rem;color:var(--cream);margin-bottom:8px;"></div>
+      <div id="modal-desc" style="font-size:1rem;line-height:1.7;color:rgba(245,239,224,0.65);margin-bottom:20px;"></div>
+      <div style="display:flex;align-items:center;justify-content:space-between;">
+        <div id="modal-price" style="font-family:'Playfair Display',serif;font-style:italic;font-size:2rem;color:var(--gold);"></div>
+        <div style="display:flex;align-items:center;gap:12px;">
+          <div style="display:flex;align-items:center;gap:0;border:1px solid rgba(245,239,224,0.2);">
+            <button onclick="changeQty(-1)" style="background:none;border:none;color:var(--cream);font-size:1.2rem;padding:8px 14px;cursor:pointer;">−</button>
+            <span id="modal-qty" style="font-family:'Bebas Neue',sans-serif;font-size:1rem;color:var(--cream);padding:0 4px;">1</span>
+            <button onclick="changeQty(1)" style="background:none;border:none;color:var(--cream);font-size:1.2rem;padding:8px 14px;cursor:pointer;">+</button>
+          </div>
+          <button id="modal-add-btn" onclick="addToCartFromModal()" style="font-family:'Bebas Neue',sans-serif;letter-spacing:3px;font-size:0.9rem;padding:12px 24px;background:var(--red);color:var(--cream);border:none;cursor:pointer;">Adicionar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SUCCESS TOAST -->
+<div id="toast" style="display:none;position:fixed;bottom:110px;right:32px;z-index:3000;background:#1a472a;color:#d4edda;font-family:'Bebas Neue',sans-serif;letter-spacing:3px;font-size:0.9rem;padding:14px 24px;border-left:3px solid #28a745;animation:fadeUp 0.3s ease;">
+  ✓ Adicionado ao carrinho!
+</div>
+
+<!-- RESERVATION SUCCESS -->
+<div id="reserve-success" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.85);z-index:2000;align-items:center;justify-content:center;">
+  <div style="background:#0F0603;border:1px solid rgba(212,168,67,0.3);padding:60px 48px;text-align:center;max-width:440px;width:90%;animation:fadeUp 0.4s ease;">
+    <div style="font-size:3rem;margin-bottom:16px;">🍕</div>
+    <div style="font-family:'Bebas Neue',sans-serif;letter-spacing:6px;font-size:0.8rem;color:var(--gold);margin-bottom:12px;">Reserva Confirmada</div>
+    <div id="reserve-msg" style="font-family:'Playfair Display',serif;font-style:italic;font-size:1.6rem;color:var(--cream);margin-bottom:16px;line-height:1.3;"></div>
+    <p style="font-size:1rem;color:rgba(245,239,224,0.6);line-height:1.7;margin-bottom:32px;">Em breve você receberá uma confirmação. Até logo!</p>
+    <button onclick="document.getElementById('reserve-success').style.display='none'" style="font-family:'Bebas Neue',sans-serif;letter-spacing:4px;font-size:0.9rem;padding:14px 36px;background:var(--red);color:var(--cream);border:none;cursor:pointer;">Fechar</button>
+  </div>
+</div>
+
+<script>
+  // ── DATA ──
+  const pizzas = [
+    { id: 1, name: 'Margherita Classica', sub: 'Tomate · Mozzarella · Manjericão', price: 62, badge: 'Clássica', category: 'classicas', desc: 'A rainha das pizzas. Molho de tomate San Marzano, mozzarella fior di latte e manjericão fresco direto do forno a lenha.' },
+    { id: 2, name: 'Pepperoni Supremo', sub: 'Pepperoni · Gouda · Orégano', price: 74, badge: 'Popular', category: 'classicas', desc: 'Generosas fatias de pepperoni artesanal, queijo gouda derretido e orégano seco em quantidade generosa.' },
+    { id: 3, name: 'Quatro Queijos', sub: 'Gorgonzola · Brie · Parmesão · Mozzarella', price: 78, badge: 'Especial', category: 'especiais', desc: 'Uma sinfonia de quatro queijos cuidadosamente selecionados que se fundem em harmonia perfeita.' },
+    { id: 4, name: 'Funghi Selvagem', sub: 'Porcini · Shiitake · Trufas · Alecrim', price: 82, badge: 'Especial', category: 'especiais', desc: 'Mix de cogumelos selvagens importados com creme de trufas, alecrim fresco e lascas de parmesão.' },
+    { id: 5, name: 'Diavola Picante', sub: 'Salame Picante · Pimenta · Mozzarella', price: 76, badge: 'Quente 🌶', category: 'classicas', desc: 'Salame picante italiano, pimenta calabresa e biquinho sobre molho intenso. Para os corajosos.' },
+    { id: 6, name: 'Garden Vegana', sub: 'Abobrinha · Berinjela · Pimentão · Tofu', price: 69, badge: 'Vegana', category: 'veganas', desc: 'Legumes grelhados, tofu temperado e molho de tomate fresco. Saudável, deliciosa e 100% vegetal.' },
+    { id: 7, name: 'Trufa Negra & Burrata', sub: 'Trufa · Burrata · Parmesão · Mel', price: 118, badge: 'Premium', category: 'especiais', desc: 'Creme de trufa negra, burrata fresca importada, lascas de parmesão envelhecido e mel trufado.' },
+    { id: 8, name: 'Camarão Siciliano', sub: 'Camarão · Limão Siciliano · Cream Cheese', price: 98, badge: 'Especial', category: 'especiais', desc: 'Camarões grelhados na manteiga, raspas de limão siciliano, cream cheese e cebolinha fresca.' },
+    { id: 9, name: 'Calabresa Braseada', sub: 'Calabresa · Cebola · Azeitonas', price: 79, badge: 'Especial', category: 'classicas', desc: 'Linguiça calabresa defumada, cebolas caramelizadas no vinho tinto, azeitonas e pimenta biquinho.' },
+    { id: 10, name: 'Figo & Gorgonzola', sub: 'Figo · Gorgonzola · Nozes · Rúcula', price: 88, badge: 'Especial', category: 'especiais', desc: 'Base de mel, gorgonzola cremoso, figo fresco fatiado, nozes torradas e rúcula baby. Agridoce irresistível.' },
+  ];
+
+  // ── CART STATE ──
+  let cart = [];
+  let currentModal = null;
+  let modalQty = 1;
+
+  // ── REVEAL ──
+  const reveals = document.querySelectorAll('.reveal');
+  const revealObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) { entry.target.classList.add('visible'); revealObserver.unobserve(entry.target); }
+    });
+  }, { threshold: 0.12 });
+  reveals.forEach(el => revealObserver.observe(el));
+
+  // ── FILTER TABS ──
+  const categoryMap = { 'Todas': 'todas', 'Clássicas': 'classicas', 'Especiais': 'especiais', 'Veganas': 'veganas' };
+  document.querySelectorAll('.filter-tab').forEach(tab => {
+    tab.addEventListener('click', () => {
+      document.querySelectorAll('.filter-tab').forEach(t => t.classList.remove('active'));
+      tab.classList.add('active');
+      const cat = categoryMap[tab.textContent.trim()] || 'todas';
+      filterCards(cat);
+    });
+  });
+
+  function filterCards(cat) {
+    document.querySelectorAll('.pizza-card').forEach(card => {
+      const cardCat = card.dataset.category || 'classicas';
+      const show = cat === 'todas' || cardCat === cat;
+      card.style.transition = 'opacity 0.3s, transform 0.3s';
+      card.style.opacity = show ? '1' : '0';
+      card.style.transform = show ? 'scale(1)' : 'scale(0.95)';
+      card.style.pointerEvents = show ? 'auto' : 'none';
+    });
+  }
+
+  // ── PIZZA CARDS — assign categories & click ──
+  document.querySelectorAll('.pizza-card').forEach((card, i) => {
+    const pizza = pizzas[i] || pizzas[0];
+    card.dataset.category = pizza.category;
+    card.style.cursor = 'pointer';
+    card.addEventListener('click', () => openModal(pizza, card.querySelector('img').src));
+  });
+
+  // ── MODAL ──
+  function openModal(pizza, imgSrc) {
+    currentModal = pizza;
+    modalQty = 1;
+    document.getElementById('modal-img').src = imgSrc;
+    document.getElementById('modal-badge').textContent = pizza.badge;
+    document.getElementById('modal-name').textContent = pizza.name;
+    document.getElementById('modal-desc').textContent = pizza.desc;
+    document.getElementById('modal-price').textContent = 'R$ ' + pizza.price.toFixed(2).replace('.', ',');
+    document.getElementById('modal-qty').textContent = modalQty;
+    const overlay = document.getElementById('modal-overlay');
+    overlay.style.display = 'flex';
+  }
+  function closeModal() {
+    document.getElementById('modal-overlay').style.display = 'none';
+  }
+  document.getElementById('modal-overlay').addEventListener('click', function(e) {
+    if (e.target === this) closeModal();
+  });
+  function changeQty(delta) {
+    modalQty = Math.max(1, modalQty + delta);
+    document.getElementById('modal-qty').textContent = modalQty;
+  }
+  function addToCartFromModal() {
+    addToCart(currentModal, modalQty);
+    closeModal();
+  }
+
+  // ── SPECIALS — add-btn ──
+  const specialData = [
+    { id: 7, name: 'Trufa Negra & Burrata', price: 118 },
+    { id: 8, name: 'Camarão Siciliano', price: 98 },
+    { id: 9, name: 'Calabresa Braseada', price: 79 },
+    { id: 10, name: 'Figo & Gorgonzola', price: 88 },
+  ];
+  document.querySelectorAll('.add-btn').forEach((btn, i) => {
+    btn.addEventListener('click', function(e) {
+      e.stopPropagation();
+      const pizza = specialData[i] || specialData[0];
+      addToCart(pizza, 1);
+    });
+  });
+
+  // ── FEATURED — pedir esta pizza ──
+  document.querySelectorAll('.btn-primary').forEach(btn => {
+    if (btn.textContent.includes('Pedir Esta Pizza')) {
+      btn.addEventListener('click', () => {
+        addToCart({ id: 99, name: 'Bufala & Prosciutto', price: 89 }, 1);
+      });
+    }
+    if (btn.textContent.includes('Ver Cardápio')) {
+      btn.addEventListener('click', () => document.getElementById('menu').scrollIntoView({ behavior: 'smooth' }));
+    }
+  });
+
+  // ── NAV — Pedir Agora ──
+  document.querySelector('.nav-btn').addEventListener('click', openCart);
+
+  // ── CART FUNCTIONS ──
+  function addToCart(pizza, qty) {
+    const existing = cart.find(i => i.id === pizza.id);
+    if (existing) { existing.qty += qty; }
+    else { cart.push({ ...pizza, qty }); }
+    updateCartUI();
+    showToast('✓ ' + pizza.name + ' adicionada!');
+    openCart();
+  }
+
+  function removeFromCart(id) {
+    cart = cart.filter(i => i.id !== id);
+    updateCartUI();
+  }
+
+  function updateCartUI() {
+    const total = cart.reduce((s, i) => s + i.price * i.qty, 0);
+    const count = cart.reduce((s, i) => s + i.qty, 0);
+    document.getElementById('cart-total').textContent = 'R$ ' + total.toFixed(2).replace('.', ',');
+
+    const badge = document.getElementById('cart-badge');
+    const fab = document.getElementById('cart-fab');
+    if (count > 0) {
+      badge.style.display = 'flex';
+      badge.textContent = count;
+      fab.style.display = 'flex';
+    } else {
+      badge.style.display = 'none';
+      fab.style.display = count > 0 ? 'flex' : 'none';
+    }
+
+    const itemsDiv = document.getElementById('cart-items');
+    if (cart.length === 0) {
+      itemsDiv.innerHTML = '<div style="text-align:center;padding:60px 0;color:rgba(245,239,224,0.3);"><div style="font-size:2.5rem;margin-bottom:12px;">🍕</div><div style="font-family:\'Bebas Neue\',sans-serif;letter-spacing:4px;font-size:0.85rem;">Carrinho vazio</div></div>';
+      return;
+    }
+    itemsDiv.innerHTML = cart.map(item => `
+      <div style="display:flex;align-items:center;gap:14px;padding:14px 0;border-bottom:1px solid rgba(245,239,224,0.07);">
+        <div style="flex:1;">
+          <div style="font-family:'Playfair Display',serif;font-style:italic;color:var(--cream);font-size:1rem;">${item.name}</div>
+          <div style="font-size:0.8rem;color:rgba(245,239,224,0.4);margin-top:2px;">Qtd: ${item.qty}</div>
+        </div>
+        <div style="font-family:'Playfair Display',serif;font-style:italic;color:var(--gold);font-size:1rem;">R$ ${(item.price * item.qty).toFixed(2).replace('.',',')}</div>
+        <button onclick="removeFromCart(${item.id})" style="background:none;border:none;color:rgba(245,239,224,0.3);cursor:pointer;font-size:1rem;padding:4px;" onmouseover="this.style.color='var(--red)'" onmouseout="this.style.color='rgba(245,239,224,0.3)'">✕</button>
+      </div>
+    `).join('');
+  }
+
+  function openCart() {
+    document.getElementById('cart-sidebar').style.transform = 'translateX(0)';
+    document.getElementById('cart-overlay').style.display = 'block';
+  }
+  function closeCart() {
+    document.getElementById('cart-sidebar').style.transform = 'translateX(100%)';
+    document.getElementById('cart-overlay').style.display = 'none';
+  }
+
+  function finalizarPedido() {
+    if (cart.length === 0) { showToast('⚠ Adicione pizzas ao carrinho!'); return; }
+    closeCart();
+    document.getElementById('demoModal').style.display = 'flex';
+    cart = [];
+    updateCartUI();
+  }
+
+  // ── TOAST ──
+  function showToast(msg) {
+    const t = document.getElementById('toast');
+    t.textContent = msg;
+    t.style.display = 'block';
+    clearTimeout(window._toastTimer);
+    window._toastTimer = setTimeout(() => { t.style.display = 'none'; }, 2800);
+  }
+
+  // ── RESERVATION FORM ──
+  document.querySelector('.submit-btn').addEventListener('click', function() {
+    const fields = document.querySelectorAll('.reservation-right input, .reservation-right select');
+    let valid = true;
+    fields.forEach(f => {
+      if (!f.value.trim()) {
+        f.style.borderColor = '#C0392B';
+        valid = false;
+        setTimeout(() => f.style.borderColor = '', 2000);
+      }
+    });
+    if (!valid) { showToast('⚠ Preencha todos os campos!'); return; }
+    const nome = fields[0].value;
+    const data = fields[2].value ? new Date(fields[2].value).toLocaleDateString('pt-BR') : '';
+    const hora = fields[3].value;
+    const pessoas = fields[4].value;
+    const msg = `${nome}, sua mesa para ${pessoas} às ${hora} do dia ${data} está reservada!`;
+    document.getElementById('reserve-msg').textContent = msg;
+    document.getElementById('reserve-success').style.display = 'flex';
+    fields.forEach(f => { if (f.tagName === 'INPUT') f.value = ''; });
+  });
+
+  // ── INIT ──
+  updateCartUI();
+</script>
+
+<!-- DEMO MODAL -->
+<div id="demoModal" onclick="if(event.target===this)this.style.display='none'" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.8);z-index:99998;align-items:center;justify-content:center;padding:20px;">
+  <div style="background:var(--black);border:1px solid rgba(212,168,67,0.3);max-width:420px;width:100%;border-radius:4px;padding:48px 40px;text-align:center;">
+    <div style="font-size:2.6rem;margin-bottom:16px">🍕</div>
+    <h2 style="font-family:'Playfair Display',serif;font-size:1.7rem;font-weight:700;color:var(--cream);margin-bottom:12px;">Site Demonstrativo</h2>
+    <p style="font-size:.86rem;color:var(--warm-gray);line-height:1.8;margin-bottom:28px;">Este é um site criado apenas para fins de portfólio e demonstração.<br>Nenhum pedido real foi realizado.</p>
+    <button onclick="document.getElementById('demoModal').style.display='none'" style="width:100%;padding:14px;background:var(--red);color:var(--cream);border:none;font-family:'Bebas Neue',sans-serif;letter-spacing:4px;font-size:.9rem;cursor:pointer;margin-bottom:12px;">Entendido</button>
+    <a href="portfolio_web.html" style="display:block;font-size:.72rem;color:var(--warm-gray);text-decoration:none;letter-spacing:.08em;text-transform:uppercase;">← Ver outros projetos</a>
+  </div>
+</div>
+
+<!-- DEMO BANNER -->
+<div id="demo-banner" style="
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 99999;
+  background: #0b0b0b;
+  border-top: 2px solid #c6ff00;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 28px;
+  gap: 16px;
+  font-family: 'Poppins', sans-serif;
+  flex-wrap: wrap;
+">
+  <div style="display: flex; align-items: center; gap: 12px; flex-wrap: wrap;">
+    <span style="
+      background: #c6ff00;
+      color: #0b0b0b;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      padding: 3px 9px;
+      border-radius: 3px;
+      text-transform: uppercase;
+      white-space: nowrap;
+    ">Site Demonstrativo</span>
+    <p style="
+      color: #aaa;
+      font-size: 13px;
+      margin: 0;
+    ">Este é um site criado apenas para fins de portfólio e demonstração. Nenhuma compra real foi realizada.</p>
+  </div>
+  <div style="display: flex; align-items: center; gap: 12px; flex-wrap: wrap;">
+    <button onclick="document.getElementById('demo-banner').style.display='none'" style="
+      background: #1a1a1a;
+      border: 1px solid #333;
+      color: #ccc;
+      font-size: 13px;
+      padding: 7px 16px;
+      cursor: pointer;
+      border-radius: 4px;
+      font-family: inherit;
+      white-space: nowrap;
+      transition: background 0.2s;
+    " onmouseover="this.style.background='#222'" onmouseout="this.style.background='#1a1a1a'">Entendido</button>
+    <a href="portfolio_web.html" style="
+      color: #c6ff00;
+      font-size: 13px;
+      text-decoration: none;
+      white-space: nowrap;
+      font-weight: 600;
+    ">← Ver outros projetos</a>
+  </div>
+</div>
+<!-- END DEMO BANNER -->
+</body>
+</html>
