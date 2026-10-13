@@ -1,0 +1,1358 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Funções no Excel — Tutorial Interativo</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Outfit:wght@300;400;500;600;700&family=JetBrains+Mono:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #f5f7f0; --surface: #ffffff; --surface2: #eef1e8;
+      --accent: #1a7a3c; --accent-light: #e6f4ec; --accent2: #217346;
+      --danger: #c0392b; --warn: #e67e22; --text: #1a1e14; --muted: #6b7060;
+      --border: #d4d9c8; --border-dark: #b8c0a8; --cell-bg: #f9fbf6;
+      --row-alt: #f2f5ec; --shadow: 0 2px 12px rgba(26,122,60,0.08);
+    }
+    html { scroll-behavior: smooth; }
+    body { background: var(--bg); color: var(--text); font-family: 'Outfit', sans-serif; font-size: 16px; line-height: 1.6; }
+    body::before {
+      content:''; position:fixed; inset:0;
+      background-image: linear-gradient(var(--border) 1px,transparent 1px), linear-gradient(90deg,var(--border) 1px,transparent 1px);
+      background-size:40px 40px; opacity:.35; pointer-events:none; z-index:0;
+    }
+    nav {
+      position:sticky; top:0; z-index:200; background:var(--accent2);
+      padding:0 2rem; display:flex; align-items:center; gap:1rem; height:52px;
+      box-shadow:0 2px 8px rgba(0,0,0,.18);
+    }
+    .nav-brand { display:flex; align-items:center; gap:.6rem; font-family:'Outfit',sans-serif; font-weight:700; font-size:1rem; color:#fff; text-decoration:none; }
+    .nav-brand .logo-box { width:28px; height:28px; background:#fff; border-radius:4px; display:flex; align-items:center; justify-content:center; font-size:.85rem; color:var(--accent2); font-weight:800; }
+    .nav-sep { height:24px; width:1px; background:rgba(255,255,255,.25); margin:0 .5rem; }
+    .nav-title { font-size:.9rem; color:rgba(255,255,255,.85); font-weight:400; }
+    .nav-back { margin-left:auto; display:inline-flex; align-items:center; gap:.4rem; font-size:.82rem; color:rgba(255,255,255,.85); text-decoration:none; background:rgba(255,255,255,.12); border:1px solid rgba(255,255,255,.2); padding:.3rem .8rem; border-radius:4px; transition:background .2s; }
+    .nav-back:hover { background:rgba(255,255,255,.22); }
+    .layout { display:grid; grid-template-columns:220px 1fr; max-width:1280px; margin:0 auto; min-height:calc(100vh - 52px); position:relative; z-index:1; }
+    .sidebar { position:sticky; top:52px; height:calc(100vh - 52px); overflow-y:auto; padding:2rem 1rem 2rem 1.5rem; border-right:1px solid var(--border); background:rgba(245,247,240,.85); backdrop-filter:blur(8px); }
+    .toc-label { font-family:'JetBrains Mono',monospace; font-size:.68rem; letter-spacing:.12em; text-transform:uppercase; color:var(--muted); margin-bottom:.6rem; }
+    .toc-section-label { font-family:'JetBrains Mono',monospace; font-size:.6rem; letter-spacing:.1em; text-transform:uppercase; color:var(--accent); background:var(--accent-light); padding:.2rem .6rem; border-radius:4px; margin:.8rem 0 .3rem; }
+    .toc-list { list-style:none; display:flex; flex-direction:column; gap:.1rem; }
+    .toc-list a { display:flex; align-items:center; gap:.6rem; font-size:.78rem; color:var(--muted); text-decoration:none; padding:.35rem .6rem; border-radius:6px; transition:background .15s, color .15s; }
+    .toc-list a:hover, .toc-list a.active { background:var(--accent-light); color:var(--accent); }
+    .toc-num { font-family:'JetBrains Mono',monospace; font-size:.68rem; color:var(--accent); min-width:18px; }
+    main { padding:3rem 3.5rem 5rem; max-width:900px; }
+    .page-hero { margin-bottom:3.5rem; padding-bottom:2.5rem; border-bottom:2px solid var(--border); position:relative; animation:fadeUp .6s ease both; }
+    .page-hero::after { content:''; position:absolute; bottom:-2px; left:0; width:80px; height:2px; background:var(--accent); }
+    .hero-eyebrow { font-family:'JetBrains Mono',monospace; font-size:.75rem; color:var(--accent); letter-spacing:.1em; text-transform:uppercase; margin-bottom:.8rem; }
+    h1.page-title { font-family:'Bebas Neue',sans-serif; font-size:clamp(3.5rem,7vw,5.5rem); letter-spacing:.02em; color:var(--text); line-height:.95; margin-bottom:1.2rem; }
+    h1.page-title span { color:var(--accent); }
+    .page-desc { font-size:1.05rem; color:var(--muted); max-width:580px; line-height:1.7; }
+    .formula-bar { display:flex; align-items:center; gap:.8rem; margin-top:1.8rem; background:var(--surface); border:1px solid var(--border); border-radius:6px; padding:.6rem 1rem; font-family:'JetBrains Mono',monospace; font-size:.85rem; color:var(--muted); }
+    .formula-bar .fx { background:var(--accent-light); color:var(--accent); padding:.15rem .5rem; border-radius:3px; font-weight:500; font-style:italic; }
+    .formula-bar .formula-text { color:var(--accent2); font-weight:500; }
+    .fn-section { margin-bottom:3rem; opacity:0; transform:translateY(20px); transition:opacity .5s ease, transform .5s ease; }
+    .fn-section.visible { opacity:1; transform:translateY(0); }
+    .fn-header { display:flex; align-items:flex-start; gap:1.2rem; margin-bottom:1.5rem; }
+    .fn-number { font-family:'JetBrains Mono',monospace; font-size:.72rem; color:var(--accent); background:var(--accent-light); border:1px solid rgba(26,122,60,.2); padding:.2rem .5rem; border-radius:4px; white-space:nowrap; margin-top:.3rem; }
+    .fn-number.cat-text { color:#0d6efd; background:#e7f1ff; border-color:rgba(13,110,253,.2); }
+    .fn-number.cat-date { color:#6f42c1; background:#f3efff; border-color:rgba(111,66,193,.2); }
+    .fn-number.cat-math { color:#d63384; background:#fde7f3; border-color:rgba(214,51,132,.2); }
+    .fn-number.cat-lookup { color:#fd7e14; background:#fff3e0; border-color:rgba(253,126,20,.2); }
+    .fn-header-text h2 { font-family:'Bebas Neue',sans-serif; font-size:2rem; letter-spacing:.03em; color:var(--text); line-height:1; }
+    .fn-header-text h2 .fn-name { color:var(--accent); }
+    .fn-header-text h2 .fn-name.cat-text { color:#0d6efd; }
+    .fn-header-text h2 .fn-name.cat-date { color:#6f42c1; }
+    .fn-header-text h2 .fn-name.cat-math { color:#d63384; }
+    .fn-header-text h2 .fn-name.cat-lookup { color:#fd7e14; }
+    .fn-desc { font-size:.9rem; color:var(--muted); margin-top:.3rem; max-width:600px; }
+    .syntax { display:inline-flex; align-items:center; gap:.5rem; background:#1e1e2e; color:#a6e3a1; font-family:'JetBrains Mono',monospace; font-size:.82rem; padding:.45rem 1rem; border-radius:6px; margin-bottom:1.4rem; flex-wrap:wrap; }
+    .syntax .kw { color:#89dceb; } .syntax .pn { color:#f5c2e7; }
+    .card { background:var(--surface); border:1px solid var(--border); border-radius:12px; overflow:hidden; box-shadow:var(--shadow); }
+    .card-header { background:var(--accent2); padding:.7rem 1.2rem; display:flex; align-items:center; justify-content:space-between; }
+    .card-header.cat-text { background:#0d6efd; }
+    .card-header.cat-date { background:#6f42c1; }
+    .card-header.cat-math { background:#d63384; }
+    .card-header.cat-lookup { background:#fd7e14; }
+    .card-header-title { font-family:'JetBrains Mono',monospace; font-size:.75rem; color:rgba(255,255,255,.85); letter-spacing:.05em; }
+    .card-header-badge { font-family:'JetBrains Mono',monospace; font-size:.68rem; color:rgba(255,255,255,.6); }
+    .xl-table-wrap { overflow-x:auto; padding:1.2rem 1.5rem; }
+    table.xl { width:100%; border-collapse:collapse; font-size:.88rem; }
+    table.xl thead tr th { background:var(--accent2); color:#fff; font-family:'Outfit',sans-serif; font-weight:600; font-size:.8rem; padding:.5rem .9rem; text-align:left; letter-spacing:.02em; }
+    table.xl thead tr th:first-child { border-radius:6px 0 0 6px; }
+    table.xl thead tr th:last-child { border-radius:0 6px 6px 0; }
+    table.xl tbody tr { transition:background .15s; }
+    table.xl tbody tr:nth-child(even) { background:var(--row-alt); }
+    table.xl tbody tr:hover { background:var(--accent-light); }
+    table.xl td { padding:.5rem .9rem; border-bottom:1px solid var(--border); color:var(--text); }
+    table.xl td:first-child { font-weight:500; color:var(--muted); font-size:.82rem; width:180px; }
+    .xl-input { background:var(--cell-bg); border:1px solid var(--border); border-radius:4px; padding:.3rem .6rem; font-family:'JetBrains Mono',monospace; font-size:.82rem; color:var(--text); width:100%; min-width:100px; max-width:180px; transition:border-color .2s, box-shadow .2s; outline:none; }
+    .xl-input:focus { border-color:var(--accent); box-shadow:0 0 0 3px rgba(26,122,60,.12); background:#fff; }
+    .xl-input.wide { max-width:260px; }
+    .result-row { display:flex; align-items:center; justify-content:space-between; padding:.9rem 1.5rem; border-top:2px solid var(--border); background:var(--accent-light); flex-wrap:wrap; gap:.5rem; }
+    .result-label { font-family:'JetBrains Mono',monospace; font-size:.78rem; color:var(--accent); font-weight:500; }
+    .result-value { font-family:'Bebas Neue',sans-serif; font-size:1.6rem; color:var(--accent2); letter-spacing:.03em; }
+    .result-value.danger { color:var(--danger); }
+    .result-value.warn { color:var(--warn); }
+    .result-value.cat-text { color:#0d6efd; }
+    .result-value.cat-date { color:#6f42c1; }
+    .result-value.cat-math { color:#d63384; }
+    .result-value.cat-lookup { color:#fd7e14; }
+    .se-inputs { display:grid; grid-template-columns:1fr 1fr; gap:1rem; padding:1.2rem 1.5rem; }
+    .se-field label { display:block; font-size:.8rem; color:var(--muted); margin-bottom:.4rem; font-weight:500; }
+    .se-field .xl-input { max-width:100%; }
+    .se-result { padding:1rem 1.5rem; border-top:2px solid var(--border); background:var(--accent-light); display:flex; align-items:center; gap:1rem; flex-wrap:wrap; }
+    .badge { display:inline-flex; align-items:center; gap:.4rem; padding:.3rem .8rem; border-radius:100px; font-size:.82rem; font-weight:600; }
+    .badge.success { background:#d4edda; color:#1a7a3c; }
+    .badge.danger  { background:#fde8e6; color:#c0392b; }
+    .badge.neutral { background:var(--surface2); color:var(--muted); }
+    .badge.info    { background:#e7f1ff; color:#0d6efd; }
+    .hoje-display { padding:2.5rem; text-align:center; background:linear-gradient(135deg,var(--accent-light),var(--surface2)); }
+    .hoje-date { font-family:'Bebas Neue',sans-serif; font-size:3.5rem; color:var(--accent2); letter-spacing:.04em; line-height:1; }
+    .hoje-formula { font-family:'JetBrains Mono',monospace; font-size:.8rem; color:var(--muted); margin-top:.5rem; }
+    .info-box { background:var(--accent-light); border-left:3px solid var(--accent); border-radius:0 8px 8px 0; padding:.9rem 1.2rem; margin-top:1rem; font-size:.86rem; color:var(--accent2); line-height:1.6; }
+    .info-box.cat-text { background:#e7f1ff; border-color:#0d6efd; color:#0a4fcc; }
+    .info-box.cat-date { background:#f3efff; border-color:#6f42c1; color:#4a2a8a; }
+    .info-box.cat-math { background:#fde7f3; border-color:#d63384; color:#a01060; }
+    .info-box.cat-lookup { background:#fff3e0; border-color:#fd7e14; color:#c05700; }
+    .info-box strong { font-weight:600; }
+    .divider { height:1px; background:linear-gradient(90deg,var(--border),transparent); margin:3rem 0; }
+    .progress-wrap { padding:.8rem 1.5rem; border-top:1px solid var(--border); display:flex; align-items:center; gap:.8rem; }
+    .progress-bar-bg { flex:1; height:6px; background:var(--border); border-radius:3px; overflow:hidden; }
+    .progress-bar-fill { height:100%; background:linear-gradient(90deg,var(--accent),#57c857); border-radius:3px; transition:width .4s ease; }
+    .progress-pct { font-family:'JetBrains Mono',monospace; font-size:.75rem; color:var(--accent); min-width:36px; text-align:right; }
+    .category-banner { display:flex; align-items:center; gap:1rem; padding:.8rem 1.4rem; border-radius:10px; margin:2.5rem 0 2rem; font-weight:600; font-size:.9rem; }
+    .category-banner.cat-text  { background:#e7f1ff; color:#0d6efd; border:1px solid rgba(13,110,253,.2); }
+    .category-banner.cat-date  { background:#f3efff; color:#6f42c1; border:1px solid rgba(111,66,193,.2); }
+    .category-banner.cat-math  { background:#fde7f3; color:#d63384; border:1px solid rgba(214,51,132,.2); }
+    .category-banner.cat-lookup{ background:#fff3e0; color:#fd7e14; border:1px solid rgba(253,126,20,.2); }
+    .category-banner .cat-icon { font-size:1.4rem; }
+    .inline-grid { display:grid; grid-template-columns:1fr 1fr; }
+    .single-input-area { padding:1.2rem 1.5rem; }
+    footer { background:var(--accent2); color:rgba(255,255,255,.7); text-align:center; padding:1.2rem; font-family:'JetBrains Mono',monospace; font-size:.75rem; }
+    footer a { color:rgba(255,255,255,.9); text-decoration:none; }
+
+    /* ── CHART STYLES ── */
+    :root { --chart: #217346; }
+    .category-banner.cat-chart { background: linear-gradient(135deg,#e8f4fd,#f0f9ff); color:#0369a1; border:1px solid rgba(3,105,161,.2); }
+    .fn-number.cat-chart { color:#0369a1; background:#e8f4fd; border-color:rgba(3,105,161,.2); }
+    .fn-name.cat-chart { color:#0369a1; }
+    .card-header.cat-chart { background: linear-gradient(135deg,#0369a1,#0284c7); }
+    .info-box.cat-chart { background:#e8f4fd; border-color:#0369a1; color:#075985; }
+    .result-value.cat-chart { color:#0369a1; }
+    .chart-inputs { padding:1rem 1.5rem .5rem; }
+    .chart-input-row { display:flex; flex-wrap:wrap; gap:.6rem; align-items:center; }
+    .chart-label { font-family:'JetBrains Mono',monospace; font-size:.72rem; color:var(--muted); white-space:nowrap; min-width:28px; text-align:right; }
+    .chart-input-row .xl-input { max-width:100px; min-width:80px; }
+    .chart-canvas-wrap { padding:.8rem 1.5rem 0; position:relative; }
+    .chart-canvas-wrap canvas { width:100% !important; border-radius:8px; }
+    .chart-stats-row { display:flex; gap:1rem; flex-wrap:wrap; padding:.8rem 1.5rem; border-top:1px solid var(--border); background:var(--accent-light); }
+    .chart-stat { display:flex; flex-direction:column; align-items:center; gap:.1rem; flex:1; min-width:80px; }
+    .chart-stat-label { font-family:'JetBrains Mono',monospace; font-size:.62rem; color:var(--muted); text-transform:uppercase; letter-spacing:.06em; }
+    .chart-stat-value { font-family:'Bebas Neue',sans-serif; font-size:1.3rem; color:#0369a1; letter-spacing:.02em; }
+    .chart-pizza-layout { display:grid; grid-template-columns:280px 1fr; align-items:center; padding:0 1.5rem; gap:1rem; }
+    .chart-pizza-layout canvas { width:100% !important; height:auto !important; }
+    .pizza-legend { display:flex; flex-direction:column; gap:.5rem; }
+    .pizza-legend-item { display:flex; align-items:center; gap:.6rem; font-size:.82rem; }
+    .pizza-dot { width:12px; height:12px; border-radius:3px; flex-shrink:0; }
+    .pizza-name { color:var(--text); font-weight:500; flex:1; }
+    .pizza-pct { font-family:'JetBrains Mono',monospace; font-size:.75rem; color:var(--muted); }
+    .chart-pizza-row { display:grid; grid-template-columns:1fr 1fr; gap:.6rem; }
+    .pizza-item { display:flex; flex-direction:column; gap:.3rem; }
+    .pizza-label { font-size:.78rem; color:var(--text); font-weight:500; }
+    @keyframes fadeUp { from{opacity:0;transform:translateY(16px)} to{opacity:1;transform:translateY(0)} }
+
+    /* ── TABLET (≤900px) ── */
+    @media(max-width:900px){
+      .layout { grid-template-columns: 180px 1fr; }
+      main { padding: 2.5rem 2rem 5rem; max-width:100%; }
+      h1.page-title { font-size: clamp(2.8rem,8vw,4.5rem); }
+      .toc-list a { font-size:.72rem; }
+      .chart-input-row .xl-input { max-width:85px; min-width:70px; }
+    }
+
+    /* ── MOBILE (≤768px) ── */
+    @media(max-width:768px){
+      /* Layout */
+      .layout { grid-template-columns: 1fr; }
+      .sidebar { display: none; }
+      main { padding: 1.5rem 1rem 4rem; max-width:100%; }
+
+      /* Hero */
+      h1.page-title { font-size: clamp(2.4rem,11vw,3.8rem); line-height:1; }
+      .page-hero { margin-bottom:2rem; padding-bottom:1.5rem; }
+      .page-desc { font-size:.95rem; }
+      .formula-bar { flex-wrap:wrap; font-size:.75rem; gap:.5rem; padding:.5rem .8rem; }
+
+      /* Nav */
+      .nav-title { display:none; }
+      .nav-back { font-size:.75rem; padding:.25rem .6rem; }
+
+      /* Sections */
+      .fn-header { gap:.8rem; flex-wrap:wrap; }
+      .fn-header-text h2 { font-size:1.5rem; }
+      .fn-desc { font-size:.82rem; }
+      .syntax { font-size:.75rem; padding:.35rem .8rem; flex-wrap:wrap; gap:.3rem; }
+      .category-banner { font-size:.82rem; padding:.6rem 1rem; }
+
+      /* Cards */
+      .xl-table-wrap { padding:.8rem 1rem; overflow-x:auto; }
+      table.xl { font-size:.8rem; }
+      table.xl td:first-child { width:120px; }
+      .xl-input { max-width:140px; font-size:.78rem; }
+      .xl-input.wide { max-width:100%; }
+      .result-row { padding:.7rem 1rem; flex-direction:column; align-items:flex-start; gap:.3rem; }
+      .result-value { font-size:1.3rem; }
+      .se-inputs { grid-template-columns:1fr; gap:.8rem; padding:.9rem 1rem; }
+      .se-field .xl-input { max-width:100%; }
+      .se-result { flex-direction:column; align-items:flex-start; gap:.5rem; padding:.8rem 1rem; font-size:.75rem; }
+      .inline-grid { grid-template-columns:1fr; }
+      .single-input-area { padding:.9rem 1rem; }
+      .info-box { font-size:.8rem; padding:.7rem 1rem; margin-top:.8rem; }
+      .card-header { padding:.6rem 1rem; }
+      .card-header-title { font-size:.7rem; }
+      .today-display { padding:1.5rem 1rem; }
+      .hoje-date { font-size:2.5rem; }
+
+      /* Charts */
+      .chart-inputs { padding:.8rem 1rem .4rem; }
+      .chart-input-row { gap:.4rem; }
+      .chart-input-row .xl-input { max-width:72px; min-width:60px; font-size:.75rem; padding:.25rem .4rem; }
+      .chart-label { font-size:.65rem; min-width:22px; }
+      .chart-canvas-wrap { padding:.6rem 1rem 0; }
+      .chart-stats-row { gap:.5rem; padding:.6rem 1rem; }
+      .chart-stat { min-width:60px; }
+      .chart-stat-label { font-size:.55rem; }
+      .chart-stat-value { font-size:1rem; }
+
+      /* Pizza chart */
+      .chart-pizza-layout { grid-template-columns:1fr; padding:0 1rem; gap:.5rem; }
+      .chart-pizza-layout canvas { max-width:220px; margin:0 auto; display:block; }
+      .chart-pizza-row { grid-template-columns:1fr 1fr; gap:.5rem; }
+      .pizza-legend { flex-direction:row; flex-wrap:wrap; gap:.4rem; justify-content:center; }
+      .pizza-legend-item { font-size:.75rem; }
+
+      /* Dividers */
+      .divider { margin:2rem 0; }
+    }
+
+    /* ── SMALL MOBILE (≤420px) ── */
+    @media(max-width:420px){
+      main { padding:1.2rem .75rem 3.5rem; }
+      h1.page-title { font-size:2.2rem; }
+      .fn-header-text h2 { font-size:1.3rem; }
+      .chart-input-row { gap:.3rem; }
+      .chart-input-row .xl-input { max-width:58px; min-width:52px; font-size:.7rem; }
+      .chart-pizza-row { grid-template-columns:1fr; }
+      .chart-stats-row { flex-direction:column; align-items:stretch; }
+      .chart-stat { flex-direction:row; justify-content:space-between; align-items:center; }
+      .result-value { font-size:1.15rem; }
+      table.xl { font-size:.75rem; }
+      table.xl td:first-child { width:90px; font-size:.72rem; }
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-brand">
+    <div class="logo-box">X</div>
+    Davi Ramos
+  </a>
+  <div class="nav-sep"></div>
+  <span class="nav-title">Funções no Excel</span>
+  <a href="index.html" class="nav-back">← Voltar ao Portfólio</a>
+</nav>
+
+<div class="layout">
+
+  <aside class="sidebar">
+    <div class="toc-label">Conteúdo</div>
+    <ul class="toc-list">
+      <div class="toc-section-label">▸ Básicas</div>
+      <li><a href="#soma"><span class="toc-num">01</span> SOMA</a></li>
+      <li><a href="#cont-valores"><span class="toc-num">02</span> CONT.VALORES</a></li>
+      <li><a href="#media"><span class="toc-num">03</span> MÉDIA</a></li>
+      <li><a href="#minmax"><span class="toc-num">04</span> MÍNIMO / MÁXIMO</a></li>
+      <li><a href="#se"><span class="toc-num">05</span> SE</a></li>
+      <li><a href="#cont-valores-2"><span class="toc-num">06</span> CONT.VALORES II</a></li>
+      <li><a href="#contse"><span class="toc-num">07</span> CONT.SE</a></li>
+      <li><a href="#somase"><span class="toc-num">08</span> SOMASE</a></li>
+      <li><a href="#mediase"><span class="toc-num">09</span> MÉDIASE</a></li>
+      <li><a href="#hoje"><span class="toc-num">10</span> HOJE</a></li>
+      <div class="toc-section-label">▸ Texto</div>
+      <li><a href="#concatenar"><span class="toc-num">11</span> CONCATENAR</a></li>
+      <li><a href="#maiuscula"><span class="toc-num">12</span> MAIÚSCULA/MINÚSCULA</a></li>
+      <li><a href="#esquerda"><span class="toc-num">13</span> ESQUERDA / DIREITA</a></li>
+      <li><a href="#ncaract"><span class="toc-num">14</span> NÚM.CARACT</a></li>
+      <div class="toc-section-label">▸ Data & Hora</div>
+      <li><a href="#diamesano"><span class="toc-num">15</span> DIA / MÊS / ANO</a></li>
+      <li><a href="#datedif"><span class="toc-num">16</span> DATEDIF</a></li>
+      <div class="toc-section-label">▸ Matemática</div>
+      <li><a href="#arred"><span class="toc-num">17</span> ARRED</a></li>
+      <li><a href="#mod"><span class="toc-num">18</span> MOD</a></li>
+      <div class="toc-section-label">▸ Pesquisa</div>
+      <li><a href="#procv"><span class="toc-num">19</span> PROCV</a></li>
+      <li><a href="#seerro"><span class="toc-num">20</span> SEERRO</a></li>
+      <div class="toc-section-label">▸ Gráficos</div>
+      <li><a href="#graf-barras"><span class="toc-num">21</span> Gráfico de Barras</a></li>
+      <li><a href="#graf-linhas"><span class="toc-num">22</span> Gráfico de Linhas</a></li>
+      <li><a href="#graf-pizza"><span class="toc-num">23</span> Gráfico de Pizza</a></li>
+    </ul>
+  </aside>
+
+  <main>
+
+    <!-- HERO -->
+    <div class="page-hero">
+      <div class="hero-eyebrow">Tutorial Interativo</div>
+      <h1 class="page-title">Funções<br>no <span>Excel</span></h1>
+      <p class="page-desc">Aprenda as principais funções do Excel com exemplos simples e interativos. Simule cálculos diretamente na página e entenda como cada fórmula funciona na prática.</p>
+      <div class="formula-bar">
+        <span class="fx">fx</span>
+        <span class="formula-text">=SOMA · =MÉDIA · =SE · =PROCV · =CONCATENAR · =DATEDIF · 📊 GRÁFICOS</span>
+      </div>
+    </div>
+
+    <!-- ══ 01 SOMA ══ -->
+    <div class="fn-section" id="soma">
+      <div class="fn-header">
+        <div class="fn-number">FN 01</div>
+        <div class="fn-header-text">
+          <h2>Função <span class="fn-name">SOMA</span></h2>
+          <p class="fn-desc">Soma todos os valores de um intervalo. Ideal para totais de vendas, despesas ou qualquer série numérica.</p>
+        </div>
+      </div>
+      <div class="syntax"><span class="kw">=</span>SOMA<span class="pn">(</span>intervalo<span class="pn">)</span></div>
+      <div class="card">
+        <div class="card-header"><span class="card-header-title">📋 TABELA DE VENDAS MENSAIS</span><span class="card-header-badge">Simulação interativa</span></div>
+        <div class="xl-table-wrap">
+          <table class="xl">
+            <thead><tr><th>Mês</th><th>Vendas (R$)</th></tr></thead>
+            <tbody>
+              <tr><td>Janeiro</td><td><input class="xl-input soma-input" type="number" placeholder="0"/></td></tr>
+              <tr><td>Fevereiro</td><td><input class="xl-input soma-input" type="number" placeholder="0"/></td></tr>
+              <tr><td>Março</td><td><input class="xl-input soma-input" type="number" placeholder="0"/></td></tr>
+              <tr><td>Abril</td><td><input class="xl-input soma-input" type="number" placeholder="0"/></td></tr>
+              <tr><td>Maio</td><td><input class="xl-input soma-input" type="number" placeholder="0"/></td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="result-row"><span class="result-label">=SOMA(B2:B6)</span><span class="result-value" id="soma-result">R$ 0,00</span></div>
+      </div>
+      <div class="info-box"><strong>Dica:</strong> Tente 10.000, 12.000, 15.000, 20.000 e 25.000 — soma = R$ 82.000.</div>
+    </div>
+    <div class="divider"></div>
+
+    <!-- ══ 02 CONT.VALORES ══ -->
+    <div class="fn-section" id="cont-valores">
+      <div class="fn-header">
+        <div class="fn-number">FN 02</div>
+        <div class="fn-header-text">
+          <h2>Função <span class="fn-name">CONT.VALORES</span></h2>
+          <p class="fn-desc">Conta quantas células não estão vazias em um intervalo. Útil para saber quantos registros foram preenchidos.</p>
+        </div>
+      </div>
+      <div class="syntax"><span class="kw">=</span>CONT.VALORES<span class="pn">(</span>intervalo<span class="pn">)</span></div>
+      <div class="card">
+        <div class="card-header"><span class="card-header-title">📋 VENDAS COM CÉLULAS VAZIAS</span><span class="card-header-badge">Deixe alguns meses em branco</span></div>
+        <div class="xl-table-wrap">
+          <table class="xl">
+            <thead><tr><th>Mês</th><th>Vendas (R$)</th></tr></thead>
+            <tbody>
+              <tr><td>Janeiro</td><td><input class="xl-input cv-input" type="number" placeholder="vazio"/></td></tr>
+              <tr><td>Fevereiro</td><td><input class="xl-input cv-input" type="number" placeholder="vazio"/></td></tr>
+              <tr><td>Março</td><td><input class="xl-input cv-input" type="number" placeholder="vazio"/></td></tr>
+              <tr><td>Abril</td><td><input class="xl-input cv-input" type="number" placeholder="vazio"/></td></tr>
+              <tr><td>Maio</td><td><input class="xl-input cv-input" type="number" placeholder="vazio"/></td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="result-row"><span class="result-label">=CONT.VALORES(B2:B6)</span><span class="result-value" id="cv-result">0 preenchidas</span></div>
+        <div class="progress-wrap">
+          <div class="progress-bar-bg"><div class="progress-bar-fill" id="cv-bar" style="width:0%"></div></div>
+          <span class="progress-pct" id="cv-pct">0%</span>
+        </div>
+      </div>
+      <div class="info-box"><strong>Experimente:</strong> preencha apenas 3 meses e veja o resultado = 3.</div>
+    </div>
+    <div class="divider"></div>
+
+    <!-- ══ 03 MÉDIA ══ -->
+    <div class="fn-section" id="media">
+      <div class="fn-header">
+        <div class="fn-number">FN 03</div>
+        <div class="fn-header-text">
+          <h2>Função <span class="fn-name">MÉDIA</span></h2>
+          <p class="fn-desc">Calcula a média aritmética dos valores em um intervalo.</p>
+        </div>
+      </div>
+      <div class="syntax"><span class="kw">=</span>MÉDIA<span class="pn">(</span>intervalo<span class="pn">)</span></div>
+      <div class="card">
+        <div class="card-header"><span class="card-header-title">📋 NOTAS DE AVALIAÇÃO</span><span class="card-header-badge">Escala 0–10</span></div>
+        <div class="xl-table-wrap">
+          <table class="xl">
+            <thead><tr><th>Avaliação</th><th>Nota</th></tr></thead>
+            <tbody>
+              <tr><td>Prova 1</td><td><input class="xl-input media-input" type="number" placeholder="0" min="0" max="10"/></td></tr>
+              <tr><td>Prova 2</td><td><input class="xl-input media-input" type="number" placeholder="0" min="0" max="10"/></td></tr>
+              <tr><td>Prova 3</td><td><input class="xl-input media-input" type="number" placeholder="0" min="0" max="10"/></td></tr>
+              <tr><td>Prova 4</td><td><input class="xl-input media-input" type="number" placeholder="0" min="0" max="10"/></td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="result-row"><span class="result-label">=MÉDIA(B2:B5)</span><span class="result-value" id="media-result">—</span></div>
+      </div>
+      <div class="info-box"><strong>Aprovação:</strong> média ≥ 6 é aprovado.</div>
+    </div>
+    <div class="divider"></div>
+
+    <!-- ══ 04 MIN/MAX ══ -->
+    <div class="fn-section" id="minmax">
+      <div class="fn-header">
+        <div class="fn-number">FN 04</div>
+        <div class="fn-header-text">
+          <h2>Função <span class="fn-name">MÍNIMO</span> e <span class="fn-name">MÁXIMO</span></h2>
+          <p class="fn-desc">Retornam o menor e maior valor de um conjunto.</p>
+        </div>
+      </div>
+      <div class="syntax"><span class="kw">=</span>MÍNIMO<span class="pn">(</span>intervalo<span class="pn">)</span> &nbsp;·&nbsp; <span class="kw">=</span>MÁXIMO<span class="pn">(</span>intervalo<span class="pn">)</span></div>
+      <div class="card">
+        <div class="card-header"><span class="card-header-title">📋 PREÇOS DE PRODUTOS</span><span class="card-header-badge">Digite os preços</span></div>
+        <div class="xl-table-wrap">
+          <table class="xl">
+            <thead><tr><th>Produto</th><th>Valor (R$)</th></tr></thead>
+            <tbody>
+              <tr><td>Produto A</td><td><input class="xl-input mm-input" type="number" placeholder="0"/></td></tr>
+              <tr><td>Produto B</td><td><input class="xl-input mm-input" type="number" placeholder="0"/></td></tr>
+              <tr><td>Produto C</td><td><input class="xl-input mm-input" type="number" placeholder="0"/></td></tr>
+              <tr><td>Produto D</td><td><input class="xl-input mm-input" type="number" placeholder="0"/></td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="inline-grid">
+          <div class="result-row" style="border-right:1px solid var(--border)"><span class="result-label">=MÍNIMO(B2:B5)</span><span class="result-value" id="min-result">R$ —</span></div>
+          <div class="result-row"><span class="result-label">=MÁXIMO(B2:B5)</span><span class="result-value" id="max-result">R$ —</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="divider"></div>
+
+    <!-- ══ 05 SE ══ -->
+    <div class="fn-section" id="se">
+      <div class="fn-header">
+        <div class="fn-number">FN 05</div>
+        <div class="fn-header-text">
+          <h2>Função <span class="fn-name">SE</span></h2>
+          <p class="fn-desc">Testa uma condição e retorna um valor se verdadeira e outro se falsa.</p>
+        </div>
+      </div>
+      <div class="syntax"><span class="kw">=</span>SE<span class="pn">(</span>condição<span class="pn">;</span> valor_verdadeiro<span class="pn">;</span> valor_falso<span class="pn">)</span></div>
+      <div class="card">
+        <div class="card-header"><span class="card-header-title">📋 META DE VENDAS</span><span class="card-header-badge">Condição lógica</span></div>
+        <div class="se-inputs">
+          <div class="se-field"><label>Meta de Vendas (R$)</label><input class="xl-input" type="number" id="se-meta" placeholder="10000"/></div>
+          <div class="se-field"><label>Vendas Realizadas (R$)</label><input class="xl-input" type="number" id="se-real" placeholder="8500"/></div>
+        </div>
+        <div class="se-result"><span class="result-label">=SE(B2&gt;=B1;"✓ Meta atingida";"✗ Meta não atingida")</span><span id="se-badge" class="badge neutral">Informe os valores</span></div>
+      </div>
+    </div>
+    <div class="divider"></div>
+
+    <!-- ══ 06 CONT.VALORES II ══ -->
+    <div class="fn-section" id="cont-valores-2">
+      <div class="fn-header">
+        <div class="fn-number">FN 06</div>
+        <div class="fn-header-text">
+          <h2>Função <span class="fn-name">CONT.VALORES</span> — Notas</h2>
+          <p class="fn-desc">Aplicando CONT.VALORES para contar quantas notas foram lançadas em um boletim.</p>
+        </div>
+      </div>
+      <div class="syntax"><span class="kw">=</span>CONT.VALORES<span class="pn">(</span>A1:A4<span class="pn">)</span></div>
+      <div class="card">
+        <div class="card-header"><span class="card-header-title">📋 BOLETIM DE NOTAS</span><span class="card-header-badge">Deixe algumas em branco</span></div>
+        <div class="xl-table-wrap">
+          <table class="xl">
+            <thead><tr><th>Disciplina</th><th>Nota</th></tr></thead>
+            <tbody>
+              <tr><td>Nota 1</td><td><input class="xl-input cv2-input" type="number" placeholder="vazio"/></td></tr>
+              <tr><td>Nota 2</td><td><input class="xl-input cv2-input" type="number" placeholder="vazio"/></td></tr>
+              <tr><td>Nota 3</td><td><input class="xl-input cv2-input" type="number" placeholder="vazio"/></td></tr>
+              <tr><td>Nota 4</td><td><input class="xl-input cv2-input" type="number" placeholder="vazio"/></td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="result-row"><span class="result-label">=CONT.VALORES(B1:B4)</span><span class="result-value" id="cv2-result">0 de 4 notas</span></div>
+      </div>
+    </div>
+    <div class="divider"></div>
+
+    <!-- ══ 07 CONT.SE ══ -->
+    <div class="fn-section" id="contse">
+      <div class="fn-header">
+        <div class="fn-number">FN 07</div>
+        <div class="fn-header-text">
+          <h2>Função <span class="fn-name">CONT.SE</span></h2>
+          <p class="fn-desc">Conta células que atendem a um critério específico.</p>
+        </div>
+      </div>
+      <div class="syntax"><span class="kw">=</span>CONT.SE<span class="pn">(</span>intervalo<span class="pn">;</span> critério<span class="pn">)</span></div>
+      <div class="card">
+        <div class="card-header"><span class="card-header-title">📋 IDADES — MAIORES DE 18</span><span class="card-header-badge">Critério: &gt;18</span></div>
+        <div class="xl-table-wrap">
+          <table class="xl">
+            <thead><tr><th>Pessoa</th><th>Idade</th></tr></thead>
+            <tbody>
+              <tr><td>Pessoa 1</td><td><input class="xl-input contse-input" type="number" placeholder="0"/></td></tr>
+              <tr><td>Pessoa 2</td><td><input class="xl-input contse-input" type="number" placeholder="0"/></td></tr>
+              <tr><td>Pessoa 3</td><td><input class="xl-input contse-input" type="number" placeholder="0"/></td></tr>
+              <tr><td>Pessoa 4</td><td><input class="xl-input contse-input" type="number" placeholder="0"/></td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="result-row"><span class="result-label">=CONT.SE(B2:B5;"&gt;18")</span><span class="result-value" id="contse-result">0 maiores de 18</span></div>
+      </div>
+    </div>
+    <div class="divider"></div>
+
+    <!-- ══ 08 SOMASE ══ -->
+    <div class="fn-section" id="somase">
+      <div class="fn-header">
+        <div class="fn-number">FN 08</div>
+        <div class="fn-header-text">
+          <h2>Função <span class="fn-name">SOMASE</span></h2>
+          <p class="fn-desc">Soma apenas os valores que satisfazem uma condição.</p>
+        </div>
+      </div>
+      <div class="syntax"><span class="kw">=</span>SOMASE<span class="pn">(</span>intervalo<span class="pn">;</span> critério<span class="pn">;</span> [intervalo_soma]<span class="pn">)</span></div>
+      <div class="card">
+        <div class="card-header"><span class="card-header-title">📋 VENDAS ACIMA DE R$ 1.000</span><span class="card-header-badge">Critério: &gt;1000</span></div>
+        <div class="xl-table-wrap">
+          <table class="xl">
+            <thead><tr><th>Venda</th><th>Valor (R$)</th></tr></thead>
+            <tbody>
+              <tr><td>Venda 1</td><td><input class="xl-input somase-input" type="number" placeholder="0"/></td></tr>
+              <tr><td>Venda 2</td><td><input class="xl-input somase-input" type="number" placeholder="0"/></td></tr>
+              <tr><td>Venda 3</td><td><input class="xl-input somase-input" type="number" placeholder="0"/></td></tr>
+              <tr><td>Venda 4</td><td><input class="xl-input somase-input" type="number" placeholder="0"/></td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="result-row"><span class="result-label">=SOMASE(B2:B5;"&gt;1000")</span><span class="result-value" id="somase-result">R$ 0,00</span></div>
+      </div>
+      <div class="info-box"><strong>Dica:</strong> Insira 500, 1.500, 800 e 2.000 → soma = R$ 3.500.</div>
+    </div>
+    <div class="divider"></div>
+
+    <!-- ══ 09 MÉDIASE ══ -->
+    <div class="fn-section" id="mediase">
+      <div class="fn-header">
+        <div class="fn-number">FN 09</div>
+        <div class="fn-header-text">
+          <h2>Função <span class="fn-name">MÉDIASE</span></h2>
+          <p class="fn-desc">Calcula a média apenas dos valores que atendem um critério.</p>
+        </div>
+      </div>
+      <div class="syntax"><span class="kw">=</span>MÉDIASE<span class="pn">(</span>intervalo<span class="pn">;</span> critério<span class="pn">)</span></div>
+      <div class="card">
+        <div class="card-header"><span class="card-header-title">📋 MÉDIA DAS NOTAS ≥ 6</span><span class="card-header-badge">Critério: ≥6</span></div>
+        <div class="xl-table-wrap">
+          <table class="xl">
+            <thead><tr><th>Aluno</th><th>Nota</th></tr></thead>
+            <tbody>
+              <tr><td>Nota 1</td><td><input class="xl-input mediase-input" type="number" placeholder="0" min="0" max="10"/></td></tr>
+              <tr><td>Nota 2</td><td><input class="xl-input mediase-input" type="number" placeholder="0" min="0" max="10"/></td></tr>
+              <tr><td>Nota 3</td><td><input class="xl-input mediase-input" type="number" placeholder="0" min="0" max="10"/></td></tr>
+              <tr><td>Nota 4</td><td><input class="xl-input mediase-input" type="number" placeholder="0" min="0" max="10"/></td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="result-row"><span class="result-label">=MÉDIASE(B2:B5;"&gt;=6")</span><span class="result-value" id="mediase-result">—</span></div>
+      </div>
+      <div class="info-box"><strong>Experimente:</strong> 5, 8, 4, 9 → somente 8 e 9 entram → média = 8,5.</div>
+    </div>
+    <div class="divider"></div>
+
+    <!-- ══ 10 HOJE ══ -->
+    <div class="fn-section" id="hoje">
+      <div class="fn-header">
+        <div class="fn-number">FN 10</div>
+        <div class="fn-header-text">
+          <h2>Função <span class="fn-name">HOJE</span></h2>
+          <p class="fn-desc">Retorna a data atual automaticamente, sem argumentos.</p>
+        </div>
+      </div>
+      <div class="syntax"><span class="kw">=</span>HOJE<span class="pn">()</span></div>
+      <div class="card">
+        <div class="card-header"><span class="card-header-title">📋 DATA ATUAL</span><span class="card-header-badge">Atualizado em tempo real</span></div>
+        <div class="hoje-display">
+          <div class="hoje-date" id="hoje-date">—</div>
+          <div class="hoje-formula">=HOJE() → atualiza automaticamente</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════ -->
+    <!-- NOVAS FUNÇÕES -->
+    <!-- ══════════════════════════════════ -->
+
+    <div class="category-banner cat-text"><span class="cat-icon">🔤</span> Funções de Texto</div>
+
+    <!-- ══ 11 CONCATENAR ══ -->
+    <div class="fn-section" id="concatenar">
+      <div class="fn-header">
+        <div class="fn-number cat-text">FN 11</div>
+        <div class="fn-header-text">
+          <h2>Função <span class="fn-name cat-text">CONCATENAR</span></h2>
+          <p class="fn-desc">Une dois ou mais textos em uma única célula. Ótima para combinar nome e sobrenome, código + descrição, etc.</p>
+        </div>
+      </div>
+      <div class="syntax"><span class="kw">=</span>CONCATENAR<span class="pn">(</span>texto1<span class="pn">;</span> texto2<span class="pn">;</span> ...<span class="pn">)</span></div>
+      <div class="card">
+        <div class="card-header cat-text"><span class="card-header-title">📋 NOME COMPLETO</span><span class="card-header-badge">Texto + Texto</span></div>
+        <div class="se-inputs">
+          <div class="se-field"><label>Nome</label><input class="xl-input wide" type="text" id="concat-nome" placeholder="ex: Maria"/></div>
+          <div class="se-field"><label>Sobrenome</label><input class="xl-input wide" type="text" id="concat-sobre" placeholder="ex: Silva"/></div>
+        </div>
+        <div class="result-row"><span class="result-label">=CONCATENAR(A1;" ";B1)</span><span class="result-value cat-text" id="concat-result">—</span></div>
+      </div>
+      <div class="info-box cat-text"><strong>Dica moderna:</strong> No Excel 2019+ você pode usar o operador <code style="font-family:'JetBrains Mono',monospace">&amp;</code> em vez de CONCATENAR: <code style="font-family:'JetBrains Mono',monospace">=A1&amp;" "&amp;B1</code></div>
+    </div>
+    <div class="divider"></div>
+
+    <!-- ══ 12 MAIÚSCULA/MINÚSCULA ══ -->
+    <div class="fn-section" id="maiuscula">
+      <div class="fn-header">
+        <div class="fn-number cat-text">FN 12</div>
+        <div class="fn-header-text">
+          <h2>Função <span class="fn-name cat-text">MAIÚSCULA</span> / <span class="fn-name cat-text">MINÚSCULA</span> / <span class="fn-name cat-text">PRI.MAIÚSCULA</span></h2>
+          <p class="fn-desc">Convertem o texto para letras maiúsculas, minúsculas ou apenas a primeira letra de cada palavra em maiúscula.</p>
+        </div>
+      </div>
+      <div class="syntax"><span class="kw">=</span>MAIÚSCULA<span class="pn">(</span>texto<span class="pn">)</span> &nbsp;·&nbsp; <span class="kw">=</span>MINÚSCULA<span class="pn">(</span>texto<span class="pn">)</span> &nbsp;·&nbsp; <span class="kw">=</span>PRI.MAIÚSCULA<span class="pn">(</span>texto<span class="pn">)</span></div>
+      <div class="card">
+        <div class="card-header cat-text"><span class="card-header-title">📋 CONVERTER CAIXA</span><span class="card-header-badge">Digite um texto</span></div>
+        <div class="single-input-area">
+          <div class="se-field"><label>Texto de entrada</label><input class="xl-input wide" type="text" id="maiusc-input" placeholder="ex: joao da silva"/></div>
+        </div>
+        <div class="xl-table-wrap" style="padding-top:0">
+          <table class="xl">
+            <thead><tr><th>Função</th><th>Resultado</th></tr></thead>
+            <tbody>
+              <tr><td>=MAIÚSCULA(A1)</td><td id="maiusc-r1" style="font-family:'JetBrains Mono',monospace;color:#0d6efd">—</td></tr>
+              <tr><td>=MINÚSCULA(A1)</td><td id="maiusc-r2" style="font-family:'JetBrains Mono',monospace;color:#0d6efd">—</td></tr>
+              <tr><td>=PRI.MAIÚSCULA(A1)</td><td id="maiusc-r3" style="font-family:'JetBrains Mono',monospace;color:#0d6efd">—</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="info-box cat-text"><strong>Uso prático:</strong> padronizar nomes em cadastros, normalizar dados importados de outros sistemas.</div>
+    </div>
+    <div class="divider"></div>
+
+    <!-- ══ 13 ESQUERDA/DIREITA ══ -->
+    <div class="fn-section" id="esquerda">
+      <div class="fn-header">
+        <div class="fn-number cat-text">FN 13</div>
+        <div class="fn-header-text">
+          <h2>Função <span class="fn-name cat-text">ESQUERDA</span> e <span class="fn-name cat-text">DIREITA</span></h2>
+          <p class="fn-desc">Extrai um número específico de caracteres do início ou do fim de um texto. Ideal para extrair prefixos, sufixos, códigos, DDD etc.</p>
+        </div>
+      </div>
+      <div class="syntax"><span class="kw">=</span>ESQUERDA<span class="pn">(</span>texto<span class="pn">;</span> núm_caract<span class="pn">)</span> &nbsp;·&nbsp; <span class="kw">=</span>DIREITA<span class="pn">(</span>texto<span class="pn">;</span> núm_caract<span class="pn">)</span></div>
+      <div class="card">
+        <div class="card-header cat-text"><span class="card-header-title">📋 EXTRAIR CARACTERES</span><span class="card-header-badge">Esquerda e Direita</span></div>
+        <div class="se-inputs">
+          <div class="se-field"><label>Texto</label><input class="xl-input wide" type="text" id="esq-texto" placeholder="ex: PROD-0042"/></div>
+          <div class="se-field"><label>Nº de caracteres</label><input class="xl-input" type="number" id="esq-n" placeholder="4" min="1"/></div>
+        </div>
+        <div class="inline-grid">
+          <div class="result-row" style="border-right:1px solid var(--border)"><span class="result-label">=ESQUERDA(A1;N)</span><span class="result-value cat-text" id="esq-result">—</span></div>
+          <div class="result-row"><span class="result-label">=DIREITA(A1;N)</span><span class="result-value cat-text" id="dir-result">—</span></div>
+        </div>
+      </div>
+      <div class="info-box cat-text"><strong>Exemplo:</strong> ESQUERDA("(11) 99999-0000"; 4) → "(11)" para extrair o DDD.</div>
+    </div>
+    <div class="divider"></div>
+
+    <!-- ══ 14 NÚM.CARACT ══ -->
+    <div class="fn-section" id="ncaract">
+      <div class="fn-header">
+        <div class="fn-number cat-text">FN 14</div>
+        <div class="fn-header-text">
+          <h2>Função <span class="fn-name cat-text">NÚM.CARACT</span></h2>
+          <p class="fn-desc">Conta o número total de caracteres de um texto, incluindo espaços. Útil para validar tamanho de campos como CPF, CEP, senhas.</p>
+        </div>
+      </div>
+      <div class="syntax"><span class="kw">=</span>NÚM.CARACT<span class="pn">(</span>texto<span class="pn">)</span></div>
+      <div class="card">
+        <div class="card-header cat-text"><span class="card-header-title">📋 CONTAR CARACTERES</span><span class="card-header-badge">Conta inclusive espaços</span></div>
+        <div class="single-input-area">
+          <div class="se-field"><label>Digite um texto</label><input class="xl-input wide" type="text" id="ncaract-input" placeholder="ex: 123.456.789-00"/></div>
+        </div>
+        <div class="result-row">
+          <span class="result-label">=NÚM.CARACT(A1)</span>
+          <span class="result-value cat-text" id="ncaract-result">0 caracteres</span>
+        </div>
+        <div class="progress-wrap">
+          <div class="progress-bar-bg"><div class="progress-bar-fill" id="ncaract-bar" style="width:0%;background:linear-gradient(90deg,#0d6efd,#60a5fa)"></div></div>
+          <span class="progress-pct" id="ncaract-pct" style="color:#0d6efd">0</span>
+        </div>
+      </div>
+      <div class="info-box cat-text"><strong>Validação:</strong> Um CPF com máscara tem 14 caracteres: "000.000.000-00".</div>
+    </div>
+
+    <div class="category-banner cat-date"><span class="cat-icon">📅</span> Funções de Data & Hora</div>
+
+    <!-- ══ 15 DIA/MÊS/ANO ══ -->
+    <div class="fn-section" id="diamesano">
+      <div class="fn-header">
+        <div class="fn-number cat-date">FN 15</div>
+        <div class="fn-header-text">
+          <h2>Funções <span class="fn-name cat-date">DIA</span>, <span class="fn-name cat-date">MÊS</span> e <span class="fn-name cat-date">ANO</span></h2>
+          <p class="fn-desc">Extraem partes de uma data: o número do dia, o número do mês ou o ano. Muito usadas para agrupar dados por período.</p>
+        </div>
+      </div>
+      <div class="syntax"><span class="kw">=</span>DIA<span class="pn">(</span>data<span class="pn">)</span> &nbsp;·&nbsp; <span class="kw">=</span>MÊS<span class="pn">(</span>data<span class="pn">)</span> &nbsp;·&nbsp; <span class="kw">=</span>ANO<span class="pn">(</span>data<span class="pn">)</span></div>
+      <div class="card">
+        <div class="card-header cat-date"><span class="card-header-title">📋 DECOMPOR UMA DATA</span><span class="card-header-badge">Selecione uma data</span></div>
+        <div class="single-input-area">
+          <div class="se-field"><label>Data</label><input class="xl-input wide" type="date" id="dma-input"/></div>
+        </div>
+        <div class="xl-table-wrap" style="padding-top:0">
+          <table class="xl">
+            <thead><tr><th>Função</th><th>Resultado</th></tr></thead>
+            <tbody>
+              <tr><td>=DIA(A1)</td><td id="dma-dia" style="font-family:'JetBrains Mono',monospace;color:#6f42c1">—</td></tr>
+              <tr><td>=MÊS(A1)</td><td id="dma-mes" style="font-family:'JetBrains Mono',monospace;color:#6f42c1">—</td></tr>
+              <tr><td>=ANO(A1)</td><td id="dma-ano" style="font-family:'JetBrains Mono',monospace;color:#6f42c1">—</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="info-box cat-date"><strong>Uso:</strong> filtrar vendas por mês usando =MÊS(A1)=3 para encontrar todas as vendas de março.</div>
+    </div>
+    <div class="divider"></div>
+
+    <!-- ══ 16 DATEDIF ══ -->
+    <div class="fn-section" id="datedif">
+      <div class="fn-header">
+        <div class="fn-number cat-date">FN 16</div>
+        <div class="fn-header-text">
+          <h2>Função <span class="fn-name cat-date">DATEDIF</span></h2>
+          <p class="fn-desc">Calcula a diferença entre duas datas em dias, meses ou anos. Perfeita para calcular idade, tempo de serviço ou prazo de contrato.</p>
+        </div>
+      </div>
+      <div class="syntax"><span class="kw">=</span>DATEDIF<span class="pn">(</span>data_inicial<span class="pn">;</span> data_final<span class="pn">;</span> "Y"/"M"/"D"<span class="pn">)</span></div>
+      <div class="card">
+        <div class="card-header cat-date"><span class="card-header-title">📋 CALCULAR IDADE / TEMPO</span><span class="card-header-badge">Diferença entre datas</span></div>
+        <div class="se-inputs">
+          <div class="se-field"><label>Data Inicial (nascimento)</label><input class="xl-input wide" type="date" id="datedif-ini"/></div>
+          <div class="se-field"><label>Data Final (hoje ou outra)</label><input class="xl-input wide" type="date" id="datedif-fim"/></div>
+        </div>
+        <div class="xl-table-wrap" style="padding-top:0">
+          <table class="xl">
+            <thead><tr><th>Unidade</th><th>Resultado</th></tr></thead>
+            <tbody>
+              <tr><td>=DATEDIF(A1;B1;"Y") — Anos</td><td id="dd-anos" style="font-family:'JetBrains Mono',monospace;color:#6f42c1">—</td></tr>
+              <tr><td>=DATEDIF(A1;B1;"M") — Meses</td><td id="dd-meses" style="font-family:'JetBrains Mono',monospace;color:#6f42c1">—</td></tr>
+              <tr><td>=DATEDIF(A1;B1;"D") — Dias</td><td id="dd-dias" style="font-family:'JetBrains Mono',monospace;color:#6f42c1">—</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="info-box cat-date"><strong>Atenção:</strong> DATEDIF não aparece no autocompletar do Excel, mas funciona normalmente ao digitar.</div>
+    </div>
+
+    <div class="category-banner cat-math"><span class="cat-icon">🔢</span> Funções Matemáticas</div>
+
+    <!-- ══ 17 ARRED ══ -->
+    <div class="fn-section" id="arred">
+      <div class="fn-header">
+        <div class="fn-number cat-math">FN 17</div>
+        <div class="fn-header-text">
+          <h2>Função <span class="fn-name cat-math">ARRED</span></h2>
+          <p class="fn-desc">Arredonda um número para uma quantidade específica de casas decimais. Essencial para valores monetários e relatórios financeiros.</p>
+        </div>
+      </div>
+      <div class="syntax"><span class="kw">=</span>ARRED<span class="pn">(</span>número<span class="pn">;</span> núm_dígitos<span class="pn">)</span></div>
+      <div class="card">
+        <div class="card-header cat-math"><span class="card-header-title">📋 ARREDONDAR VALOR</span><span class="card-header-badge">Casas decimais ajustáveis</span></div>
+        <div class="se-inputs">
+          <div class="se-field"><label>Número</label><input class="xl-input" type="number" id="arred-num" placeholder="ex: 3.14159" step="any"/></div>
+          <div class="se-field"><label>Casas decimais</label><input class="xl-input" type="number" id="arred-dec" placeholder="2" min="0" max="10"/></div>
+        </div>
+        <div class="inline-grid">
+          <div class="result-row" style="border-right:1px solid var(--border)"><span class="result-label">=ARRED(A1;N)</span><span class="result-value cat-math" id="arred-result">—</span></div>
+          <div class="result-row"><span class="result-label">=ARREDONDAR.PARA.CIMA/BAIXO</span><span class="result-value cat-math" id="arred-info" style="font-size:1rem">—</span></div>
+        </div>
+      </div>
+      <div class="info-box cat-math"><strong>Variações:</strong> ARREDONDAR.PARA.CIMA sempre sobe, ARREDONDAR.PARA.BAIXO sempre desce, independente do dígito.</div>
+    </div>
+    <div class="divider"></div>
+
+    <!-- ══ 18 MOD ══ -->
+    <div class="fn-section" id="mod">
+      <div class="fn-header">
+        <div class="fn-number cat-math">FN 18</div>
+        <div class="fn-header-text">
+          <h2>Função <span class="fn-name cat-math">MOD</span></h2>
+          <p class="fn-desc">Retorna o resto da divisão de um número por outro. Útil para identificar números pares/ímpares ou ciclos periódicos.</p>
+        </div>
+      </div>
+      <div class="syntax"><span class="kw">=</span>MOD<span class="pn">(</span>número<span class="pn">;</span> divisor<span class="pn">)</span></div>
+      <div class="card">
+        <div class="card-header cat-math"><span class="card-header-title">📋 RESTO DA DIVISÃO</span><span class="card-header-badge">Par ou ímpar?</span></div>
+        <div class="se-inputs">
+          <div class="se-field"><label>Número</label><input class="xl-input" type="number" id="mod-num" placeholder="ex: 17"/></div>
+          <div class="se-field"><label>Divisor</label><input class="xl-input" type="number" id="mod-div" placeholder="ex: 2"/></div>
+        </div>
+        <div class="se-result">
+          <span class="result-label">=MOD(A1;B1)</span>
+          <span id="mod-badge" class="badge neutral">Informe os valores</span>
+        </div>
+      </div>
+      <div class="info-box cat-math"><strong>Truque:</strong> =MOD(A1;2)=0 verifica se um número é par. Se o resultado for 0, é par; se for 1, é ímpar.</div>
+    </div>
+
+    <div class="category-banner cat-lookup"><span class="cat-icon">🔍</span> Funções de Pesquisa</div>
+
+    <!-- ══ 19 PROCV ══ -->
+    <div class="fn-section" id="procv">
+      <div class="fn-header">
+        <div class="fn-number cat-lookup">FN 19</div>
+        <div class="fn-header-text">
+          <h2>Função <span class="fn-name cat-lookup">PROCV</span></h2>
+          <p class="fn-desc">Procura um valor na primeira coluna de uma tabela e retorna um valor de outra coluna na mesma linha. Uma das funções mais poderosas do Excel.</p>
+        </div>
+      </div>
+      <div class="syntax"><span class="kw">=</span>PROCV<span class="pn">(</span>valor_proc<span class="pn">;</span> tabela<span class="pn">;</span> núm_coluna<span class="pn">;</span> FALSO<span class="pn">)</span></div>
+      <div class="card">
+        <div class="card-header cat-lookup"><span class="card-header-title">📋 TABELA DE PRODUTOS</span><span class="card-header-badge">Busca por código</span></div>
+        <div class="xl-table-wrap">
+          <table class="xl">
+            <thead><tr><th>Código</th><th>Produto</th><th>Preço (R$)</th></tr></thead>
+            <tbody>
+              <tr><td>P001</td><td>Notebook</td><td>R$ 3.500,00</td></tr>
+              <tr><td>P002</td><td>Mouse</td><td>R$ 89,90</td></tr>
+              <tr><td>P003</td><td>Teclado</td><td>R$ 199,00</td></tr>
+              <tr><td>P004</td><td>Monitor</td><td>R$ 1.299,00</td></tr>
+              <tr><td>P005</td><td>Headset</td><td>R$ 349,00</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="single-input-area">
+          <div class="se-field"><label>Buscar código (P001 a P005)</label><input class="xl-input wide" type="text" id="procv-input" placeholder="ex: P003"/></div>
+        </div>
+        <div class="xl-table-wrap" style="padding-top:0">
+          <table class="xl">
+            <thead><tr><th>Fórmula</th><th>Resultado</th></tr></thead>
+            <tbody>
+              <tr><td>=PROCV(D1;A:C;2;FALSO) — Produto</td><td id="procv-nome" style="font-family:'JetBrains Mono',monospace;color:#fd7e14">—</td></tr>
+              <tr><td>=PROCV(D1;A:C;3;FALSO) — Preço</td><td id="procv-preco" style="font-family:'JetBrains Mono',monospace;color:#fd7e14">—</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="info-box cat-lookup"><strong>Parâmetros:</strong> valor a buscar; tabela; número da coluna a retornar; FALSO = correspondência exata.</div>
+    </div>
+    <div class="divider"></div>
+
+    <!-- ══ 20 SEERRO ══ -->
+    <div class="fn-section" id="seerro">
+      <div class="fn-header">
+        <div class="fn-number cat-lookup">FN 20</div>
+        <div class="fn-header-text">
+          <h2>Função <span class="fn-name cat-lookup">SEERRO</span></h2>
+          <p class="fn-desc">Captura erros em fórmulas e retorna um valor alternativo em vez de exibir #N/D, #DIV/0!, #REF! etc. Muito usada em conjunto com PROCV.</p>
+        </div>
+      </div>
+      <div class="syntax"><span class="kw">=</span>SEERRO<span class="pn">(</span>valor<span class="pn">;</span> valor_se_erro<span class="pn">)</span></div>
+      <div class="card">
+        <div class="card-header cat-lookup"><span class="card-header-title">📋 TRATAR ERROS NO PROCV</span><span class="card-header-badge">Código inválido = mensagem amigável</span></div>
+        <div class="single-input-area">
+          <div class="se-field"><label>Buscar código (tente um inválido como "P099")</label><input class="xl-input wide" type="text" id="seerro-input" placeholder="ex: P099"/></div>
+        </div>
+        <div class="se-result">
+          <span class="result-label">=SEERRO(PROCV(A1;tabela;2;FALSO);"Produto não encontrado")</span>
+          <span id="seerro-badge" class="badge neutral">Informe um código</span>
+        </div>
+      </div>
+      <div class="info-box cat-lookup"><strong>Prática recomendada:</strong> sempre envolva seus PROCVs com SEERRO para evitar que erros apareçam para o usuário final.</div>
+    </div>
+
+    <!-- ══════════════════════════════════ -->
+    <!-- GRÁFICOS -->
+    <!-- ══════════════════════════════════ -->
+
+    <div class="category-banner cat-chart"><span class="cat-icon">📊</span> Gráficos no Excel</div>
+
+    <!-- ══ 21 GRÁFICO DE BARRAS ══ -->
+    <div class="fn-section" id="graf-barras">
+      <div class="fn-header">
+        <div class="fn-number cat-chart">FN 21</div>
+        <div class="fn-header-text">
+          <h2>Gráfico de <span class="fn-name cat-chart">Barras / Colunas</span></h2>
+          <p class="fn-desc">Ideal para comparar valores entre categorias. Use para visualizar vendas por mês, desempenho por vendedor ou qualquer comparação direta entre itens.</p>
+        </div>
+      </div>
+      <div class="syntax"><span class="kw">Inserir</span> → Gráficos → <span class="pn">Coluna</span> ou <span class="pn">Barra</span></div>
+      <div class="card">
+        <div class="card-header cat-chart"><span class="card-header-title">📊 VENDAS MENSAIS — BARRAS</span><span class="card-header-badge">Edite os valores e veja o gráfico atualizar</span></div>
+        <div class="chart-inputs" id="barras-inputs">
+          <div class="chart-input-row">
+            <span class="chart-label">Jan</span><input class="xl-input chart-bar-input" type="number" placeholder="0" value="12000" data-label="Jan"/>
+            <span class="chart-label">Fev</span><input class="xl-input chart-bar-input" type="number" placeholder="0" value="18500" data-label="Fev"/>
+            <span class="chart-label">Mar</span><input class="xl-input chart-bar-input" type="number" placeholder="0" value="9800" data-label="Mar"/>
+            <span class="chart-label">Abr</span><input class="xl-input chart-bar-input" type="number" placeholder="0" value="22000" data-label="Abr"/>
+            <span class="chart-label">Mai</span><input class="xl-input chart-bar-input" type="number" placeholder="0" value="16400" data-label="Mai"/>
+            <span class="chart-label">Jun</span><input class="xl-input chart-bar-input" type="number" placeholder="0" value="25000" data-label="Jun"/>
+          </div>
+        </div>
+        <div class="chart-canvas-wrap">
+          <canvas id="chart-barras" height="260"></canvas>
+        </div>
+        <div class="chart-stats-row" id="barras-stats"></div>
+      </div>
+      <div class="info-box cat-chart"><strong>Quando usar:</strong> comparação entre categorias discretas. Prefira <em>colunas</em> para dados temporais e <em>barras horizontais</em> quando os rótulos são longos.</div>
+    </div>
+    <div class="divider"></div>
+
+    <!-- ══ 22 GRÁFICO DE LINHAS ══ -->
+    <div class="fn-section" id="graf-linhas">
+      <div class="fn-header">
+        <div class="fn-number cat-chart">FN 22</div>
+        <div class="fn-header-text">
+          <h2>Gráfico de <span class="fn-name cat-chart">Linhas</span></h2>
+          <p class="fn-desc">Perfeito para mostrar tendências ao longo do tempo. Evidencia crescimento, queda e sazonalidade de uma série de dados contínua.</p>
+        </div>
+      </div>
+      <div class="syntax"><span class="kw">Inserir</span> → Gráficos → <span class="pn">Linha</span></div>
+      <div class="card">
+        <div class="card-header cat-chart"><span class="card-header-title">📊 TEMPERATURA MÉDIA — LINHAS</span><span class="card-header-badge">Tendência ao longo do tempo</span></div>
+        <div class="chart-inputs">
+          <div class="chart-input-row">
+            <span class="chart-label">Jan</span><input class="xl-input chart-line-input" type="number" placeholder="0" value="30" data-label="Jan"/>
+            <span class="chart-label">Fev</span><input class="xl-input chart-line-input" type="number" placeholder="0" value="29" data-label="Fev"/>
+            <span class="chart-label">Mar</span><input class="xl-input chart-line-input" type="number" placeholder="0" value="28" data-label="Mar"/>
+            <span class="chart-label">Abr</span><input class="xl-input chart-line-input" type="number" placeholder="0" value="25" data-label="Abr"/>
+            <span class="chart-label">Mai</span><input class="xl-input chart-line-input" type="number" placeholder="0" value="22" data-label="Mai"/>
+            <span class="chart-label">Jun</span><input class="xl-input chart-line-input" type="number" placeholder="0" value="19" data-label="Jun"/>
+          </div>
+        </div>
+        <div class="chart-canvas-wrap">
+          <canvas id="chart-linhas" height="260"></canvas>
+        </div>
+        <div class="chart-stats-row" id="linhas-stats"></div>
+      </div>
+      <div class="info-box cat-chart"><strong>Dica visual:</strong> use linha suavizada (spline) para dados contínuos e linha reta para dados discretos. No Excel: clique com botão direito → Formatar série → Linha suavizada.</div>
+    </div>
+    <div class="divider"></div>
+
+    <!-- ══ 23 GRÁFICO DE PIZZA ══ -->
+    <div class="fn-section" id="graf-pizza">
+      <div class="fn-header">
+        <div class="fn-number cat-chart">FN 23</div>
+        <div class="fn-header-text">
+          <h2>Gráfico de <span class="fn-name cat-chart">Pizza / Rosca</span></h2>
+          <p class="fn-desc">Mostra a proporção de cada parte em relação ao total. Use para distribuição de despesas, participação de mercado ou composição de portfólio.</p>
+        </div>
+      </div>
+      <div class="syntax"><span class="kw">Inserir</span> → Gráficos → <span class="pn">Pizza</span> ou <span class="pn">Rosca</span></div>
+      <div class="card">
+        <div class="card-header cat-chart"><span class="card-header-title">📊 DESPESAS — PIZZA</span><span class="card-header-badge">Proporção de cada categoria</span></div>
+        <div class="chart-inputs">
+          <div class="chart-input-row chart-pizza-row">
+            <div class="pizza-item"><span class="chart-label pizza-label" style="--dot:#1a7a3c">🏠 Moradia</span><input class="xl-input chart-pizza-input" type="number" placeholder="0" value="3500"/></div>
+            <div class="pizza-item"><span class="chart-label pizza-label" style="--dot:#0d6efd">🛒 Alimentação</span><input class="xl-input chart-pizza-input" type="number" placeholder="0" value="1800"/></div>
+            <div class="pizza-item"><span class="chart-label pizza-label" style="--dot:#6f42c1">🚗 Transporte</span><input class="xl-input chart-pizza-input" type="number" placeholder="0" value="900"/></div>
+            <div class="pizza-item"><span class="chart-label pizza-label" style="--dot:#fd7e14">🎮 Lazer</span><input class="xl-input chart-pizza-input" type="number" placeholder="0" value="600"/></div>
+            <div class="pizza-item"><span class="chart-label pizza-label" style="--dot:#d63384">📚 Educação</span><input class="xl-input chart-pizza-input" type="number" placeholder="0" value="750"/></div>
+          </div>
+        </div>
+        <div class="chart-pizza-layout">
+          <canvas id="chart-pizza" width="300" height="300"></canvas>
+          <div class="pizza-legend" id="pizza-legend"></div>
+        </div>
+        <div class="chart-stats-row" id="pizza-stats"></div>
+      </div>
+      <div class="info-box cat-chart"><strong>Cuidado:</strong> evite gráficos de pizza com mais de 6 fatias — fica difícil de comparar. Prefira barras quando houver muitas categorias ou valores parecidos.</div>
+    </div>
+
+  </main>
+</div>
+
+<footer>© 2025 Davi Ramos &nbsp;·&nbsp; <a href="index.html">← Portfólio</a></footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+
+<script>
+// ── ORIGINAIS ──
+document.querySelectorAll('.soma-input').forEach(el=>el.addEventListener('input',()=>{
+  const v=[...document.querySelectorAll('.soma-input')].map(i=>parseFloat(i.value)||0);
+  document.getElementById('soma-result').textContent='R$ '+v.reduce((a,b)=>a+b,0).toLocaleString('pt-BR',{minimumFractionDigits:2});
+}));
+document.querySelectorAll('.cv-input').forEach(el=>el.addEventListener('input',()=>{
+  const t=5, f=[...document.querySelectorAll('.cv-input')].filter(i=>i.value.trim()!=='').length;
+  document.getElementById('cv-result').textContent=f+' de '+t+' preenchidas';
+  const p=Math.round(f/t*100);
+  document.getElementById('cv-bar').style.width=p+'%';
+  document.getElementById('cv-pct').textContent=p+'%';
+}));
+document.querySelectorAll('.media-input').forEach(el=>el.addEventListener('input',()=>{
+  const v=[...document.querySelectorAll('.media-input')].map(i=>parseFloat(i.value)).filter(v=>!isNaN(v));
+  const e=document.getElementById('media-result');
+  if(!v.length){e.textContent='—';e.className='result-value';return;}
+  const avg=v.reduce((a,b)=>a+b,0)/v.length;
+  e.textContent=avg.toFixed(2)+(avg>=6?' ✓ Aprovado':' ✗ Reprovado');
+  e.className='result-value '+(avg>=6?'':'danger');
+}));
+document.querySelectorAll('.mm-input').forEach(el=>el.addEventListener('input',()=>{
+  const v=[...document.querySelectorAll('.mm-input')].map(i=>parseFloat(i.value)).filter(v=>!isNaN(v));
+  if(!v.length){document.getElementById('min-result').textContent='R$ —';document.getElementById('max-result').textContent='R$ —';return;}
+  const fmt=v=>'R$ '+v.toLocaleString('pt-BR',{minimumFractionDigits:2});
+  document.getElementById('min-result').textContent=fmt(Math.min(...v));
+  document.getElementById('max-result').textContent=fmt(Math.max(...v));
+}));
+['se-meta','se-real'].forEach(id=>{
+  document.getElementById(id).addEventListener('input',()=>{
+    const m=parseFloat(document.getElementById('se-meta').value),r=parseFloat(document.getElementById('se-real').value),b=document.getElementById('se-badge');
+    if(isNaN(m)||isNaN(r)){b.textContent='Informe os valores';b.className='badge neutral';return;}
+    if(r>=m){b.textContent='✓ Meta atingida!';b.className='badge success';}
+    else{b.textContent='✗ Faltam R$ '+(m-r).toLocaleString('pt-BR',{minimumFractionDigits:2});b.className='badge danger';}
+  });
+});
+document.querySelectorAll('.cv2-input').forEach(el=>el.addEventListener('input',()=>{
+  const f=[...document.querySelectorAll('.cv2-input')].filter(i=>i.value.trim()!=='').length;
+  document.getElementById('cv2-result').textContent=f+' de 4 notas';
+}));
+document.querySelectorAll('.contse-input').forEach(el=>el.addEventListener('input',()=>{
+  const v=[...document.querySelectorAll('.contse-input')].map(i=>parseFloat(i.value)).filter(v=>!isNaN(v));
+  document.getElementById('contse-result').textContent=v.filter(v=>v>18).length+' maiores de 18';
+}));
+document.querySelectorAll('.somase-input').forEach(el=>el.addEventListener('input',()=>{
+  const v=[...document.querySelectorAll('.somase-input')].map(i=>parseFloat(i.value)).filter(v=>!isNaN(v));
+  document.getElementById('somase-result').textContent='R$ '+v.filter(v=>v>1000).reduce((a,b)=>a+b,0).toLocaleString('pt-BR',{minimumFractionDigits:2});
+}));
+document.querySelectorAll('.mediase-input').forEach(el=>el.addEventListener('input',()=>{
+  const v=[...document.querySelectorAll('.mediase-input')].map(i=>parseFloat(i.value)).filter(v=>!isNaN(v)&&v>=6);
+  const e=document.getElementById('mediase-result');
+  if(!v.length){e.textContent='Sem notas ≥ 6';return;}
+  e.textContent=(v.reduce((a,b)=>a+b,0)/v.length).toFixed(2);
+}));
+(()=>{
+  const d=new Date();
+  document.getElementById('hoje-date').textContent=d.toLocaleDateString('pt-BR',{weekday:'long',year:'numeric',month:'long',day:'numeric'});
+})();
+
+// ── NOVAS ──
+
+// 11 CONCATENAR
+['concat-nome','concat-sobre'].forEach(id=>{
+  document.getElementById(id).addEventListener('input',()=>{
+    const n=document.getElementById('concat-nome').value;
+    const s=document.getElementById('concat-sobre').value;
+    const e=document.getElementById('concat-result');
+    if(!n&&!s){e.textContent='—';return;}
+    e.textContent=(n+' '+s).trim();
+  });
+});
+
+// 12 MAIÚSCULA/MINÚSCULA
+document.getElementById('maiusc-input').addEventListener('input',function(){
+  const t=this.value;
+  document.getElementById('maiusc-r1').textContent=t?t.toUpperCase():'—';
+  document.getElementById('maiusc-r2').textContent=t?t.toLowerCase():'—';
+  document.getElementById('maiusc-r3').textContent=t?t.replace(/\b\w/g,c=>c.toUpperCase()):'—';
+});
+
+// 13 ESQUERDA/DIREITA
+['esq-texto','esq-n'].forEach(id=>{
+  document.getElementById(id).addEventListener('input',()=>{
+    const t=document.getElementById('esq-texto').value;
+    const n=parseInt(document.getElementById('esq-n').value)||0;
+    document.getElementById('esq-result').textContent=t&&n?t.substring(0,n):'—';
+    document.getElementById('dir-result').textContent=t&&n?t.substring(t.length-n):'—';
+  });
+});
+
+// 14 NÚM.CARACT
+document.getElementById('ncaract-input').addEventListener('input',function(){
+  const l=this.value.length;
+  document.getElementById('ncaract-result').textContent=l+' caractere'+(l===1?'':'s');
+  const pct=Math.min(l/30*100,100);
+  document.getElementById('ncaract-bar').style.width=pct+'%';
+  document.getElementById('ncaract-pct').textContent=l;
+});
+
+// 15 DIA/MÊS/ANO
+document.getElementById('dma-input').addEventListener('input',function(){
+  if(!this.value){document.getElementById('dma-dia').textContent=document.getElementById('dma-mes').textContent=document.getElementById('dma-ano').textContent='—';return;}
+  const d=new Date(this.value+'T12:00:00');
+  document.getElementById('dma-dia').textContent=d.getDate();
+  document.getElementById('dma-mes').textContent=d.getMonth()+1;
+  document.getElementById('dma-ano').textContent=d.getFullYear();
+});
+
+// 16 DATEDIF
+function updDatedif(){
+  const i=document.getElementById('datedif-ini').value;
+  const f=document.getElementById('datedif-fim').value;
+  if(!i||!f){['dd-anos','dd-meses','dd-dias'].forEach(id=>document.getElementById(id).textContent='—');return;}
+  const d1=new Date(i),d2=new Date(f);
+  if(d2<d1){['dd-anos','dd-meses','dd-dias'].forEach(id=>document.getElementById(id).textContent='⚠ Data final < inicial');return;}
+  let anos=d2.getFullYear()-d1.getFullYear();
+  if(d2.getMonth()<d1.getMonth()||(d2.getMonth()===d1.getMonth()&&d2.getDate()<d1.getDate()))anos--;
+  let meses=(d2.getFullYear()-d1.getFullYear())*12+(d2.getMonth()-d1.getMonth());
+  if(d2.getDate()<d1.getDate())meses--;
+  const dias=Math.floor((d2-d1)/(1000*60*60*24));
+  document.getElementById('dd-anos').textContent=anos+' ano'+(anos===1?'':'s');
+  document.getElementById('dd-meses').textContent=meses+' mês'+(meses===1?'':'es');
+  document.getElementById('dd-dias').textContent=dias+' dia'+(dias===1?'':'s');
+}
+document.getElementById('datedif-ini').addEventListener('input',updDatedif);
+document.getElementById('datedif-fim').addEventListener('input',updDatedif);
+// set today as default for fim
+document.getElementById('datedif-fim').valueAsDate=new Date();
+
+// 17 ARRED
+['arred-num','arred-dec'].forEach(id=>{
+  document.getElementById(id).addEventListener('input',()=>{
+    const n=parseFloat(document.getElementById('arred-num').value);
+    const d=parseInt(document.getElementById('arred-dec').value);
+    const e=document.getElementById('arred-result');
+    const ei=document.getElementById('arred-info');
+    if(isNaN(n)){e.textContent='—';ei.textContent='—';return;}
+    const dec=isNaN(d)?2:d;
+    e.textContent=n.toFixed(dec);
+    const up=Math.ceil(n*Math.pow(10,dec))/Math.pow(10,dec);
+    const dn=Math.floor(n*Math.pow(10,dec))/Math.pow(10,dec);
+    ei.textContent='↑ '+up.toFixed(dec)+' / ↓ '+dn.toFixed(dec);
+  });
+});
+
+// 18 MOD
+['mod-num','mod-div'].forEach(id=>{
+  document.getElementById(id).addEventListener('input',()=>{
+    const n=parseFloat(document.getElementById('mod-num').value);
+    const d=parseFloat(document.getElementById('mod-div').value);
+    const b=document.getElementById('mod-badge');
+    if(isNaN(n)||isNaN(d)||d===0){b.textContent=d===0?'Divisor não pode ser 0':'Informe os valores';b.className='badge neutral';return;}
+    const r=((n%d)+Math.abs(d))%Math.abs(d);
+    const label=d===2?(r===0?'✓ Par (resto = 0)':'✗ Ímpar (resto = 1)'):`Resto = ${r}`;
+    b.textContent=label;
+    b.className='badge '+(r===0?'success':'info');
+  });
+});
+
+// 19 PROCV
+const tabela={P001:{nome:'Notebook',preco:'R$ 3.500,00'},P002:{nome:'Mouse',preco:'R$ 89,90'},P003:{nome:'Teclado',preco:'R$ 199,00'},P004:{nome:'Monitor',preco:'R$ 1.299,00'},P005:{nome:'Headset',preco:'R$ 349,00'}};
+document.getElementById('procv-input').addEventListener('input',function(){
+  const k=this.value.trim().toUpperCase();
+  const r=tabela[k];
+  document.getElementById('procv-nome').textContent=r?r.nome:'#N/D — não encontrado';
+  document.getElementById('procv-preco').textContent=r?r.preco:'#N/D — não encontrado';
+});
+
+// 20 SEERRO
+document.getElementById('seerro-input').addEventListener('input',function(){
+  const k=this.value.trim().toUpperCase();
+  const b=document.getElementById('seerro-badge');
+  if(!k){b.textContent='Informe um código';b.className='badge neutral';return;}
+  const r=tabela[k];
+  if(r){b.textContent='✓ '+r.nome+' — '+r.preco;b.className='badge success';}
+  else{b.textContent='ℹ Produto não encontrado';b.className='badge info';}
+});
+
+// ── INTERSECTION OBSERVER ──
+const obs=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');obs.unobserve(e.target);}});
+},{threshold:0.1});
+document.querySelectorAll('.fn-section').forEach(s=>obs.observe(s));
+
+// ── ACTIVE TOC ──
+const sections=document.querySelectorAll('.fn-section');
+const links=document.querySelectorAll('.toc-list a');
+const tocObs=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){
+      links.forEach(l=>l.classList.remove('active'));
+      const a=document.querySelector(`.toc-list a[href="#${e.target.id}"]`);
+      if(a)a.classList.add('active');
+    }
+  });
+},{rootMargin:'-30% 0px -60% 0px'});
+sections.forEach(s=>tocObs.observe(s));
+
+// ── GRÁFICOS ──
+const CHART_COLORS = ['#1a7a3c','#0d6efd','#6f42c1','#fd7e14','#d63384','#20c997','#ffc107'];
+const CHART_COLORS_ALPHA = CHART_COLORS.map(c=>c+'33');
+
+function fmt(n){return n.toLocaleString('pt-BR',{minimumFractionDigits:0,maximumFractionDigits:0});}
+function fmtR(n){return 'R$ '+n.toLocaleString('pt-BR',{minimumFractionDigits:2});}
+
+// Default Chart.js global font
+Chart.defaults.font.family = "'Outfit', sans-serif";
+Chart.defaults.font.size = 12;
+Chart.defaults.color = '#6b7060';
+
+// ── 21 BARRAS ──
+const barCtx = document.getElementById('chart-barras').getContext('2d');
+const barChart = new Chart(barCtx, {
+  type: 'bar',
+  data: { labels:[], datasets:[{
+    label:'Vendas (R$)',
+    data:[],
+    backgroundColor: CHART_COLORS,
+    borderColor: CHART_COLORS.map(c=>c+'cc'),
+    borderWidth:2,
+    borderRadius:6,
+    borderSkipped:false
+  }]},
+  options:{
+    responsive:true,
+    animation:{duration:400},
+    plugins:{
+      legend:{display:false},
+      tooltip:{callbacks:{label:ctx=>' '+fmtR(ctx.parsed.y)}}
+    },
+    scales:{
+      y:{
+        beginAtZero:true,
+        grid:{color:'rgba(0,0,0,.06)'},
+        ticks:{callback:v=>'R$ '+fmt(v)}
+      },
+      x:{grid:{display:false}}
+    }
+  }
+});
+
+function updateBarras(){
+  const inputs=[...document.querySelectorAll('.chart-bar-input')];
+  const labels=inputs.map(i=>i.dataset.label);
+  const vals=inputs.map(i=>parseFloat(i.value)||0);
+  barChart.data.labels=labels;
+  barChart.data.datasets[0].data=vals;
+  barChart.update();
+  const total=vals.reduce((a,b)=>a+b,0);
+  const max=Math.max(...vals); const maxLbl=labels[vals.indexOf(max)];
+  const min=Math.min(...vals.filter(v=>v>0)); const minLbl=labels[vals.indexOf(min)];
+  const avg=vals.filter(v=>v>0).reduce((a,b)=>a+b,0)/(vals.filter(v=>v>0).length||1);
+  document.getElementById('barras-stats').innerHTML=`
+    <div class="chart-stat"><span class="chart-stat-label">Total</span><span class="chart-stat-value">${fmtR(total)}</span></div>
+    <div class="chart-stat"><span class="chart-stat-label">Maior (${maxLbl})</span><span class="chart-stat-value">${fmtR(max)}</span></div>
+    <div class="chart-stat"><span class="chart-stat-label">Menor</span><span class="chart-stat-value">${fmtR(min)}</span></div>
+    <div class="chart-stat"><span class="chart-stat-label">Média</span><span class="chart-stat-value">${fmtR(avg)}</span></div>`;
+}
+document.querySelectorAll('.chart-bar-input').forEach(i=>i.addEventListener('input',updateBarras));
+updateBarras();
+
+// ── 22 LINHAS ──
+const lineCtx = document.getElementById('chart-linhas').getContext('2d');
+const lineChart = new Chart(lineCtx, {
+  type:'line',
+  data:{labels:[],datasets:[{
+    label:'Temperatura (°C)',
+    data:[],
+    borderColor:'#0369a1',
+    backgroundColor:'rgba(3,105,161,.12)',
+    borderWidth:3,
+    pointBackgroundColor:'#0369a1',
+    pointBorderColor:'#fff',
+    pointBorderWidth:2,
+    pointRadius:6,
+    pointHoverRadius:8,
+    fill:true,
+    tension:.4
+  }]},
+  options:{
+    responsive:true,
+    animation:{duration:400},
+    plugins:{
+      legend:{display:false},
+      tooltip:{callbacks:{label:ctx=>` ${ctx.parsed.y}°C`}}
+    },
+    scales:{
+      y:{
+        grid:{color:'rgba(0,0,0,.06)'},
+        ticks:{callback:v=>v+'°C'}
+      },
+      x:{grid:{color:'rgba(0,0,0,.04)'}}
+    }
+  }
+});
+
+function updateLinhas(){
+  const inputs=[...document.querySelectorAll('.chart-line-input')];
+  const labels=inputs.map(i=>i.dataset.label);
+  const vals=inputs.map(i=>parseFloat(i.value)||0);
+  lineChart.data.labels=labels;
+  lineChart.data.datasets[0].data=vals;
+  lineChart.update();
+  const max=Math.max(...vals); const maxLbl=labels[vals.indexOf(max)];
+  const min=Math.min(...vals); const minLbl=labels[vals.indexOf(min)];
+  const avg=vals.reduce((a,b)=>a+b,0)/vals.length;
+  const trend=vals[vals.length-1]-vals[0];
+  document.getElementById('linhas-stats').innerHTML=`
+    <div class="chart-stat"><span class="chart-stat-label">Máximo (${maxLbl})</span><span class="chart-stat-value">${max}°C</span></div>
+    <div class="chart-stat"><span class="chart-stat-label">Mínimo (${minLbl})</span><span class="chart-stat-value">${min}°C</span></div>
+    <div class="chart-stat"><span class="chart-stat-label">Média</span><span class="chart-stat-value">${avg.toFixed(1)}°C</span></div>
+    <div class="chart-stat"><span class="chart-stat-label">Tendência</span><span class="chart-stat-value" style="color:${trend<0?'#c0392b':'#1a7a3c'}">${trend>0?'+':''}${trend.toFixed(1)}°C</span></div>`;
+}
+document.querySelectorAll('.chart-line-input').forEach(i=>i.addEventListener('input',updateLinhas));
+updateLinhas();
+
+// ── 23 PIZZA ──
+const PIZZA_COLORS=['#1a7a3c','#0d6efd','#6f42c1','#fd7e14','#d63384'];
+const PIZZA_LABELS=['🏠 Moradia','🛒 Alimentação','🚗 Transporte','🎮 Lazer','📚 Educação'];
+const pizzaCtx = document.getElementById('chart-pizza').getContext('2d');
+const pizzaChart = new Chart(pizzaCtx,{
+  type:'doughnut',
+  data:{labels:PIZZA_LABELS,datasets:[{
+    data:[],
+    backgroundColor:PIZZA_COLORS,
+    borderColor:'#fff',
+    borderWidth:3,
+    hoverOffset:8
+  }]},
+  options:{
+    responsive:true,
+    cutout:'55%',
+    animation:{duration:400},
+    plugins:{
+      legend:{display:false},
+      tooltip:{callbacks:{label:ctx=>{
+        const total=ctx.dataset.data.reduce((a,b)=>a+b,0);
+        const pct=((ctx.parsed/total)*100).toFixed(1);
+        return ` ${fmtR(ctx.parsed)} (${pct}%)`;
+      }}}
+    }
+  }
+});
+
+function updatePizza(){
+  const inputs=[...document.querySelectorAll('.chart-pizza-input')];
+  const vals=inputs.map(i=>Math.max(parseFloat(i.value)||0,0));
+  const total=vals.reduce((a,b)=>a+b,0)||1;
+  pizzaChart.data.datasets[0].data=vals;
+  pizzaChart.update();
+  const legend=document.getElementById('pizza-legend');
+  legend.innerHTML=PIZZA_LABELS.map((l,i)=>{
+    const pct=((vals[i]/total)*100).toFixed(1);
+    return `<div class="pizza-legend-item">
+      <div class="pizza-dot" style="background:${PIZZA_COLORS[i]}"></div>
+      <span class="pizza-name">${l}</span>
+      <span class="pizza-pct">${pct}%</span>
+    </div>`;
+  }).join('');
+  document.getElementById('pizza-stats').innerHTML=`
+    <div class="chart-stat"><span class="chart-stat-label">Total</span><span class="chart-stat-value">${fmtR(total)}</span></div>
+    <div class="chart-stat"><span class="chart-stat-label">Maior fatia</span><span class="chart-stat-value">${((Math.max(...vals)/total)*100).toFixed(1)}%</span></div>
+    <div class="chart-stat"><span class="chart-stat-label">Categorias</span><span class="chart-stat-value">${vals.filter(v=>v>0).length}</span></div>`;
+}
+document.querySelectorAll('.chart-pizza-input').forEach(i=>i.addEventListener('input',updatePizza));
+updatePizza();
+</script>
+</body>
+</html>

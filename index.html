@@ -5,6 +5,27 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="description" content="Davi Ramos: desenvolvedor front-end e UX/UI designer. Veja habilidades, cursos e projetos.">
 <meta name="theme-color" content="#0a0a0f">
+
+<!-- ===== COMPARTILHAMENTO (WhatsApp, Instagram, Telegram, Facebook, LinkedIn, X) =====
+     ATENÇÃO: troque https://SEU-DOMINIO.com pelo endereço real do site (3 lugares abaixo).
+     As redes exigem URL absoluta para exibir a imagem. -->
+<link rel="canonical" href="https://SEU-DOMINIO.com/">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="pt_BR">
+<meta property="og:site_name" content="Davi Ramos">
+<meta property="og:title" content="Davi Ramos | Desenvolvedor Front-End &amp; UX/UI Designer">
+<meta property="og:description" content="Veja habilidades, cursos e projetos de Davi Ramos: interfaces intuitivas, acessíveis e responsivas.">
+<meta property="og:url" content="https://SEU-DOMINIO.com/">
+<meta property="og:image" content="https://SEU-DOMINIO.com/assets/og-perfil.jpg">
+<meta property="og:image:type" content="image/jpeg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Foto de perfil de Davi Ramos, desenvolvedor front-end e UX/UI designer">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Davi Ramos | Desenvolvedor Front-End &amp; UX/UI Designer">
+<meta name="twitter:description" content="Veja habilidades, cursos e projetos de Davi Ramos.">
+<meta name="twitter:image" content="https://SEU-DOMINIO.com/assets/og-perfil.jpg">
+<link rel="image_src" href="https://SEU-DOMINIO.com/assets/og-perfil.jpg">
 <title>Davi Ramos | Desenvolvedor Front-End &amp; UX/UI Designer</title>
 
 <script>
@@ -36,6 +57,9 @@ d.dataset.theme=t;d.classList.add('js')})();
       <a href="Dados.html" class="btn btn-primary btn-sm" target="_blank" rel="noopener">Contrate-me</a>
     </nav>
     <div class="tools">
+      <button class="icon-btn" id="share" type="button" aria-label="Compartilhar esta página">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.6 13.5l6.8 4M15.4 6.5l-6.8 4"/></svg>
+      </button>
       <button class="icon-btn" id="theme" type="button" aria-label="Alternar tema">
         <svg class="ico-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
         <svg class="ico-sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
@@ -149,10 +173,10 @@ d.dataset.theme=t;d.classList.add('js')})();
           <a class="btn btn-ghost btn-sm" href="Tutoriais.html" target="_blank" rel="noopener" aria-label="Abrir Tutoriais">Abrir <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg></a>
         </article>
         <article class="card proj reveal" data-cat="web">
-          <img src="icones/game.webp" alt="" width="84" height="84" loading="lazy" decoding="async">
-          <h3>Game HTML/PC</h3>
-          <p>Jogo desenvolvido em HTML, CSS e JavaScript com movimentação, colisões e lógica básica de gameplay.</p>
-          <a class="btn btn-ghost btn-sm" href="https://davirs.neocities.org/iniciar" target="_blank" rel="noopener" aria-label="Abrir Game HTML/PC">Abrir <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg></a>
+          <img src="icones/bolinha-sorridente.webp" alt="" width="84" height="84" loading="lazy" decoding="async">
+          <h3>Bolinha Sorridente</h3>
+          <p>Jogo de plataforma em HTML, CSS e JavaScript: pule sobre inimigos ou ataque com projéteis, desbloqueie mapas e skins. Funciona no PC e no celular.</p>
+          <a class="btn btn-ghost btn-sm" href="bolinha-sorridente.html" target="_blank" rel="noopener" aria-label="Jogar Bolinha Sorridente">Abrir <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg></a>
         </article>
         <article class="card proj reveal" data-cat="app">
           <img src="icones/notas.webp" alt="" width="84" height="84" loading="lazy" decoding="async">
@@ -188,6 +212,8 @@ d.dataset.theme=t;d.classList.add('js')})();
 <footer class="footer"><div class="container">&copy; <span id="year">2026</span> Davi Ramos. Todos os direitos reservados.</div></footer>
 
 <button class="icon-btn totop" id="totop" type="button" aria-label="Voltar ao topo"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 19V5M5 12l7-7 7 7"/></svg></button>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
 
 <script src="portfolio.js" defer></script>
 </body>

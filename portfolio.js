@@ -1,7 +1,7 @@
 /* ==========================================================
    PORTFÓLIO · Davi Ramos — JavaScript novo (sem dependências)
    1 Tema · 2 Menu · 3 Digitação · 4 Reveal · 5 Contadores
-   6 Filtro · 7 Brilho nos cards · 8 Scroll (nav, spy, topo)
+   6 Filtro · 7 Brilho nos cards · 8 Scroll (nav, spy, topo) · 9 Compartilhar
    ========================================================== */
 (() => {
   'use strict';
@@ -136,6 +136,28 @@
     }), { rootMargin: '-45% 0px -50% 0px' });
     $$('main section[id]').forEach((s) => spy.observe(s));
   }
+
+  /* 9. COMPARTILHAR (menu nativo do celular; copia o link no desktop) */
+  const toast = $('#toast'); let toastT;
+  const say = (msg) => {
+    toast.textContent = msg; toast.classList.add('show');
+    clearTimeout(toastT); toastT = setTimeout(() => toast.classList.remove('show'), 2400);
+  };
+  $('#share').addEventListener('click', async () => {
+    const data = {
+      title: document.title,
+      text: 'Conheça o portfólio de Davi Ramos',
+      url: location.href.split('#')[0]          /* sempre o link limpo da página */
+    };
+    try {
+      if (navigator.share) { await navigator.share(data); return; }
+      await navigator.clipboard.writeText(data.url);
+      say('Link copiado ✓');
+    } catch (err) {
+      if (err && err.name === 'AbortError') return;   /* usuário fechou o menu */
+      window.prompt('Copie o link:', data.url);        /* último recurso (http/file) */
+    }
+  });
 
   $('#year').textContent = new Date().getFullYear();
 })();
